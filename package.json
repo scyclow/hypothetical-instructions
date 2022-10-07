@@ -1,0 +1,22 @@
+{
+  "name": "hypothetical-instructions",
+  "version": "1.0.0",
+  "description": "",
+  "main": "draw.js",
+  "scripts": {
+    "saxi": "saxi"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scyclow/hypothetical-instructions.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/scyclow/hypothetical-instructions/issues"
+  },
+  "homepage": "https://github.com/scyclow/hypothetical-instructions#readme",
+  "dependencies": {
+    "saxi": "^0.15.0"
+  }
+}

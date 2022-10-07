@@ -62,7 +62,7 @@ function createSpirographFn(x, y, baseRadius, prevRadius, gears) {
 }
 
 function getSpirographPoints(x, y, baseRadius, prevRadius, gears) {
-  const points = 500
+  const points = 200
   const spirographFn = createSpirographFn(x, y, baseRadius, prevRadius, gears)
   return times(points+1, p => spirographFn(p/(points+1), p))
 }

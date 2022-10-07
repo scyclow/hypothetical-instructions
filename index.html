@@ -1,42 +1,92 @@
 <!--
 
-Border
-  FIM border
-  shrinking rectangles
-
-Face
-  sunglasses
-  x eyes
-  goatee
-  mustache
-  full beard
-  cigarette
-  open mouth
-  mohawk
-
-rosette
-  normal
-  red/blue offset
+Defacing US currency is a federal crime, and may be punishable with up to six months imprisonment in addition to fines. The Artist does not condone mutilating, cutting, defacing, disfiguring, perforating, or otherwise damaging US currency. All instructions for defacement are purely hypothetical, and collectors are encouraged to execute said instructions on non-monetary paper, if at all.
 
 
-Other features
-  fake star
-  cross out serial
-  signature over signature
 
 
-Patterns
-  grid
-  diagonal lines
+Layout
+  face
+    feature/pattern
+      feature
+        % hair color
+        % blouse
+        % sunglasses
+        % nose ring
+        % thin mustache
+        % curly mustache
+        % x eyes
+        % tounge
+        $ eyes
+        % happy mouth
+        % sad mouth
+        % <3 eyes
+        % open mouth
+        % cigarette
+        % angry eyebrows
+        % worried eyebrows
+        % laser eyes
+        % mohawk
+        % tear drops
+        % bowtie
 
 
-Heads/Tails
-1/2/5/10/20/50/100
+        goatee
+        soul patch
+        full beard
 
-Text
-  Where's George
-  steviep - Steve Pikelny
-  DON'T BELIEVE THE LIBERAL MEDIA
+  fed stamp
+    pattern
+
+    serial
+      none
+      star
+      second serial
+      cross out
+      border
+
+  treasury stamp
+    pattern
+
+
+    serial
+      none
+      star
+      second serial
+      cross out
+      border
+
+  border
+    fim border/shrinking rectangles
+
+  shaded in opacity areas
+    highlighter colors
+    this means that the owner needs to color them in themselves
+
+
+  dotted line
+    true/false
+    "cut here"
+    line can cross l/r, t/b, corner, rosete edges
+
+
+Rosettes
+  style
+    ribbed
+    lines
+    numismatic? (might take too long + more work)
+
+  shadow
+    true/false
+
+  overlay (different rosettes on top of each other)
+    very different
+    subtly different
+
+
+
+
+
 
 
 
@@ -56,11 +106,19 @@ Text
       body {
         margin: 0;
         padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
+
+      body * {
+        position: absolute;
+      }
+
     </style>
 
     <body>
-      <img src="https://upload.wikimedia.org/wikipedia/commons/2/23/US_one_dollar_bill%2C_obverse%2C_series_2009.jpg" style="width: 100vw; position: fixed; z-index: -100;">
+      <img src="./dollar.jpeg" style="width: 100vw; position: fixed; z-index: -100;">
     </body>
     <script>
       function genTokenData(projectNum) {
@@ -110,6 +168,9 @@ Text
 
     <script src="./utils.js"></script>
     <script src="./rosette.js"></script>
+    <script src="./fill.js"></script>
+    <script src="./george.js"></script>
+    <script src="./text.js"></script>
     <script src="./draw.js"></script>
 
 

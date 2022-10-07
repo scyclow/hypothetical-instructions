@@ -40,3 +40,16 @@ function getXYRotation (deg, radius, cx=0, cy=0) {
     cos(deg) * radius + cy,
   ]
 }
+
+function drawPath(x, y, d, size, rotation=0) {
+  const path = document.createElementNS(__ns, 'path')
+  path.setAttribute('fill', 'none')
+  path.setAttribute('stroke', '#000')
+  path.setAttribute('stroke-linecap', `round`)
+  path.setAttribute('stroke-linejoin', `round`)
+  path.setAttribute('stroke-width', `${3 * 1.55/size}px`)
+  path.setAttribute('style', `transform: translate(${x}px, ${y}px) scale(${size}) rotate(${rotation}deg)`)
+
+  path.setAttribute('d', d)
+  return path
+}
