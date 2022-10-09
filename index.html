@@ -1,6 +1,9 @@
 <!--
 
-Defacing US currency is a federal crime, and may be punishable with up to six months imprisonment in addition to fines. The Artist does not condone mutilating, cutting, defacing, disfiguring, perforating, or otherwise damaging US currency. All instructions for defacement are purely hypothetical, and collectors are encouraged to execute said instructions on non-monetary paper, if at all.
+Defacing US currency is a federal crime, and may be punishable with up to six months imprisonment in addition to fines. Neither the Artist nor Plottables LLC condone mutilating, cutting, defacing, disfiguring, perforating, or otherwise damaging US currency. All instructions for defacement are purely hypothetical, and whiel said instructions can technically be executed via pe
+
+
+collectors are encouraged to execute said instructions on non-monetary paper, if at all.
 
 
 
@@ -29,11 +32,11 @@ Layout
         % mohawk
         % tear drops
         % bowtie
+        % full beard
+        % goatee
+        % soul patch
 
 
-        goatee
-        soul patch
-        full beard
 
   fed stamp
     pattern
@@ -118,7 +121,7 @@ Rosettes
     </style>
 
     <body>
-      <img src="./dollar.jpeg" style="width: 100vw; position: fixed; z-index: -100;">
+      <img src="./dollarClipped.jpeg" style="width: 100vw; position: fixed; z-index: -100;">
     </body>
     <script>
       function genTokenData(projectNum) {
@@ -171,11 +174,23 @@ Rosettes
     <script src="./fill.js"></script>
     <script src="./george.js"></script>
     <script src="./text.js"></script>
+    <script src="./layout.js"></script>
+    <script src="./svg.js"></script>
     <script src="./draw.js"></script>
 
 
     <script type="text/javascript">
       draw()
+    </script>
+
+    <script type="text/javascript">
+      document.body.onclick = (e) => {
+        console.log(`${
+          (1743.75 * e.clientX/window.innerWidth).toFixed(0)
+        }, ${
+          (702.756 * (e.clientY - document.getElementById('svg').getBoundingClientRect().top)/document.getElementById('svg').getBoundingClientRect().height).toFixed(0)
+        }`)
+      }
     </script>
   </head>
 </html>
