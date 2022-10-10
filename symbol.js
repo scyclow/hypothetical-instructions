@@ -1,4 +1,5 @@
 
+// $, 666, heart, IOU
 
 const star = "M37.5 34L45 12L52 34H75.5L57 48L63.5 70L45 57.5L24.5 70L32.5 48L12 34H37.5Z"
 const dick = "M53.9981 37.4949C129.498 37.4949 247.998 37.4949 247.998 37.4949C334.498 -55.9998 382.998 72.9999 315.998 72.9984C387.998 91.4948 315.998 196 247.998 91.4949C247.998 91.4949 109.996 91.4949 53.9981 91.4949M53.9981 37.4949C62.7241 58.5867 61.8974 70.4054 53.9981 91.4949M53.9981 37.4949C17.1756 37.4949 2.9508 50.3396 4.53649 63.5M53.9981 91.4949C25.3111 91.4949 6.20206 77.3233 4.53649 63.5M4.53649 63.5H26"
@@ -11,21 +12,11 @@ const arrowNorth = (x, y, size) => svg.drawPath(x, y, arrow, { size, rotation: 9
 const arrowSouth = (x, y, size) => svg.drawPath(x, y, arrow, { size, rotation: 270 })
 
 const bullseye = (x, y) => {
-  const g = document.createElementNS(__ns, 'g')
 
   times(5, i => {
-    const c = document.createElementNS(__ns, 'circle')
-    c.setAttribute('fill', 'none')
-    c.setAttribute('stroke', '#000')
-    c.setAttribute('stroke-width', `5px`)
-
-    c.setAttribute('cx', x)
-    c.setAttribute('cy', y)
-    c.setAttribute('r', 1+ i * 10 )
-    g.appendChild(c)
+    svg.drawCircle(x, y, 1+ i * 10)
   })
 
-  return g
 }
 
 

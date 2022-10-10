@@ -70,13 +70,14 @@ class SVG {
   drawPath(x, y, d, args={}) {
     const fill = args.fill || 'none'
     const size = args.size || 1.5
+    const stroke = args.stroke || '#000'
     const rotation = args.rotation || 0
     const strokeWidth = args.strokeWidth || 3 * 1.5/size
     const path = document.createElementNS(__ns, 'path')
 
     path.setAttribute('fill', fill)
     path.setAttribute('fill-opacity', 0.65)
-    path.setAttribute('stroke', '#000')
+    path.setAttribute('stroke', stroke)
     path.setAttribute('stroke-linecap', `round`)
     path.setAttribute('stroke-linejoin', `round`)
     path.setAttribute('stroke-width', `${strokeWidth}px`)
@@ -106,6 +107,7 @@ class SVG {
   }
 
   drawRect(x, y, w, h, f='none') {
+
     const fill = document.createElementNS(__ns, 'rect')
 
     fill.setAttribute('fill', f)
@@ -121,6 +123,23 @@ class SVG {
     fill.setAttribute('height', h)
     this.svg.appendChild(fill)
     return fill
+  }
+
+  drawCircle(x, y, r, args={}) {
+    const stroke = args.stroke || '#000'
+    const fill = args.fill || 'none'
+    const strokeWidth = args.strokeWidth || 3
+
+    const c = document.createElementNS(__ns, 'circle')
+    c.setAttribute('fill', fill)
+    c.setAttribute('stroke', stroke)
+    c.setAttribute('stroke-width', `${strokeWidth}px`)
+
+    c.setAttribute('cx', x)
+    c.setAttribute('cy', y)
+    c.setAttribute('r', r )
+    this.svg.appendChild(c)
+
   }
 
   drawG(...children) {

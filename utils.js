@@ -49,54 +49,16 @@ function getXYRotation (deg, radius, cx=0, cy=0) {
   ]
 }
 
-function drawPath(x, y, d, size, args={}) {
-  const rotation = args.rotation || 0
-  const strokeWidth = args.strokeWidth || 3 * 1.5/size
-  const path = document.createElementNS(__ns, 'path')
-
-  path.setAttribute('fill', 'none')
-  path.setAttribute('stroke', '#000')
-  path.setAttribute('stroke-linecap', `round`)
-  path.setAttribute('stroke-linejoin', `round`)
-  path.setAttribute('stroke-width', `${strokeWidth}px`)
-  path.setAttribute('style', `transform: translate(${x}px, ${y}px) scale(${size}) rotate(${rotation}deg)`)
-
-  path.setAttribute('d', d)
-  return path
-}
-
-
-
-function drawLine(x1, y1, x2, y2, args={}) {
-  const strokeWidth = args.strokeWidth || 3
-  const line = document.createElementNS(__ns, 'line')
-
-  line.setAttribute('fill', 'none')
-  line.setAttribute('stroke', '#000')
-  line.setAttribute('stroke-linecap', `round`)
-  line.setAttribute('stroke-width', `${strokeWidth}px`)
-  line.setAttribute('x1', x1)
-  line.setAttribute('x2', x2)
-  line.setAttribute('y1', y1)
-  line.setAttribute('y2', y2)
-
-  return line
-}
-
-function drawRect(x, y, w, h, f='none') {
-  const fill = document.createElementNS(__ns, 'rect')
-
-  fill.setAttribute('fill', f)
-  fill.setAttribute('fill-opacity', 0.65)
-
-  fill.setAttribute('stroke', '#000')
-  fill.setAttribute('stroke-linecap', `round`)
-  fill.setAttribute('stroke-linejoin', `round`)
-  fill.setAttribute('stroke-width', `3px`)
-  fill.setAttribute('x', x)
-  fill.setAttribute('y', y)
-  fill.setAttribute('width', w)
-  fill.setAttribute('height', h)
-
-  return fill
+function chance(...chances) {
+  const total = chances.reduce((t, c) => t + c[0], 0)
+  const seed = rnd()
+  let sum = 0
+  for (let i = 0; i < chances.length; i++) {
+    const val =
+      chances[i][0] === true ? 1
+      : chances[i][0] === false ? 0
+      : chances[i][0]
+    sum += val / total
+    if (seed <= sum && chances[i][0]) return chances[i][1]
+  }
 }

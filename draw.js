@@ -50,9 +50,7 @@ function draw() {
 
 
 
-  const gears1 = generateGears()
-  const gears2 = generateGears()
-  const gears3 = generateGears()
+
 
 
 //   //// CENTER 1
@@ -118,13 +116,6 @@ function draw() {
 //   })
 
 
-  times(7, t => {
-    const rad = t*20 + 150
-    const points = getSpirographPoints(1305, 404, rad, rad, gears2)
-    const path = drawCurvePathArray(points, '#000', 5)
-    path.setAttribute('stroke-opacity', '0.9')
-    svg.appendChild(path)
-  })
 
 
 
@@ -134,7 +125,7 @@ function draw() {
 
 
 
-
+console.log(w*0.235, h/2)
 
 
 
@@ -162,22 +153,13 @@ function draw() {
 //   // border.setAttribute('stroke-width', '10px')
 //   // border.setAttribute('stroke', 'blue')
 
-  bigOne(81, 98, 'none')
 
-  bigOne(1604, 91, 'none')
 
-  smallOne(1616, 549, 'none')
 
-  smallOne(75, 545, 'none')
 
-//   const bottomFill = bottomTxt(w*.312,h*.905, '#f0f')
-//   svg.appendChild(bottomFill)
 
-//   const usaFill = usaTxt(w*.155,h*.1, '#0ff')
-//   svg.appendChild(usaFill)
 
-//   const topFill = topTxt(w*.237,h*.01, '#f80')
-//   svg.appendChild(topFill)
+
 
 
 
@@ -222,27 +204,27 @@ function draw() {
 
 
 
-  const dickPath = drawPath(w*.3,h*.522, dick, 0.4)
-  svg.appendChild(dickPath)
-  const cgkPath = drawPath(w*.3,h*.35, cgk, 0.4)
-  svg.appendChild(cgkPath)
+  // const dickPath = drawPath(w*.3,h*.522, dick, 0.4)
+  // svg.appendChild(dickPath)
+  // const cgkPath = drawPath(w*.3,h*.35, cgk, 0.4)
+  // svg.appendChild(cgkPath)
 
-  const arrW = arrowWest(w*.128, h*.52, 0.4)
-  svg.appendChild(arrW)
-  const arrE = arrowEast(w*.12, h*.55, 0.4)
-  svg.appendChild(arrE)
+  // const arrW = arrowWest(w*.128, h*.52, 0.4)
+  // svg.appendChild(arrW)
+  // const arrE = arrowEast(w*.12, h*.55, 0.4)
+  // svg.appendChild(arrE)
 
-  const arrN = arrowNorth(w*.13, h*.55, 0.4)
-  svg.appendChild(arrN)
+  // const arrN = arrowNorth(w*.13, h*.55, 0.4)
+  // svg.appendChild(arrN)
 
-  const arrS = arrowSouth(w*.118, h*.52, 0.4)
-  svg.appendChild(arrS)
+  // const arrS = arrowSouth(w*.118, h*.52, 0.4)
+  // svg.appendChild(arrS)
 
-  const bullseyePath = bullseye(w*0.35, h*0.65)
-  svg.appendChild(bullseyePath)
+  // const bullseyePath = bullseye(w*0.35, h*0.65)
+  // svg.appendChild(bullseyePath)
 
-  const starPath = drawPath(w*.345,h*.725, star, 0.65)
-  svg.appendChild(starPath)
+  // const starPath = drawPath(w*.345,h*.725, star, 0.65)
+  // svg.appendChild(starPath)
 
 
 
@@ -270,9 +252,7 @@ function draw() {
 
 
 // /*
-// $$$$$$$
 // STEVE PIKELNY / STEVIEP.XYZ
-// IOU
 // TIME = MONEY
 // LUCKY DOLLAR
 // GOOD LUCK!
@@ -298,6 +278,8 @@ function draw() {
 // SMOKE WEED EVERY DAY
 // GO FUCK YOURSELF
 // BURN HERE
+// CLICK HERE TO MAKE FAST CASH NOW WWW.FASTCASHMONEYPLUS.BIZ
+// TEXT 1.848.225.7281 FOR A GOOD TIME
 
 
 // */
@@ -320,7 +302,7 @@ function draw() {
 
 
   layout(svg)
-  drawFace(svg)
+  //
 
 
 
@@ -335,50 +317,6 @@ function draw() {
   console.log(svg.svg.outerHTML)
 }
 
-function drawCurvePathArray(points, stroke="#000", strokeWidth=2) {
-
-  let d = `M ${points[0][0]} ${points[0][1]} `
-  for (let i=0; i<points.length; i++) {
-    d += ` ${points[i][0]},${points[i][1]}`
-  }
-  d += ` ${points[0][0]},${points[0][1]}`
-  // console.log(d)
-
-  const path = document.createElementNS(__ns, 'path');
-  path.setAttribute('fill', 'none');
-  path.setAttribute('stroke', stroke);
-  path.setAttribute('stroke-width', `${strokeWidth}px`);
-  path.setAttribute('d', d);
-
-
-
-
-  return path
-
-}
-
-function drawCurvePath(points, stroke="#000") {
-
-  let d = `M ${points[0].x} ${points[0].y} `
-  for (let i=1; i<points.length-1; i++) {
-
-    d += ` ${points[i].x},${points[i].y}`
-  }
-  // d += ` ${points[0].x},${points[0].y}`
-  // console.log(d)
-
-  const path = document.createElementNS(__ns, 'path');
-  path.setAttribute('fill', 'none');
-  path.setAttribute('stroke', stroke);
-  path.setAttribute('stroke-width', '2px');
-  path.setAttribute('d', d);
-
-
-
-
-  return path
-
-}
 
 
 

@@ -1,8 +1,8 @@
 
 
-const topTxt = (x, y, f) => drawRect(x, y, 965, 43, f)
-const bottomTxt = (x, y, f) => drawRect(x, y, 695, 52, f)
-const usaTxt = (x, y, f) => drawRect(x, y, 1265, 65, f)
+const topTxt = (x, y, f) => svg.drawRect(x, y, 915, 43, f)
+const bottomTxt = (x, y, f) => svg.drawRect(x, y, 655, 52, f)
+const usaTxt = (x, y, f) => svg.drawRect(x, y, 1215, 65, f)
 
 // const topTxt = (x, y, f) => drawRect(x, y, 1260, 65, f)
 
