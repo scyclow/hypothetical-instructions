@@ -62,3 +62,5 @@ function chance(...chances) {
     if (seed <= sum && chances[i][0]) return chances[i][1]
   }
 }
+
+const rndChar = () => sample('ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''))

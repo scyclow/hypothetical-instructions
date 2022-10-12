@@ -6,3 +6,17 @@ const highlighter = {
   yellow: '#ff0',
   purple: '#c0c',
 }
+const rndHighlighter = () => sample([
+  highlighter.red,
+  highlighter.green,
+  highlighter.blue,
+  highlighter.orange,
+  highlighter.yellow,
+  highlighter.purple,
+])
+
+const pen = {
+  black: '#000',
+  red: '#f00',
+  green: '#1e864a',
+}

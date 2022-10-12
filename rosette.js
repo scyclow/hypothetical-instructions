@@ -38,14 +38,10 @@ function createSpirographFn(baseRadius, prevRadius, gears) {
   )
 }
 
-function getSpirographPoints(rad, gears) {
-  const points = 200
+function getRosettePath(rad, gears) {
+  const pointCount = 200
   const spirographFn = createSpirographFn(rad, rad, gears)
-  return times(points+1, p => spirographFn(p/(points+1), p))
-}
-
-function drawCurvePathArray(x, y, points, stroke="#000") {
-
+  const points = times(pointCount+1, p => spirographFn(p/(pointCount+1), p))
   let d = `M ${points[0][0]} ${points[0][1]} `
   for (let i=0; i<points.length; i++) {
     d += ` ${points[i][0]},${points[i][1]}`
@@ -53,20 +49,10 @@ function drawCurvePathArray(x, y, points, stroke="#000") {
   d += ` ${points[0][0]},${points[0][1]}`
   // console.log(d)
 
-  svg.drawPath(x, y, d, {stroke})
-
-  // const path = document.createElementNS(__ns, 'path');
-  // path.setAttribute('fill', 'none');
-  // path.setAttribute('stroke', stroke);
-  // path.setAttribute('stroke-width', `${strokeWidth}px`);
-  // path.setAttribute('d', d);
-
-
-
-
-  // return path
-
+  return d
 }
+
+
 
 
 
