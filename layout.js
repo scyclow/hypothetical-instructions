@@ -175,10 +175,10 @@ function layout(svg) {
     smallOne(75, 545, highlightColor)
   }
 
-  if (prb(0.2)) {
+  if (prb(0.05)) {
     bottomTxt(544, 632, highlightColor)
   }
-  if (prb(0.2)) {
+  if (prb(0.05)) {
     topTxt(413, 7, highlightColor)
   }
   if (prb(0.05)) {
@@ -283,7 +283,7 @@ const sectionFns = {
         svg.drawRect(248, 200, 430, 50)
         svg.text('2', 248+5, 200+2)
       }],
-      [12, () => rndText(253, 213)],
+      [19, () => rndText(253, 213)],
       [5, () => hArrows(248, 200)],
       [5, () => {}],
     )()
