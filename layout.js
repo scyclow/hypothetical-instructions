@@ -1,54 +1,89 @@
 function layout(svg) {
 
-  const leftRosette = false//prb(0.5)
-  const rightRosette = false//prb(0.5)
-  const centerRosette = false//prb(0.05)
-  const cutHere = prb(0.1)
-  const isWorthless = false//prb(0.03)
+  const leftRosette = prb(0.5)
+  const rightRosette = prb(0.5)
+  const centerRosette = prb(0.05)
+  const isWorthless = prb(0.03)
+  const randomSymbols = prb(0.02)
 
-  const rosetteRadia = 0.08
-  const rosetteRotation = 0
-  // const rosetteRadia = 0.38 // higher == more dramatic
-  // const rosetteRotation = 3
+
 
   const sectionFeatures = {
     isStarNote: prb(0.03),
     burnHere: prb(0.05),
     isBizCard: prb(0.05),
-    wheresGeorgeOverride: false//prb(0.05)
+    wheresGeorgeOverride: prb(0.05),
+    showHash: prb(0.1),
+    cutHere: prb(0.1),
   }
 
 
+  // if 1,2,3, then don't do any other side features
+  const variation = chance(
+    [3, 0],
+    [1, 1],
+    [1, 2],
+    [1, 3],
+  )
+  const rosetteRadia = variation === 1 ? rnd(0.1, 0.4) : 0.08
 
-  if (leftRosette) {
-    const gears1 = generateGears(8, 15, rosetteRadia)
-    times(10, t => {
-      const rad = t*15 + 40
-      const rosettePath = getRosettePath(rad, gears1)
-      svg.drawPath(413, 350, rosettePath, {stroke: pen.black, rotation: t*rosetteRotation})
+  const rosetteRadiaChange = variation === 2 ? chance(
+    [1, 0.01],
+    [1, 0.005]
+  ) : 0
 
-    })
-    // 1, 6, 7, 9
-    drawSections(1, 6, 7,9)
+  const rosetteRotation = variation === 3 ? rndint(3, 11) : 0
+
+  const rosetteLines = chance(
+    [5, 0], // only ribbed
+    [!variation && 1, 1], // ribbed + lines
+    [!variation && 1, 2], // only lines
+  )
+
+  const rosetteLinesDashed = prb(0.25)
+
+
+  if (leftRosette && !sectionFeatures.burnHere && !sectionFeatures.wheresGeorgeOverride) {
+    const gears = generateGears(8, 15, rosetteRadia)
+
+    if (rosetteLines === 0 || rosetteLines === 1) drawRibbedRosette(413, 350, 40, 10, {gears, rosetteRadiaChange, rosetteRotation, stroke: pen.black})
+    if (rosetteLines === 1 || rosetteLines === 2) {
+      if (rosetteLinesDashed) {
+        times(10, i => {
+          if (i%2 === 0) {
+            drawLineRosette(413, 350, 60 + i*23, 60 + (i+1)*23-4, gears, { stroke: pen.black })
+          }
+        })
+      } else {
+        drawLineRosette(413, 350, 60, 260, gears)
+      }
+    }
+
+    if (!variation && !rosetteLines) drawSections([1, 6, 7, 9], sectionFeatures)
   } else {
     drawSections([1, 2, 3, 4, 5, 6, 7, 8, 9], sectionFeatures)
   }
 
 
   if (rightRosette) {
-    const gears2 = generateGears(8, 15, rosetteRadia)
-    times(8, t => {
-      const rad = t*15 + 60
-      const rosettePath = getRosettePath(rad, gears2)
-      svg.drawPath(1305, 404, rosettePath, {stroke: pen.black, rotation: t*rosetteRotation*-1})
+    const gears = generateGears(8, 15, rosetteRadia)
+    if (rosetteLines === 0 || rosetteLines === 1) drawRibbedRosette(1305, 404, 60, 8, {gears, rosetteRadiaChange, rosetteRotation})
+    if (rosetteLines === 1 || rosetteLines === 2) {
+      if (rosetteLinesDashed) {
+        times(8, i => {
+          if (i%2===0) {
+            drawLineRosette(1305, 404, 95 + i*22, 95 + (i+1)*22-4, gears)
+          }
+        })
+      } else {
+        drawLineRosette(1305, 404, 95, 245, gears)
+      }
+    }
 
-    })
-
-    // 11, 12, 13, 14,17, 20
-    drawSections(!cutHere && 10, 11, 12, 13, 16, 19)
+    if (!variation && !rosetteLines) drawSections([!sectionFeatures.cutHere && 10, 11, 12, 13, 16, 19], sectionFeatures)
 
   } else {
-    drawSections([!cutHere && 10, 11, 12, 13, 14, 15, 16, 17, 18, 19], sectionFeatures)
+    drawSections([!sectionFeatures.cutHere && 10, 11, 12, 13, 14, 15, 16, 17, 18, 19], sectionFeatures)
   }
 
 
@@ -81,12 +116,12 @@ function layout(svg) {
 
   if (sectionFeatures.wheresGeorgeOverride) {
     svg.drawRect(506, 215, 153, 235, {stroke: pen.red})
-    svg.text('TRACK', 530, 228, {size: 0.37, stroke: pen.red})
-    svg.text('ME AT', 530, 266, {size: 0.37, stroke: pen.red})
-    svg.text('WWW.', 530, 304, {size: 0.37, stroke: pen.red})
-    svg.text('WHERES', 512, 344, {size: 0.37, stroke: pen.red})
-    svg.text('GEORGE', 512, 380, {size: 0.37, stroke: pen.red})
-    svg.text('.COM', 530, 418, {size: 0.37, stroke: pen.red})
+    svg.text('TRACK', 533, 228, {size: 0.35, stroke: pen.red})
+    svg.text('ME AT', 533, 266, {size: 0.35, stroke: pen.red})
+    svg.text('WWW.', 533, 304, {size: 0.35, stroke: pen.red})
+    svg.text('WHERES', 515, 344, {size: 0.35, stroke: pen.red})
+    svg.text('GEORGE', 515, 380, {size: 0.35, stroke: pen.red})
+    svg.text('.COM', 533, 418, {size: 0.35, stroke: pen.red})
   }
 
   if (sectionFeatures.burnHere) {
@@ -106,79 +141,63 @@ function layout(svg) {
     }
   }
 
-  if (cutHere) verticalCut()
+
+  if (sectionFeatures.cutHere) verticalCut()
+
+  if (sectionFeatures.showHash)
+    svg.text(tokenData.hash.toUpperCase(), 480, 57, {size: 0.2})
 
 
   if (isWorthless)
     worthless()
 
-  // if (prb(0.5))
-  //   usaText(pen.red)
+  if (prb(0.5))
+    usaText(pen.red)
   // else if (prb(0.4))
   //   usaTxt(270, 68, highlighter.purple)
 
 
-  // if (prb(0.5)) {
-  //   bigOne(81, 98)
-  //   times(5, i => {
-  //     svg.drawPath(81 + i*9, 98+i*15, onePath, { size: 1.5 - (i*0.4), stroke: 'red' })
-  //   })
-  // }
-  // if (prb(0.5)) {
-  //   bigOne(1604, 91)
-  //   times(5, i => {
-  //     svg.drawPath(1604 + i*9, 91+i*15, onePath, { size: 1.5 - (i*0.4), stroke: 'red' })
-  //   })
-  // }
-  // if (prb(0.5)) {
-  //   smallOne(1616, 549, highlighter.orange)
 
-  // }
-  // if (prb(0.5)) {
-  //   smallOne(75, 545, highlighter.blue)
+  const topHighlight = prb(0.5)
+  const bottomHiglight = prb(0.5)
+  const highlightColor = rndHighlighter()
 
-  // }
-  // if (prb(0.2)) {
-  //   bottomTxt(544, 632, highlighter.green)
-  // }
-  // if (prb(0.2)) {
-  //   topTxt(413, 7, highlighter.yellow)
-  // }
-  // if (prb(0.05)) {
-  //  boner()
-  // }
+  if (topHighlight) {
+    bigOne(81, 98, highlightColor)
+    bigOne(1604, 91, highlightColor)
+    if (prb(0.15)) times(5, i => {
+      svg.drawPath(81 + i*9, 98+i*15, onePath, { size: 1.5 - (i*0.4) })
+      svg.drawPath(1604 + i*9, 91+i*15, onePath, { size: 1.5 - (i*0.4) })
+    })
+  }
+  if (bottomHiglight) {
+    smallOne(1616, 549, highlightColor)
+    smallOne(75, 545, highlightColor)
+  }
+
+  if (prb(0.2)) {
+    bottomTxt(544, 632, highlightColor)
+  }
+  if (prb(0.2)) {
+    topTxt(413, 7, highlightColor)
+  }
+  if (prb(0.05)) {
+   boner()
+  }
+
+
+  if (randomSymbols) times(45, i => {
+    prb(0.1)
+      ? svg.text("$", rnd(50, 1700), rnd(50, 650))
+      : drawSingleSymbol(rnd(50, 1700), rnd(50, 650), rndSymbolName())
+  })
+
+
 
 }
 
 
-// STEVE PIKELNY / STEVIEP.XYZ
-// TIME = MONEY
-// LUCKY DOLLAR
-// GOOD LUCK!
-// MONEY MAKES THE WORLD GO ROUND
-// DON'T BELIEVE THE LIBERAL MEDIA
-// ABOLISH THE FED
-// ACCEPT JESUS CHRIST AS YOUR LORD AND SAVIOUR
-// TRACK THIS DOLLAR AT WWW.WHERESGEORGE.COM
-// DO NOT SPEND
-// SPEND WISELY
-// SPEND ME
-// RETURN TO CIRCULATION
-// SELL ME
-// BUY BITCOIN
-// TAKE THE MONEY AND RUN
-// STOP THROWING YOUR MONEY AWAY
-// DO YOUR OWN RESEARCH
-// BURN HERE
 
-
-
-// PUNCH A FASCIST
-// BE A GOOD PERSON
-// SMOKE WEED EVERY DAY
-// GO FUCK YOURSELF
-// CLICK HERE TO MAKE FAST CASH NOW WWW.FASTCASHMONEYPLUS.BIZ
-// TEXT 1.848.225.7281 FOR A GOOD TIME
 
 
 const rndText = (x, y) => chance(
@@ -215,63 +234,156 @@ const rndText = (x, y) => chance(
     svg.text("YOUR MONEY AWAY", x+70, y+20)
   }],
   [1, () => svg.text("DO YOUR OWN RESEARCH", x+10, y)],
-  [1, () => svg.text("WWW.FASTCASHMONEYPLUS.BIZ", x-20, y+5, {size: 0.3})],
+  [1, () => {
+    svg.text("MAKE CASH FAST AT", x+50, y-10, {size: 0.3})
+    svg.text("WWW.FASTCASHMONEYPLUS.BIZ", x-20, y+20, {size: 0.3})
+  }],
 )()
+
+const hArrows = (x, y) => chance(
+  [1, () => {
+    arrowWest(x+5, y+5, 0.8)
+    arrowEast(x+352, y+52, 0.8)
+  }],
+  [1, () => {
+    arrowWest(x+232, y+5, 0.8)
+    svg.text('.', x+210, y+13)
+    arrowEast(x+192, y+52, 0.8)
+  }],
+  [1, () => {
+    arrowWest(x+72, y+10, 0.8)
+    arrowEast(x+282, y+40, 0.8)
+  }],
+)()
+
+
+
+
+// 5, 6, 17, 19
 
 const sectionFns = {
   [0]: () => {
 
   },
-  [1]: () => {
-    svg.drawRect(630, 135, 230, 30)
-    svg.text('1', 635, 142, {size: 0.2})
+  [1]: (features) => {
+    chance(
+      [1, (features) => {
+        svg.drawRect(630, 135, 230, 30)
+        svg.text('1', 635, 142, {size: 0.2})
+      }],
+      [20, () => {}],
+      [!features.cutHere && 2, () => svg.text(prb(0.5) ? 'SUCKS' : 'RULES', 800, 142, {size: 0.3})],
+    )()
+
+
   },
   [2]: (features) => {
-    if (features.wheresGeorgeOverride) {
-      return
-    }
-    else chance(
+    if (!features.wheresGeorgeOverride) chance(
       [1, () => {
         svg.drawRect(248, 200, 430, 50)
         svg.text('2', 248+5, 200+2)
       }],
-      [5, () => rndText(253, 213)],
+      [12, () => rndText(253, 213)],
+      [5, () => hArrows(248, 200)],
       [5, () => {}],
     )()
 
 
   },
   [3]: () => {
-    svg.drawRect(263, 260, 55, 80)
-    svg.text('3', 263+5, 260+2)
+    chance(
+      [1, () => {
+        svg.drawRect(263, 260, 55, 80)
+        svg.text('3', 268, 262)
+      }],
+      [3, () => drawSingleSymbol(255, 295, rndSymbolName())],
+      [20, () => {}],
+    )()
 
   },
   [4]: (features) => {
-    if (!features.wheresGeorgeOverride) chance(
+
+    if (!features.wheresGeorgeOverride && !features.burnHere) chance(
       [1, () => {
         svg.drawRect(506, 265, 153, 185)
-        svg.text('4', 506+5, 265+2)
+        svg.text('4', 511, 267)
       }],
+      [1, () => {
+        svg.text('$$$', 507, 263, {size: 0.9})
+        svg.text('$$$', 507, 323, {size: 0.9})
+        svg.text('$$$', 507, 383, {size: 0.9})
+      }],
+
       [4, () => {
-        // TODO symbols
-      }]
-    )
+        const sym = prb(0.4) ? rndSymbolName() : false
+        times(3, x =>
+          times(3, y => {
+            drawSingleSymbol(495 + x*58, 273+y*60, sym || rndSymbolName())
+          })
+        )
+
+      }],
+      [1, () => {
+        drawSingleSymbol(460 , 278, 'rosette', 4)
+      }],
+      [1, () => {
+        drawSingleSymbol(435 , 263, 'one', 4)
+      }],
+      // TODO single other symbols
+      [1, () => {
+        svg.text('$', 527, 255, {size: 3})
+      }],
+      [3, () => {}],
+    )()
 
   },
   [5]: () => {
-    svg.drawRect(123, 352, 195, 100)
-    svg.text('5', 123+5, 352+2)
+    chance(
+      [1, () => {
+        svg.drawRect(123, 352, 195, 100)
+        svg.text('5', 128, 354)
+      }],
+      [3, () => {
+        drawSingleSymbol(185, 363, rndSymbolName())
+        arrowWest(242, 363, 0.5)
+        arrowEast(189, 390, 0.5)
+        arrowNorth(233, 410, 0.5)
+        arrowSouth(202, 350, 0.5)
+      }],
+      [5, () => {
+        const sym = prb(0.4) ? rndSymbolName() : false
+
+        times(3, x =>
+          times(2, y => {
+            drawSingleSymbol(123 + x*58, 352+y*60, sym || rndSymbolName())
+          })
+        )
+      }],
+      [1, () => {
+        prb(0.5)
+          ? svg.drawPath(123, 352, dick, {size: 0.5})
+          : svg.drawPath(300, 430, dick, {size: 0.5, rotation: 180})
+      }],
+      [5, () => {}]
+    )()
 
   },
   [6]: () => {
-    svg.drawRect(123, 461, 76, 40)
-    svg.text('6', 123+5, 461+2)
-
+    chance(
+      [1, () => {
+        svg.drawRect(123, 461, 76, 40)
+        svg.text('6', 128, 463)
+      }],
+      [3, () => {
+        drawSingleSymbol(128, 468, rndSymbolName())
+      }],
+      [20, () => {}]
+    )()
   },
   [7]: (features) => {
     if (!features.isStarNote) {
       chance(
-        [1, () => {}],
+        [20, () => {}],
         [1, () => {
           svg.drawRect(578, 461, 73, 42)
           svg.text('7', 578+5, 461+2)
@@ -299,36 +411,50 @@ const sectionFns = {
   },
   [9]: (features) => {
     if (!features.isBizCard) {
-      svg.drawRect(186, 588, 100, 40)
-      svg.text('9', 186+5, 588+2)
+      chance(
+        [1, () => {
+          svg.drawRect(186, 588, 100, 40)
+          svg.text('9', 191, 590)
+        }],
+        [1, () => svg.text('ID ' + tokenData.tokenId, 220, 600, {size: 0.4})],
+        [5, () => {}],
+      )()
     }
 
   },
-  [10]: () => {
-    svg.drawRect(885, 135, 220, 30)
-    svg.text('10', 885+5, 135+2, {size: 0.2})
+  [10]: (features) => {
+    if (!features.cutHere && prb(0.05)) {
+      svg.drawRect(885, 135, 220, 30)
+      svg.text('10', 890, 137, {size: 0.2})
+    }
 
   },
   [11]: () => {
     chance(
       [1, () => {
         svg.drawRect(1110, 135, 380, 50)
-        svg.text('11', 1110+5, 135+2)
+        svg.text('11', 1115, 137)
       }],
-      [1, () => {
+      [6, () => {
         svg.text(rndChar() + times(8, () => rndint(10)).join('') + rndChar(), 1117, 143, {size: 0.6, stroke: pen.green })
       }],
       [1, () => {
         svg.text('$$$$$$$$$$', 1110, 143, {size: 0.6, stroke: pen.green })
       }],
-      [1, () => {}]
+      [5, () => {}]
     )()
 
 
   },
   [12]: () => {
-    svg.drawRect(1065, 179, 45, 55)
-    svg.text('12', 1065+5, 179+2)
+    chance(
+      [10, () => {}],
+      [1, () => {
+        svg.drawRect(1065, 179, 45, 55)
+        svg.text('12', 1070, 181)
+      }],
+      [3, () => drawSingleSymbol(1053, 187, rndSymbolName())],
+    )()
 
   },
   [13]: (features) => {
@@ -344,36 +470,106 @@ const sectionFns = {
 
   },
   [14]: () => {
-    svg.drawRect(1078, 241, 100, 240)
-    svg.text('14', 1078+5, 241+2)
+    chance(
+      [10, () => {}],
+      [1, () => {
+        svg.drawRect(1078, 241, 100, 240)
+        svg.text('14', 1083, 243)
+      }],
+      [1, () => {
+        drawSingleSymbol(1090, 263, rndSymbolName())
+        svg.drawPath(1150, 333, dick, {size: 0.4, rotation: 90})
+      }],
+      [1, () => {
+        drawSingleSymbol(1090, 263, rndSymbolName())
+        svg.drawPath(1100, 463, dick, {size: 0.4, rotation: 270})
+      }],
+      [3, () => {
+        drawSingleSymbol(1100, 436, rndSymbolName())
+        arrowSouth(1108, 426, 0.8)
+      }],
+      [3, () => {
+        drawSingleSymbol(1073, 278, rndSymbolName())
+        arrowNorth(1133, 337, 0.8)
+      }],
+    )()
+
+
 
   },
   [15]: () => {
     chance(
-      [1, () => {
+      [5, () => {
         svg.drawRect(1189, 241, 275, 60)
         svg.text('15', 1189+5, 241+2)
       }],
-      [1, () => svg.text('MARFA,TX', 1200, 250, {size: 0.5, stroke: pen.red})],
-      [1, () => {}]
+      [10, () => svg.text('MARFA,TX', 1200, 250, {size: 0.5, stroke: pen.red})],
+      [85, () => {}]
     )()
   },
   [16]: () => {
-    svg.drawRect(1525, 261, 54, 76)
-    svg.text('16', 1525+5, 261+2)
+    chance(
+      [1, () => {
+        svg.drawRect(1525, 261, 54, 76)
+        svg.text('16', 1527, 263)
+      }],
+      [3, () => drawSingleSymbol(1507, 263, rndSymbolName())],
+      [20, () => {}],
+
+    )()
   },
   [17]: () => {
-    svg.drawRect(1450, 348, 150, 115)
-    svg.text('17', 1450+5, 348+2)
+    chance(
+      [1, () => {
+        svg.drawRect(1450, 348, 150, 115)
+        svg.text('17', 1455, 350)
+      }],
+      [5, () => {
+        const sym = prb(0.4) ? rndSymbolName() : false
+
+        times(2, x =>
+          times(2, y => {
+            drawSingleSymbol(1470 + x*58, 348+y*60, sym || rndSymbolName())
+          })
+        )
+      }],
+      [5, () => {
+        const sym = prb(0.4) ? rndSymbolName() : false
+        drawSingleSymbol(1455, 360, rndSymbolName(), 2.5)
+      }],
+      [12, () => {}]
+    )()
   },
   [18]: () => {
-    svg.drawRect(1109, 497, 465, 35)
-    svg.text('18', 1109+5, 497+2)
+    chance(
+      [1, () => {
+        svg.drawRect(1109, 497, 465, 35)
+        svg.text('18', 1114, 500)
+      }],
+      [5, () => rndText(1114, 505)],
+      [2, () => hArrows(1109, 497)],
+      [2, () => {}],
+    )()
   },
   [19]: (features) => {
     if (!features.isBizCard) {
-      svg.drawRect(1443, 590, 115, 40)
-      svg.text('19', 1443+5, 590+2)
+
+
+    chance(
+      [1, () => {
+        svg.drawRect(1443, 590, 115, 40)
+        svg.text('19', 1448, 592)
+      }],
+      [3, () => {
+        drawSingleSymbol(1480, 590, rndSymbolName())
+      }],
+      [20, () => {}]
+    )()
+
+
+
+
+
     }
 
 
@@ -423,7 +619,7 @@ function cut(x1, y1, x2, y2) {
 
     arrowWest(885, 140, 0.3)
 
-    svg.text("CUT HERE", 950, 140)
+    svg.text(prb(0.75) ? 'CUT HERE' : 'RIP HERE' , 950, 140)
 
   }
 

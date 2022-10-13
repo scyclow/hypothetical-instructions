@@ -27,21 +27,13 @@ __ns = 'http://www.w3.org/2000/svg';
 function draw() {
   // set the width and height in inches
 
-  // let xin = 6.14;
-  let xin = 5.8125;
-  // let yin = 2.61;
-  let yin = 2.34252;
-
-  // set the dpi
-  let dpi = 300;
-
-
-  // calculate the svg coordinate space
-  let w = xin * dpi //1189//xin * dpi;
-  let h = yin * dpi //507//yin * dpi;
+  // let xin = 6.14
+  // let yin = 2.61
+  const xin = 5.8125
+  const yin = 2.34252
 
   // set up the svg
-  svg = new SVG()
+  svg = new SVG(xin, yin)
 
 
 
@@ -115,17 +107,6 @@ function draw() {
 //     svg.appendChild(path)
 //   })
 
-
-
-
-
-
-
-
-
-
-
-console.log(w*0.235, h/2)
 
 
 
@@ -307,11 +288,11 @@ console.log(w*0.235, h/2)
 
 
 
-  // border1(svg, h, w)
+  // border1()
 
 
   // append the svg to the body
-  document.body.appendChild(svg.svg);
+  document.body.appendChild(svg.svg)
 
 
   console.log(svg.svg.outerHTML)
@@ -321,24 +302,12 @@ console.log(w*0.235, h/2)
 
 
 
-function border1(svg, h, w) {
-  const b = (size) => {
-    const b1 = document.createElementNS(__ns, 'rect')
+function border1() {
+  times(5, i => {
+    const size = 0.98 - (i*.015)
     const adjSize = 1-(2*(1-size))
-    b1.setAttribute('x', (1-size)*w)
-    b1.setAttribute('y', (1-size)*h)
-    b1.setAttribute('width', adjSize*w)
-    b1.setAttribute('height', adjSize*h)
-    b1.setAttribute('fill', 'none')
-    b1.setAttribute('stroke', '#000')
-    b1.setAttribute('stroke-width', '8px')
-    return b1
-  }
-  svg.appendChild(b(1))
-  // svg.appendChild(b(0.98))
-  // svg.appendChild(b(0.965))
-  // svg.appendChild(b(0.95))
-  // svg.appendChild(b(0.935))
-  // svg.appendChild(b(0.92))
+    svg.drawRect((1-size)*svg.w, (1-size)*svg.h, adjSize*svg.w, adjSize*svg.h)
+  })
+
 }
 

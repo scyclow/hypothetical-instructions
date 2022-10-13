@@ -45,22 +45,14 @@ const chars = {
 }
 
 class SVG {
-  constructor() {
-    let xin = 5.8125;
-    // let yin = 2.61;
-    let yin = 2.34252;
-
-    // set the dpi
-    let dpi = 300;
-
-
-    // calculate the svg coordinate space
-    let w = xin * dpi //1189//xin * dpi;
-    let h = yin * dpi //507//yin * dpi;
+  constructor(xin = 5.8125, yin = 2.34252) {
+    const dpi = 300
+    this.w = xin * dpi
+    this.h = yin * dpi
     this.svg = document.createElementNS(__ns, 'svg')
     this.svg.setAttribute('id', 'svg')
     this.svg.setAttribute('width', '100vw')
-    this.svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h)
+    this.svg.setAttribute('viewBox', '0 0 ' + this.w + ' ' + this.h)
   }
 
   appendChild(n) {
@@ -92,11 +84,12 @@ class SVG {
 
 
   drawLine(x1, y1, x2, y2, args={}) {
-    const strokeWidth = args.strokeWidth || 3
+    const strokeWidth = args.strokeWidth || 4
+    const stroke = args.stroke || pen.black
     const line = document.createElementNS(__ns, 'line')
 
     line.setAttribute('fill', 'none')
-    line.setAttribute('stroke', pen.black)
+    line.setAttribute('stroke', stroke)
     line.setAttribute('stroke-linecap', `round`)
     line.setAttribute('stroke-width', `${strokeWidth}px`)
     line.setAttribute('x1', x1)
@@ -109,7 +102,7 @@ class SVG {
 
   drawRect(x, y, w, h, args={}) {
     const f = args.fill || 'none'
-    const strokeWidth = args.strokeWidth || 3
+    const strokeWidth = args.strokeWidth || 4
     const stroke = args.stroke || pen.black
 
     const fill = document.createElementNS(__ns, 'rect')

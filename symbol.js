@@ -11,9 +11,9 @@ function usaText(stroke) {
   svg.drawPath(272, 74, usaTextPath, {stroke, size: 1.5})
 }
 
-const upsideDownCross = (x, y) => {
-  svg.drawLine(x, y, x, y+34)
-  svg.drawLine(x-13, y+23, x+13, y+23)
+const upsideDownCross = (x, y, s=1) => {
+  svg.drawLine(x, y, x, y+34*s)
+  svg.drawLine(x-13*s, y+23*s, x+13*s, y+23*s)
 }
 
 const arrowWest = (x, y, size) => svg.drawPath(x, y, arrow, { size })
@@ -39,25 +39,44 @@ const onePath = `M1.5 11.5V15C6.92921 17.6363 8.66226 19.2445 9 22V81L0.5 88V91H
 const bigOne = (x, y, fill='none') => svg.drawPath(x, y, onePath, { size: 1.55, fill })
 const smallOne = (x, y, fill) => svg.drawPath(x, y, onePath, { size: 1.05, fill })
 
-function drawSymbol(x, y) {
+const rndSymbolName = () => chance(
+  [10,'rosette'],
+  [4, 'one'],
+  [3, 'heart'],
+  [2, 'cross'],
+  [2, 'star'],
+  [1, 'cgk'],
+)
+
+const drawSingleSymbol = (x, y, sym, s=1) => {
+  if (sym === 'cgk') svg.drawPath(x+s*12, y, cgk, {size: 0.15*s})
+  if (sym === 'star') svg.drawPath(x+s*12, y, star, {size: 0.5*s})
+  if (sym === 'heart') svg.drawPath(x-s*43, y+s*10, heartOutline, {size: 1.5*s})
+  if (sym === 'one') svg.drawPath(x+s*28, y+s*4, onePath, { size: 0.4*s })
+  if (sym === 'cross') upsideDownCross(x+s*37, y+s*8, s)
+  if (sym === 'rosette') {
+    const rosettePath = getRosettePath(15, generateGears())
+    svg.drawPath(x+s*32, y+s*15, rosettePath, {size: 1.5*s})
+  }
+}
+
+
+function drawSymbol(x, y, includeText=true) {
   chance(
     [1, () => {
       svg.drawRect(x, y, 62, 33)
       svg.text('0', x+5, y+2)
     }],
-    [1, () => upsideDownCross(x+37, y+8)],
-    [1, () => svg.drawPath(x+28, y+4, onePath, { size: 0.4 })],
-    [1, () => svg.drawPath(x-43, y+10, heartOutline, {size: 1.5})],
-    [1, () => svg.drawPath(x+12, y, cgk, {size: 0.15})],
-    [1, () => svg.drawPath(x+12, y, star, {size: 0.5})],
+    [2, () => drawSingleSymbol(x, y, 'rosette')],
+    [1, () => drawSingleSymbol(x, y, 'heart')],
+    [1, () => drawSingleSymbol(x, y, 'one')],
+    [1, () => drawSingleSymbol(x, y, 'cross')],
+    [1, () => drawSingleSymbol(x, y, 'cgk')],
+    [1, () => drawSingleSymbol(x, y, 'star')],
     [1, () => svg.text('666',x+7, y+15)],
     [1, () => svg.text('IOU',x+7, y+15)],
     [1, () => svg.text('XXX',x+7, y+15)],
     [1, () => svg.text('$$$',x+7, y+15)],
-    [2, () => {
-      const rosettePath = getRosettePath(15, generateGears())
-      svg.drawPath(x+32, y+15, rosettePath)
-    }],
   )()
 }
 

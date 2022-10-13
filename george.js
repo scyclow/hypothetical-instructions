@@ -40,7 +40,7 @@ const headband = (x, y) => (drawn.headband = true, svg.drawPath(x, y, 'M3.51294 
 const clownNose = (x, y) => {
   drawn.clownNose = true
   times(9, i => {
-    svg.drawCircle(x, y, i*3-2, {stroke: i===8?'black':'red'})
+    svg.drawCircle(x, y, i*3, {stroke: i===8?'black':'red'})
   })
 }
 
