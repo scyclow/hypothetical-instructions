@@ -1,9 +1,11 @@
 <!--
 
-Defacing US currency is a federal crime, and may be punishable with up to six months imprisonment in addition to fines. Neither the Artist nor Plottables LLC condone mutilating, cutting, defacing, disfiguring, perforating, or otherwise damaging US currency. All instructions for defacement are purely hypothetical, and whiel said instructions can technically be executed via pe
+Defacing US currency is a federal crime, and may be punishable with up to six months imprisonment in addition to fines. Neither the Artist nor Plottables LLC condone mutilating, cutting, defacing, disfiguring, perforating, or otherwise damaging US currency.
 
 
-collectors are encouraged to execute said instructions on non-monetary paper, if at all.
+
+All instructions exist as a purely artistic exercise. Collectors of the instructions are under no obligation to execute them using a pen plotter, highlighter pens, scissors, or fire.
+
 
 
 
@@ -170,10 +172,10 @@ Rosettes
     </script>
 
     <script src="./utils.js"></script>
+    <script src="./colors.js"></script>
     <script src="./rosette.js"></script>
     <script src="./george.js"></script>
     <script src="./symbol.js"></script>
-    <script src="./colors.js"></script>
     <script src="./layout.js"></script>
     <script src="./svg.js"></script>
     <script src="./draw.js"></script>
@@ -181,6 +183,24 @@ Rosettes
 
     <script type="text/javascript">
       draw()
+    </script>
+
+    <script type="text/javascript">
+
+      window.onkeypress = function(e) {
+        if (e.keyCode == 32) {
+          var svg = document.getElementById('svg');
+          var serializer = new XMLSerializer();
+          var source = serializer.serializeToString(svg);
+          source = '<?xml version="1.0" standalone="no"?>\r\n' + source;
+          let a = document.createElement("a");
+          a.href = "data:image/svg+xml;charset=utf-8,"+encodeURIComponent(source);;
+          a.download = `${tokenData.hash}.svg`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        }
+      }
     </script>
 
     <script type="text/javascript">

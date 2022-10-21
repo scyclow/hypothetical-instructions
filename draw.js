@@ -282,7 +282,7 @@ function draw() {
 
 
 
-  layout(svg)
+  layout()
   //
 
 
@@ -292,10 +292,9 @@ function draw() {
 
 
   // append the svg to the body
-  document.body.appendChild(svg.svg)
 
+  svg.mount()
 
-  console.log(svg.svg.outerHTML)
 }
 
 

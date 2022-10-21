@@ -47,12 +47,37 @@ const chars = {
 class SVG {
   constructor(xin = 5.8125, yin = 2.34252) {
     const dpi = 300
+    this.layers = {}
     this.w = xin * dpi
     this.h = yin * dpi
     this.svg = document.createElementNS(__ns, 'svg')
     this.svg.setAttribute('id', 'svg')
     this.svg.setAttribute('width', '100vw')
-    this.svg.setAttribute('viewBox', '0 0 ' + this.w + ' ' + this.h)
+    this.svg.setAttribute('viewBox', '0 0 ' + this. w + ' ' + this. h)
+
+
+
+    // append the document bounds
+    let bounds = document.createElementNS(__ns, 'path');
+    bounds.setAttribute('d', `M 0 0 M ${this.w} ${this.h}`);
+    this.svg.appendChild(bounds);
+  }
+
+  mount() {
+    Object.keys(this.layers).forEach(layerKey => {
+      console.log(layerKey)
+      const g = this.drawG(this.layers[layerKey])
+      if (!layerKey.includes('none')) g.setAttribute('id', layerKey)
+
+    })
+    document.body.appendChild(this.svg)
+  }
+
+  addToLayer(el, stroke, strokeWidth) {
+    const key = stroke+'-'+Math.round(strokeWidth)
+    if (this.layers[key]) this.layers[key].push(el)
+    else this.layers[key] = [el]
+
   }
 
   appendChild(n) {
@@ -62,22 +87,25 @@ class SVG {
 
   drawPath(x, y, d, args={}) {
     const fill = args.fill || 'none'
+    const fillOpacity = args.fillOpacity || 0.65
     const size = args.size || 1.5
-    const stroke = args.stroke || pen.black
+    const stroke = args.stroke || penBase
     const rotation = args.rotation || 0
     const strokeWidth = args.strokeWidth || 3 * 1.5/size
+    const className = args.className || ''
     const path = document.createElementNS(__ns, 'path')
 
     path.setAttribute('fill', fill)
-    path.setAttribute('fill-opacity', 0.65)
+    path.setAttribute('fill-opacity', fillOpacity)
     path.setAttribute('stroke', stroke)
     path.setAttribute('stroke-linecap', `round`)
     path.setAttribute('stroke-linejoin', `round`)
     path.setAttribute('stroke-width', `${strokeWidth}px`)
     path.setAttribute('style', `transform: translate(${x}px, ${y}px) scale(${size}) rotate(${rotation}deg)`)
+    path.setAttribute('class', className)
 
     path.setAttribute('d', d)
-    this.svg.appendChild(path)
+    this.addToLayer(path, stroke, strokeWidth/1.5*size)
     return path
   }
 
@@ -85,7 +113,7 @@ class SVG {
 
   drawLine(x1, y1, x2, y2, args={}) {
     const strokeWidth = args.strokeWidth || 4
-    const stroke = args.stroke || pen.black
+    const stroke = args.stroke || penBase
     const line = document.createElementNS(__ns, 'line')
 
     line.setAttribute('fill', 'none')
@@ -96,14 +124,14 @@ class SVG {
     line.setAttribute('x2', x2)
     line.setAttribute('y1', y1)
     line.setAttribute('y2', y2)
-    this.svg.appendChild(line)
+    this.addToLayer(line, stroke, strokeWidth*2/3)
     return line
   }
 
   drawRect(x, y, w, h, args={}) {
     const f = args.fill || 'none'
-    const strokeWidth = args.strokeWidth || 4
-    const stroke = args.stroke || pen.black
+    const strokeWidth = args.strokeWidth || 5
+    const stroke = args.stroke || penBase
 
     const fill = document.createElementNS(__ns, 'rect')
 
@@ -118,14 +146,14 @@ class SVG {
     fill.setAttribute('y', y)
     fill.setAttribute('width', w)
     fill.setAttribute('height', h)
-    this.svg.appendChild(fill)
+    this.addToLayer(fill, stroke, strokeWidth*3/5)
     return fill
   }
 
   drawCircle(x, y, r, args={}) {
-    const stroke = args.stroke || pen.black
+    const stroke = args.stroke || penBase
     const fill = args.fill || 'none'
-    const strokeWidth = args.strokeWidth || 3
+    const strokeWidth = args.strokeWidth || 5
 
     const c = document.createElementNS(__ns, 'circle')
     c.setAttribute('fill', fill)
@@ -135,11 +163,11 @@ class SVG {
     c.setAttribute('cx', x)
     c.setAttribute('cy', y)
     c.setAttribute('r', r )
-    this.svg.appendChild(c)
+    this.addToLayer(c, stroke, strokeWidth*3/5)
 
   }
 
-  drawG(...children) {
+  drawG(children) {
     const g = document.createElementNS(__ns, 'g')
     children.forEach(c => g.appendChild(c))
     this.svg.appendChild(g)
@@ -149,19 +177,21 @@ class SVG {
 
   text(str, x, y, args={}) {
     const size = args.size || 0.3
+    const stroke = args.stroke || penBase
     const characters = str.split('')
     const charPaths = []
+
 
     const g = document.createElementNS(__ns, 'g')
 
     let wOffset = 0
-    svg.drawG(
-      ...characters.map((c, i) => {
-        const [path, w, h] = chars[c]
-        const charPath = svg.drawPath(x + wOffset*size, y + h, path, { size, ...args})
-        wOffset += w
-        return charPath
-      })
-    )
+    const children = characters.map((c, i) => {
+      const [path, w, h] = chars[c]
+      const charPath = svg.drawPath(x + wOffset*size, y + h, path, { size, stroke, ...args})
+      wOffset += w
+      return charPath
+    })
+    children.forEach(c => g.appendChild(c))
+    this.addToLayer(g, stroke, 3)
   }
 }

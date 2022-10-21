@@ -180,47 +180,153 @@ Rosettes
       svg = new SVG(6, 6)
 
       const rosetteRadia = 0.08
-      const rosetteRotation = 0
-      const gears1 = generateGears(8, 15, rosetteRadia)
-      times(24, t => {
-        const rad = (t*15 +1)
-        const gears = gears1.map(g => ({ ...g, radia: g.radia - (t*0.005)}))
-        const rosettePath = getRosettePath(rad, gears)
+      const rosetteRotation = 0.2
+
+      // const bgFill = '#ffedd0'
+      // const bgFill = '#0a0120'
+      const bgFill = '#015553'
+      const getStroke = () =>
+      // crypto
+      sample([
+        '#0ff',
+        '#008b8b',
+        '#7fffd4',
+        '#c2002b',
+
+        // '#37ff51',
+        '#fb7b1d',
+        // '#c14fe8',
+      ])
+
+      // fiat
+      sample([
+
+          '#000',
+
+        // // blue
+        //   '#f0f8ff',
+        //   '#517b9f',
+        //   '#002083',
+
+        // // red
+        //   '#c80a1e',
+        //   '#f69b9b',
+        //   '#f69b9b',
+      ])
+
+
+      // const gears1 = generateGears(8, 15, rosetteRadia)
+      // times(24, t => {
+      //   const rad = (t*15 +1)
+      //   const gears = gears1.map(g => ({ ...g, radia: g.radia - (t*0.005)}))
+      //   const rosettePath = getRosettePath(rad, gears)
+      //   svg.drawPath(900, 900, rosettePath, {
+      //     stroke: '#000',
+      //     strokeWidth: 1,
+      //     rotation: t*rosetteRotation*-1,
+      //     fill: `hsla(${100+t*3}deg, 50%, 50%, 0.1)`
+      //   })
+      // })
+
+      // times(24, t => {
+      //   const rad = (t*15 +1)
+      //   const gears = gears1.map(g => ({ ...g, radia: g.radia - (t*0.005)}))
+      //   const rosettePath = getRosettePath(rad, gears)
+      //   svg.drawPath(900-2, 900-2, rosettePath, {
+      //     stroke: '#d00',
+      //     strokeWidth: 1,
+      //     rotation: t*rosetteRotation*-1,
+      //     fill: `none`
+      //   })
+      // })
+
+      // const gears = generateGears(2, 56, rosetteRadia)
+      // const gears = generateGears(8, 26, rosetteRadia)
+      const gears = generateGears(8, 15, 0.08, evenStart)
+
+
+      // times(128*4, t => {
+      //   const rad = (t*2 +1)
+      //   const rosettePath = getRosettePath(
+      //     rad,
+      //     // gears.map(g => ({ ...g, radia: g.radia - (t*0.00025)}))
+      //     gears
+      //   )
+      //   svg.drawPath(900, 900, rosettePath, {
+      //     stroke: getStroke(),
+      //     strokeWidth: 1,
+      //     rotation: t*sin(t/32)*rosetteRotation*-0.25,
+      //     // rotation: t*rosetteRotation*-1,
+      //     fill: `none`,
+      //     className: 'stroke'
+      //   })
+      // })
+
+
+      times(128, t => {
+        const rad = (t*2 +1)
+        const rosettePath = getRosettePath(
+          rad,
+          // gears.map(g => ({ ...g, radia: g.radia - (t*0.00025)}))
+          gears
+        )
         svg.drawPath(900, 900, rosettePath, {
-          stroke: '#000',
+          stroke: getStroke(),
           strokeWidth: 1,
-          rotation: t*rosetteRotation*-1,
-          fill: `hsla(${100+t*3}deg, 50%, 50%, 0.1)`
+          // rotation: t*sin(t/32)*rosetteRotation*-0.25,
+          // rotation: t*rosetteRotation*-1,
+          fill: `none`,
+          className: 'stroke'
         })
       })
 
-      times(24, t => {
-        const rad = (t*15 +1)
-        const gears = gears1.map(g => ({ ...g, radia: g.radia - (t*0.005)}))
-        const rosettePath = getRosettePath(rad, gears)
-        svg.drawPath(900-2, 900-2, rosettePath, {
-          stroke: '#d00',
-          strokeWidth: 1,
-          rotation: t*rosetteRotation*-1,
-          fill: `none`
-        })
-      })
 
-      times(24, t => {
-        const rad = (t*15 +1)
-        const gears = gears1.map(g => ({ ...g, radia: g.radia - (t*0.005)}))
-        const rosettePath = getRosettePath(rad, gears)
-        svg.drawPath(900+2, 900+2, rosettePath, {
-          stroke: '#d0d',
-          strokeWidth: 1,
-          rotation: t*rosetteRotation*-1,
-          fill: `none`
-        })
-      })
+      // times(290, t => {
+      //   const rosettePath = getRosettePath(
+      //     20,
+      //     gears,
+      //     3 + rnd(4),
+      //     rnd(0.001, 0.004)
+      //   )
 
-      svg.svg.style.background = '#ddd'
+      //   const stroke = getStroke()
 
-      document.body.appendChild(svg.svg)
+
+
+
+      //   const p = svg.drawPath(900, 900, rosettePath, {stroke, strokeWidth: 0.5, className: 'stroke'})
+      // })
+
+
+
+      // const rosettePath2 = getRosettePath(
+      //   70,
+      //   gears,
+      //   1,
+      // )
+      // svg.drawPath(900, 900, rosettePath2, {stroke: '#000', strokeWidth: 1})
+
+      // const rosettePath3 = getRosettePath(
+      //   30,
+      //   gears,
+      //   1,
+      // )
+      // svg.drawPath(950, 830, rosettePath3, {stroke: '#000', strokeWidth: 1})
+
+
+      // const gears2 = generateGears(3.5, 15, rosetteRadia)
+      // const rosettePath4 = getRosettePath(
+      //   90,
+      //   gears2,
+      //   1,
+      // )
+      // svg.drawPath(650, 830, rosettePath4, {stroke: '#000', strokeWidth: 1})
+
+
+
+      svg.svg.style.background = bgFill
+
+      svg.mount()
 
     </script>
 
