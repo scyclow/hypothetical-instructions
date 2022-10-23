@@ -312,13 +312,5 @@ function draw() {
 
 
 
-
-function border1() {
-  times(5, i => {
-    const size = 0.98 - (i*.015)
-    const adjSize = 1-(2*(1-size))
-    svg.drawRect((1-size)*svg.w, (1-size)*svg.h, adjSize*svg.w, adjSize*svg.h)
-  })
-
-}
+draw()
 
