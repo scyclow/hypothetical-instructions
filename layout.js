@@ -8,11 +8,12 @@ function layout() {
   const drawGrid = prb(0.03)
   const drawBoner = prb(0.05)
 
+  const burnHere = prb(0.05)
   const sectionFeatures = {
+    burnHere,
     isStarNote: prb(0.03),
-    burnHere: prb(0.05),
     isBizCard: prb(0.05),
-    wheresGeorgeOverride: prb(0.05),
+    wheresGeorgeOverride: !burnHere && prb(0.06),
     showHash: prb(0.1),
     cutHere: prb(0.1),
   }
@@ -143,8 +144,8 @@ function layout() {
   if (sectionFeatures.isBizCard) {
     const fill = rndHighlighter()
     svg.drawRect(206, 583, 280, 40, {fill, stroke: 'none'})
-    svg.text('STEVE PIKELNY', 215, 590, {size: 0.35})
     svg.drawRect(1290, 590, 230, 40, {fill, stroke: 'none'})
+    svg.text('STEVE PIKELNY', 215, 590, {size: 0.35})
     svg.text('STEVIEP.XYZ', 1300, 600, {size: 0.35})
   }
 
@@ -198,11 +199,11 @@ function layout() {
 
   if (topHighlight) {
     bigOne(81, 98, highlightColor)
-    bigOne(1604, 91, highlightColor)
+    bigOne(1604, 88, highlightColor)
   }
   if (bottomHiglight) {
-    smallOne(1616, 549, highlightColor)
-    smallOne(75, 545, highlightColor)
+    smallOne(1618, 553, highlightColor)
+    smallOne(77, 548, highlightColor)
   }
 
   if (prb(0.05)) {
@@ -250,6 +251,10 @@ function layout() {
 
 
 const rndText = (x, y) => chance(
+  // [10000, () => {
+  //   svg.text("INSTRUCTIONS", x+105, y-7,)
+  //   svg.text("FOR DEFACEMENT", x+85, y+18,)
+  // }],
   [1, () => svg.text("TIME = MONEY", x+35, y, {size: 0.45})],
   [1, () => svg.text("MONEY = SLAVERY", x+5, y, {size: 0.45})],
   [1, () => svg.text("LUCKY DOLLAR", x+45, y, {size: 0.45})],
