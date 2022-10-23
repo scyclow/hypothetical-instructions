@@ -65,7 +65,6 @@ class SVG {
 
   mount() {
     Object.keys(this.layers).forEach(layerKey => {
-      console.log(layerKey)
       const g = this.drawG(this.layers[layerKey])
       if (!layerKey.includes('none')) g.setAttribute('id', layerKey)
 

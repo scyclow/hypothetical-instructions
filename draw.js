@@ -25,6 +25,18 @@ dashed line down the middle with patterns on one side
 __ns = 'http://www.w3.org/2000/svg';
 
 function draw() {
+
+      // <img src="./dollarClipped.jpeg" style="width: 100vw; position: fixed; z-index: -100;">
+      // https://ipfs.io/ipfs/bafybeiaxqcum3dorimpywtf2rbayujxlkygpyft47yfrd37catiheyojb4
+  const externalAsset = tokenData.externalAssetDependencies[0].cid
+
+
+  const bg = document.createElement('img')
+  bg.setAttribute('src', tokenData.preferredIPFSGateway + externalAsset)
+  bg.setAttribute('style', 'width: 100vw; position: fixed; z-index: -100;')
+  document.body.appendChild(bg)
+
+
   // set the width and height in inches
 
   // let xin = 6.14

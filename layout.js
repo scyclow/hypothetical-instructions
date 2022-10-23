@@ -322,16 +322,14 @@ const hArrows = (x, y) => chance(
 // 5, 6, 17, 19
 
 const sectionFns = {
-  [0]: () => {
-
-  },
+  [0]: noop,
   [1]: (features) => {
     chance(
       [1, (features) => {
         svg.drawRect(630, 135, 230, 30)
         svg.text('1', 635, 142, {size: 0.2})
       }],
-      [20, () => {}],
+      [20, noop],
       [!features.cutHere && 2, () => svg.text(prb(0.5) ? 'SUCKS' : 'RULES', 800, 142, {size: 0.3})],
     )()
 
@@ -345,7 +343,7 @@ const sectionFns = {
       }],
       [22, () => rndText(253, 213)],
       [5, () => hArrows(248, 200)],
-      [2, () => {}],
+      [2, noop],
     )()
 
 
@@ -357,7 +355,7 @@ const sectionFns = {
         svg.text('3', 268, 262)
       }],
       [3, () => drawSingleSymbol(255, 295, rndSymbolName())],
-      [10, () => {}],
+      [8, noop],
     )()
 
   },
@@ -368,12 +366,7 @@ const sectionFns = {
         svg.drawRect(506, 265, 153, 185)
         svg.text('4', 511, 267)
       }],
-      [1, () => {
-        svg.text('$$$', 507, 263, {size: 0.9})
-        svg.text('$$$', 507, 323, {size: 0.9})
-        svg.text('$$$', 507, 383, {size: 0.9})
-      }],
-      [8, () => {
+      [16, () => {
         const sym = prb(0.4) ? rndSymbolName() : false
         times(3, x =>
           times(3, y => {
@@ -381,17 +374,16 @@ const sectionFns = {
           })
         )
       }],
-      [2, () => {
+      [4, () => {
         drawSingleSymbol(460 , 278, 'rosette', 4)
       }],
-      [2, () => {
+      [3, () => {
         drawSingleSymbol(435 , 263, 'one', 4)
       }],
-      // TODO single other symbols
-      [2, () => {
+      [3, () => {
         svg.text('$', 527, 255, {size: 3})
       }],
-      [1, () => {}],
+      [1, noop],
     )()
 
   },
@@ -422,7 +414,7 @@ const sectionFns = {
           ? svg.drawPath(123, 352, dick, {size: 0.5})
           : svg.drawPath(300, 430, dick, {size: 0.5, rotation: 180})
       }],
-      [2, () => {}]
+      [1, noop]
     )()
 
   },
@@ -435,13 +427,13 @@ const sectionFns = {
       [3, () => {
         drawSingleSymbol(128, 468, rndSymbolName())
       }],
-      [10, () => {}]
+      [10, noop]
     )()
   },
   [7]: (features) => {
     if (!features.isStarNote) {
       chance(
-        [20, () => {}],
+        [20, noop],
         [1, () => {
           svg.drawRect(578, 461, 73, 42)
           svg.text('7', 578+5, 461+2)
@@ -464,7 +456,7 @@ const sectionFns = {
       [2, () => {
         svg.text('$$$$$$$$', 255, 512, {size: 0.6, stroke: pen.green })
       }],
-      [1, () => {}]
+      [1, noop]
     )()
   },
   [9]: (features) => {
@@ -475,7 +467,10 @@ const sectionFns = {
           svg.text('9', 191, 590)
         }],
         [3, () => svg.text('ID ' + tokenData.tokenId, 220, 600, {size: 0.4})],
-        [3, () => {}],
+        [3, noop],
+        [3, () => {
+          drawSingleSymbol(200, 595, rndSymbolName())
+        }]
       )()
     }
 
@@ -499,14 +494,14 @@ const sectionFns = {
       [2, () => {
         svg.text('$$$$$$$$$$', 1110, 143, {size: 0.6, stroke: pen.green })
       }],
-      [1, () => {}]
+      [1, noop]
     )()
 
 
   },
   [12]: () => {
     chance(
-      [5, () => {}],
+      [5, noop],
       [1, () => {
         svg.drawRect(1065, 179, 45, 55)
         svg.text('12', 1070, 181)
@@ -518,7 +513,7 @@ const sectionFns = {
   [13]: (features) => {
     if (!features.isStarNote) {
       chance(
-        [1, () => {}],
+        [1, noop],
         [1, () => {
           svg.drawRect(1475, 191, 35, 100)
           svg.text('13', 1475+5, 191+2)
@@ -529,7 +524,7 @@ const sectionFns = {
   },
   [14]: () => {
     chance(
-      [4, () => {}],
+      [4, noop],
       [1, () => {
         svg.drawRect(1078, 241, 100, 240)
         svg.text('14', 1083, 243)
@@ -562,7 +557,7 @@ const sectionFns = {
         svg.text('15', 1189+5, 241+2)
       }],
       [10, () => svg.text('MARFA,TX', 1200, 250, {size: 0.5, stroke: pen.red})],
-      [85, () => {}]
+      [85, noop]
     )()
   },
   [16]: () => {
@@ -572,7 +567,7 @@ const sectionFns = {
         svg.text('16', 1527, 263)
       }],
       [3, () => drawSingleSymbol(1507, 263, rndSymbolName())],
-      [10, () => {}],
+      [10, noop],
 
     )()
   },
@@ -595,7 +590,7 @@ const sectionFns = {
         const sym = prb(0.4) ? rndSymbolName() : false
         drawSingleSymbol(1455, 360, rndSymbolName(), 2.5)
       }],
-      [3, () => {}]
+      [3, noop]
     )()
   },
   [18]: () => {
@@ -606,7 +601,7 @@ const sectionFns = {
       }],
       [22, () => rndText(1114, 505)],
       [5, () => hArrows(1109, 497)],
-      [2, () => {}],
+      [2, noop],
     )()
   },
   [19]: (features) => {
@@ -621,7 +616,7 @@ const sectionFns = {
       [3, () => {
         drawSingleSymbol(1480, 590, rndSymbolName())
       }],
-      [10, () => {}]
+      [10, noop]
     )()
 
 
