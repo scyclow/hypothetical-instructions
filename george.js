@@ -4,7 +4,8 @@ const bowPath = 'M34.25 16.25L66.5 3V29.5L34.25 16.25ZM34.25 16.25L2 29.5V3L34.2
 const heartOutline = 'M53.5297 19C55.7548 13.8277 63 16.0492 63 7.65301C63 -0.743188 56.2441 1.02626 53.5297 7.65301C50.8691 0.469987 44.9196 0.516622 44.0588 7.65303C43.1981 14.7894 52.0421 15.5634 53.5297 19Z'
 
 const glasses = (x, y, fill) => (drawn.glasses = true, svg.drawPath(x, y, 'M23 1.50149V19.5015H52V1.50149M23 1.50149H52M23 1.50149L0.5 5.49984M52 1.50149C60.0197 0.553727 63.9513 0.877725 69.5 3.50149M69.5 3.50149V17.5015H89.5V3.50149M69.5 3.50149H89.5M89.5 3.50149H94.5', {fill}) )
-const noseRing = (x, y) => (drawn.noseRing = true, svg.drawPath(x, y, 'M2.44092 1C-1.30001 14.6058 20.1694 9.5819 13.9409 1') )
+const noseRing = (x, y) => (drawn.noseRing = true, svg.drawPath(x, y, 'M2.44092 1C-1.3 14.6058 20.1694 9.5819 13.9409 1') )
+const earring = (x, y) => (drawn.earring = true, svg.drawPath(x, y, 'M5.5 1.5C-5.5 12 17.5 16 11 3') )
 const thinStache = (x, y) => (drawn.thinStache = true, svg.drawPath(x, y, 'M25 1.5C26.3347 3.82597 29.8023 5.41655 39 8.5M19.5 1.5C14.2064 5.74858 9.52486 6.27014 1 7') )
 const curlyStache = (x, y) => (drawn.curlyStache = true, svg.drawPath(x, y, 'M25.0013 7C6.47068 11.0113 1.78334 9.45917 2.00131 0.5M35.5013 7C43.8097 8.9582 47.6376 9.15325 48.0013 2.5') )
 const xEyes = (x, y) => (drawn.xEyes = true, svg.drawPath(x, y, 'M2 2L16 17M2 17L16 2M45.5 2L58.5 16M45.5 15L59.5 3') )
@@ -43,6 +44,13 @@ const clownNose = (x, y) => {
     svg.drawCircle(x, y, i*3, {stroke: i===6? pen.black : pen.red})
   })
 }
+const gag = (x, y) => {
+  drawn.gag = true
+  svg.drawPath(x, y, 'M1 1.5C49.5 19.5 72.499 18.408 91.5 9.5')
+  times(6, i => {
+    svg.drawCircle(x+90, y+25, i*3, {stroke: i===5? pen.black : pen.red})
+  })
+}
 
 const beautyMark = (x, y) => svg.text('.', x, y)
 const starEyes = (x, y) => {
@@ -64,7 +72,7 @@ function drawFace() {
   const drawTorso = prb(0.5)
 
   const drawStache = prb(0.15)
-  const drawHair = prb(0.25)
+  const drawHair = prb(0.27)
   const drawEyebrows = prb(0.1)
   const drawCheek = prb(0.1)
   const drawBeard = prb(0.1)
@@ -72,12 +80,14 @@ function drawFace() {
 
   const drawFaceTattoo = prb(0.25)
 
-  if (drawHair) chance(
+  if (drawHair)
+    chance(
     [7, () => hair(720, 186, rndHighlighter())],
     [1, () => mohawk(730, 63, rndHighlighter())],
     [1, () => devilHorns(778, 158, rndHighlighter())],
     [1, () => headband(756, 235)],
     [1, () => hairBow(757, 254)],
+    [1, () => earring(782, 357)],
   )()
 
   if (drawTorso) blouse(796, 380, rndHighlighter())
@@ -117,12 +127,13 @@ function drawFace() {
     [2, () => openMouth(890, drawn.thinStache ? 387 : 385)],
     [2, () => soulPatch(910, 402)],
     [2, () => buckTeath(906, 393)],
+    [drawn.clownNose || drawStache ? 0 : 1, () => gag(830, 372)],
     [drawStache ? 0 : 2, () => lips(887, 380)],
   )()
 
   if (drawBeard) chance(
     [1, () => chinBeard(832, 365)],
-    [drawStache||drawn.smiley||drawn.frowny ? 0: 1, () => goatee(880, 375)],
+    [drawStache||drawn.smiley||drawn.frowny||drawn.gag ? 0: 1, () => goatee(880, 375)],
   )()
 
   if (drawEyebrows) chance(

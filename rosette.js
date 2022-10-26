@@ -49,10 +49,20 @@ function createSpirographFn(baseRadius, prevRadius, gears) {
   )
 }
 
-function getRosettePath(rad, gears, cycles=1, spacing=0) {
+function getRosettePath(rad, gears, cycles=1, spacing=0, startOffset=0) {
   const pointCount = 900
   const spirographFn = createSpirographFn(rad, rad, gears)
-  const points = times(cycles*pointCount+1, p => spirographFn(p/(pointCount+1), p, spacing*p/pointCount))
+  const points = times(
+    (cycles*pointCount+1),
+    p => {
+      const _p = p + (pointCount*startOffset)
+      return spirographFn(
+        _p/(pointCount+1),
+        _p,
+        spacing*_p/pointCount
+      )
+    }
+  )
   let d = `M ${points[0][0]} ${points[0][1]} `
   for (let i=0; i<points.length; i++) {
     d += ` ${points[i][0]},${points[i][1]}`
@@ -76,6 +86,7 @@ function drawRibbedRosette(x, y, minRad, layers, {gears, rosetteRadiaChange, ros
       stroke: shadowColor,
     })
   }
+  const offset = prb(0.005) ? 30 : 0
   times(layers, t => {
     const rad = t*15 + minRad
     const rosettePath = getRosettePath(
@@ -83,12 +94,12 @@ function drawRibbedRosette(x, y, minRad, layers, {gears, rosetteRadiaChange, ros
       gears.map(g => ({ ...g, radia: g.radia - (t*rosetteRadiaChange)}))
     )
 
-    svg.drawPath(x, y, rosettePath, {rotation: t*rosetteRotation, ...args})
+    svg.drawPath(x+rnd(-offset, offset), y+rnd(-offset, offset), rosettePath, {rotation: t*rosetteRotation, ...args})
   })
 }
 
 function drawLineRosette(x, y, minRad, maxRad, gears, args) {
-  if (args.shadow) drawLineRosette(x, y, minRad, maxRad, gears, {...args, shadow: false, stroke: shadowColor})
+  if (args.shadow) drawLineRosette(x, y, minRad, maxRad, gears, { stroke: shadowColor, ...args, shadow: false })
   const pointCount = 100
   const innerSpirographFn = createSpirographFn(minRad, minRad, gears)
   const outterSpirographFn = createSpirographFn(maxRad, maxRad, gears)

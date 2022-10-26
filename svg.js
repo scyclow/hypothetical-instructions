@@ -44,6 +44,8 @@ const chars = {
   '=': ["M0 24H33.5M0 44H33.5", 60, 0],
 }
 
+__ns = 'http://www.w3.org/2000/svg'
+
 class SVG {
   constructor(xin = 5.8125, yin = 2.34252) {
     const dpi = 300
@@ -52,8 +54,11 @@ class SVG {
     this.h = yin * dpi
     this.svg = document.createElementNS(__ns, 'svg')
     this.svg.setAttribute('id', 'svg')
-    this.svg.setAttribute('width', '100vw')
+    // this.svg.setAttribute('width', '100vw')
+    this.svg.setAttribute('width', '95.9vw')
+    this.svg.setAttribute('style', 'transform: rotate(0.18deg) translate(0px,0.16vw)')
     this.svg.setAttribute('viewBox', '0 0 ' + this. w + ' ' + this. h)
+    this.isMisprint = prb(0.01)
 
 
 
@@ -64,7 +69,10 @@ class SVG {
   }
 
   mount() {
-    Object.keys(this.layers).forEach(layerKey => {
+    Object
+    .keys(this.layers)
+    .sort((a, b) => a.includes('none') ? -1 : 1)
+    .forEach(layerKey => {
       const g = this.drawG(this.layers[layerKey])
       if (!layerKey.includes('none')) g.setAttribute('id', layerKey)
 
@@ -93,6 +101,7 @@ class SVG {
     const strokeWidth = args.strokeWidth || 3 * 1.5/size
     const className = args.className || ''
     const path = document.createElementNS(__ns, 'path')
+    const misprintOff = this.isMisprint ? 40 : 0
 
     path.setAttribute('fill', fill)
     path.setAttribute('fill-opacity', fillOpacity)
@@ -100,7 +109,7 @@ class SVG {
     path.setAttribute('stroke-linecap', `round`)
     path.setAttribute('stroke-linejoin', `round`)
     path.setAttribute('stroke-width', `${strokeWidth}px`)
-    path.setAttribute('style', `transform: translate(${x}px, ${y}px) scale(${size}) rotate(${rotation}deg)`)
+    path.setAttribute('style', `transform: translate(${x+misprintOff}px, ${y+misprintOff}px) scale(${size}) rotate(${rotation}deg)`)
     path.setAttribute('class', className)
 
     path.setAttribute('d', d)
@@ -158,6 +167,8 @@ class SVG {
     c.setAttribute('fill', fill)
     c.setAttribute('stroke', stroke)
     c.setAttribute('stroke-width', `${strokeWidth}px`)
+    c.setAttribute('fill-opacity', 0.65)
+
 
     c.setAttribute('cx', x)
     c.setAttribute('cy', y)
