@@ -8,7 +8,7 @@ function layout() {
   const drawBoner = prb(0.05)
   const doodleHereRight = prb(0.02)
   const doodleHereLeft = prb(0.02)
-  const isWorthless = !doodleHereRight && doodleHereLeft && prb(0.03)
+  const isWorthless = !doodleHereRight && !doodleHereLeft && prb(0.03)
 
 
   const burnHere = prb(0.05)
@@ -21,14 +21,27 @@ function layout() {
     cutHere: prb(0.1),
   }
 
-
-  // if 1,2,3, then don't do any other side features
-  const variation = chance(
-    [3, 0],
-    [1, 1],
-    [2, 2],
-    [1, 3],
+  const rosetteLines = chance(
+    [50, 0], // only ribbed
+    [20, 1], // ribbed + lines
+    [5, 2], // only lines
+    [5, 3], // spiral
+    [10, 4], // fragments
+    [10, 5], // double
   )
+
+  const hasLines = [1,2].includes(rosetteLines)
+
+
+  const variation =
+    rosetteLines === 1
+      ? 0
+      : chance(
+        [5, 0], // none
+        [1, 1], // exagerated
+        [2, 2], //
+        [2, 3], // rotating
+      )
   const rosetteRadia = variation === 1 ? rnd(0.1, 0.4) : 0.08
 
   const rosetteRadiaChange = variation === 2 ? chance(
@@ -38,40 +51,35 @@ function layout() {
 
   const rosetteRotation = variation === 3 ? rndint(3, 11) : 0
 
-  const rosetteLines = chance(
-    [9, 0], // only ribbed
-    [!variation && 8, 1], // ribbed + lines
-    [!variation && 3, 2], // only lines
-    [!variation && 1, 3], // spiral
-    [!variation && 4, 4], // fragments
-  )
 
   const gearStartFn = chance(
     [7, returnOne],
     [2, evenStart],
     [1, wonkyStart],
   )
+  const rosetteLinesDashed = hasLines ? 0 : prb(0.25)
 
-  const shadow = prb(0.15)
+  const shadow = !rosetteLinesDashed && ![4, 5].includes(rosetteLines) ? prb(0.15) : 0
 
-  const rosetteLinesDashed = prb(0.25)
-
-  const lineStroke = prb(0.4) ? penBase : sample(penColors)
+  const strokeAlt = sample(penColors)
+  const lineStroke = prb(0.4) ? penBase : strokeAlt
 
 
   if (doodleHereLeft && !sectionFeatures.burnHere && !sectionFeatures.wheresGeorgeOverride) {
-    svg.drawRect(120, 161, 545, 390)
-    svg.text('DOODLE HERE', 290, 170, {size: 0.35})
+    svg.drawRect(120, 137, 545, 414)
+    svg.text('DOODLE HERE', 290, 146, {size: 0.35})
 
     drawSections([9], sectionFeatures)
 
   } else if (leftRosette && !sectionFeatures.burnHere && !sectionFeatures.wheresGeorgeOverride) {
+
     const gears = generateGears(8, 15, rosetteRadia, gearStartFn)
 
-    if (rosetteLines === 0 || rosetteLines === 1) {
+    if ([0,1,5].includes(rosetteLines)) {
       drawRibbedRosette(413, 350, 40, 10, {gears, rosetteRadiaChange, rosetteRotation, shadow})
     }
-    if (rosetteLines === 1 || rosetteLines === 2) {
+
+    if (hasLines) {
       if (rosetteLinesDashed) {
 
         times(10, i => {
@@ -110,6 +118,15 @@ function layout() {
         })
       })
     }
+    if (rosetteLines === 5) {
+      drawRibbedRosette(413, 350, 40, 8, {
+        gears: generateGears(4, 15, rosetteRadia, gearStartFn),
+        rosetteRadiaChange,
+        rosetteRotation,
+        shadow,
+        stroke: strokeAlt
+      })
+    }
 
     if (!variation && !rosetteLines) drawSections([1, 6, 9], sectionFeatures)
   } else {
@@ -125,8 +142,11 @@ function layout() {
 
   } else if (rightRosette) {
     const gears = generateGears(8, 15, rosetteRadia, gearStartFn)
-    if (rosetteLines === 0 || rosetteLines === 1) drawRibbedRosette(1305, 404, 60, 8, {gears, rosetteRadiaChange, rosetteRotation, shadow})
-    if (rosetteLines === 1 || rosetteLines === 2) {
+    if ([0,1,5].includes(rosetteLines)) {
+      drawRibbedRosette(1305, 404, 60, 8, {gears, rosetteRadiaChange, rosetteRotation, shadow})
+    }
+
+    if (hasLines) {
       if (rosetteLinesDashed) {
         times(8, i => {
           if (i%2===0) {
@@ -163,6 +183,16 @@ function layout() {
         svg.drawPath(1305, 404, rosettePath, {
           stroke: prb(0.5) ? penBase : lineStroke,
         })
+      })
+    }
+
+    if (rosetteLines === 5) {
+      drawRibbedRosette(1305, 404, 60, 6, {
+        gears: generateGears(4, 15, rosetteRadia, gearStartFn),
+        rosetteRadiaChange,
+        rosetteRotation,
+        shadow,
+        stroke: strokeAlt
       })
     }
 
@@ -374,6 +404,14 @@ const hArrows = (x, y) => chance(
   }],
 )()
 
+const symbolRow = (x, y, max=7) => {
+  const sym = prb(0.4) ? rndSymbolName() : false
+  const syms = max//rndint(1,max)
+  times(syms, _x =>
+      drawSingleSymbol(x + _x*58 + (406-syms*58)/2, y, sym || rndSymbolName())
+  )
+}
+
 
 
 
@@ -394,17 +432,19 @@ const sectionFns = {
 
   },
   [2]: (features) => {
-    if (!features.wheresGeorgeOverride) chance(
+    if (features.wheresGeorgeOverride) {
+      prb(0.75) && symbolRow(155, 213, 5)
+    }
+    else chance(
       [1, () => {
         svg.drawRect(248, 200, 430, 50)
-        svg.text('2', 248+5, 200+2)
+        svg.text('2', 253, 202)
       }],
       [22, () => rndText(253, 213)],
-      [5, () => hArrows(248, 200)],
-      [2, noop],
+      [3, () => symbolRow(253, 213)],
+      [4, () => hArrows(248, 200)],
+      [1, noop],
     )()
-
-
   },
   [3]: () => {
     chance(
@@ -506,9 +546,13 @@ const sectionFns = {
     chance(
       [1, () => {
         svg.drawRect(250, 510, 390, 35)
-        svg.text('8', 250+5, 510+2)
+        svg.text('8', 255, 512)
       }],
-      [2, () => {
+      [2, () => symbolRow(245, 515)],
+      [1, () => {
+        rndText(250, 522)
+      }],
+      [3, () => {
         svg.text(times(8, () => rndint(10)).join('') + rndChar(), 255, 512, {size: 0.6, stroke: pen.green })
       }],
       [2, () => {
@@ -549,6 +593,8 @@ const sectionFns = {
       [2, () => {
         svg.text(rndChar() + times(8, () => rndint(10)).join('') + rndChar(), 1117, 143, {size: 0.6, stroke: pen.green })
       }],
+      [3, () => symbolRow(1080, 143, 8)],
+      [1, () => rndText(1070, 145)],
       [2, () => {
         svg.text('$$$$$$$$$$', 1110, 143, {size: 0.6, stroke: pen.green })
       }],
@@ -564,7 +610,7 @@ const sectionFns = {
         svg.drawRect(1065, 179, 45, 55)
         svg.text('12', 1070, 181)
       }],
-      [6, () => drawSingleSymbol(1053, 187, rndSymbolName())],
+      [6, () => drawSingleSymbol(1053, 194, rndSymbolName())],
     )()
 
   },
@@ -658,31 +704,25 @@ const sectionFns = {
         svg.text('18', 1114, 500)
       }],
       [22, () => rndText(1114, 505)],
-      [5, () => hArrows(1109, 497)],
-      [2, noop],
+      [3, () => symbolRow(1114, 505, 8)],
+      [3, () => hArrows(1109, 497)],
+      [1, noop],
     )()
   },
   [19]: (features) => {
     if (!features.isBizCard) {
-
-
-    chance(
-      [1, () => {
-        svg.drawRect(1443, 590, 115, 40)
-        svg.text('19', 1448, 592)
-      }],
-      [3, () => {
-        drawSingleSymbol(1480, 590, rndSymbolName())
-      }],
-      [10, noop]
-    )()
-
-
-
-
+      chance(
+        [1, () => {
+          svg.drawRect(1443, 590, 115, 40)
+          svg.text('19', 1448, 592)
+        }],
+        [3, () => {
+          drawSingleSymbol(1480, 590, rndSymbolName())
+        }],
+        [10, noop]
+      )()
 
     }
-
 
   },
 }
