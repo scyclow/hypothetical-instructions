@@ -61,17 +61,15 @@ class SVG {
 
 
     this.chaos = chance(
-      [90, 0],
-      [6, rnd(8)],
-      [2, rnd(8, 16)],
-      [1, rnd(16, 32)],
-      [1, rnd(32, 64)],
+      [95, 0],
+      [3, rnd(12, 16)],
+      [2, rnd(16, 64)],
     )
 
     // append the document bounds
-    let bounds = document.createElementNS(__ns, 'path');
-    bounds.setAttribute('d', `M 0 0 M ${this.w} ${this.h}`);
-    this.svg.appendChild(bounds);
+    const bounds = document.createElementNS(__ns, 'path')
+    bounds.setAttribute('d', `M 0 0 M ${this.w} ${this.h}`)
+    this.svg.appendChild(bounds)
   }
 
   chaosFn() {

@@ -6,17 +6,20 @@ function layout() {
   const randomSymbols = prb(0.01)
   const drawGrid = prb(0.02)
   const drawBoner = prb(0.05)
-  const doodleHereRight = prb(0.02)
-  const doodleHereLeft = prb(0.02)
+  const doodleHereRight = !leftRosette && prb(0.03)
+  const doodleHereLeft = !rightRosette && prb(0.03)
   const isWorthless = !doodleHereRight && !doodleHereLeft && prb(0.03)
+  const usaHighlights = prb(0.5)
 
 
-  const burnHere = prb(0.05)
+  const leftBurnHere = !leftRosette && !doodleHereLeft && prb(0.035)
+  const rightBurnHere = !rightRosette && !doodleHereRight && prb(0.035)
   const sectionFeatures = {
-    burnHere,
+    leftBurnHere,
+    rightBurnHere,
     isStarNote: prb(0.03),
     isBizCard: prb(0.05),
-    wheresGeorgeOverride: !burnHere && prb(0.06),
+    wheresGeorgeOverride: !leftBurnHere && !leftRosette && prb(0.08),
     showHash: prb(0.1),
     cutHere: prb(0.1),
   }
@@ -65,13 +68,13 @@ function layout() {
   const lineStroke = prb(0.4) ? penBase : strokeAlt
 
 
-  if (doodleHereLeft && !sectionFeatures.burnHere && !sectionFeatures.wheresGeorgeOverride) {
+  if (doodleHereLeft) {
     svg.drawRect(120, 137, 545, 414)
     svg.text('DOODLE HERE', 290, 146, {size: 0.35})
 
     drawSections([9], sectionFeatures)
 
-  } else if (leftRosette && !sectionFeatures.burnHere && !sectionFeatures.wheresGeorgeOverride) {
+  } else if (leftRosette) {
 
     const gears = generateGears(8, 15, rosetteRadia, gearStartFn)
 
@@ -248,7 +251,7 @@ function layout() {
     svg.text('.COM', 533, 418, {size: 0.35, stroke: pen.red})
   }
 
-  if (sectionFeatures.burnHere) {
+  if (sectionFeatures.leftBurnHere) {
     if (prb(0.5)) {
       svg.drawRect(506, 265, 153, 185)
       svg.text('BURN', 550, 275)
@@ -273,6 +276,15 @@ function layout() {
     }
   }
 
+  if (sectionFeatures.rightBurnHere) {
+    svg.text('BURN', 1090, 294)
+    svg.text('HERE', 1090, 340)
+    prb(0.5)
+      ? arrowWest(1090, 380, 0.35)
+      : arrowEast(1155, 400, 0.35)
+
+  }
+
 
   if (sectionFeatures.cutHere) verticalCut()
 
@@ -283,7 +295,7 @@ function layout() {
   if (isWorthless)
     worthless()
 
-  if (prb(0.5))
+  if (usaHighlights)
     usaText(sample([pen.red, pen.orange, pen.teal, pen.pink]))
 
 
@@ -437,6 +449,17 @@ const symbolRow = (x, y, max=7, scale=1) => {
 }
 
 
+const drawSerial = (x, y, prepend='') => svg.text(
+  prepend + times(8, () => rndint(10)).join('') + rndChar(),
+  x,
+  y,
+  {size: 0.6, stroke: pen.green }
+)
+
+const arrowRow = (x, y, t) => prb(0.5)
+  ? times(t, i => arrowEast(x + i*85 + 60, y + 20, 0.3))
+  : times(t, i => arrowWest(x + i*85, y, 0.3))
+
 
 
 // 5, 6, 17, 19
@@ -465,6 +488,7 @@ const sectionFns = {
         svg.text('2', 253, 202)
       }],
       [22, () => rndText(253, 213)],
+      [2, () => arrowRow(253, 213, 5)],
       [3, () => symbolRow(253, 213)],
       [4, () => hArrows(248, 200)],
       [1, noop],
@@ -483,7 +507,7 @@ const sectionFns = {
   },
   [4]: (features) => {
 
-    if (!features.wheresGeorgeOverride && !features.burnHere) chance(
+    if (!features.wheresGeorgeOverride && !features.leftBurnHere) chance(
       [1, () => {
         svg.drawRect(506, 265, 153, 185)
         svg.text('4', 511, 267)
@@ -579,18 +603,10 @@ const sectionFns = {
         svg.text('8', 255, 512)
       }],
       [2, () => symbolRow(245, 515)],
-      [1, () => {
-        rndText(250, 522)
-      }],
+      [1, () => rndText(250, 522)],
+      [1, () => arrowRow(243, 517, 5)],
       [1, () => svg.text('03542754', 255, 458, {size: 0.6, stroke: pen.green })],
-      [3, () => {
-        svg.text(
-          times(8, () => rndint(10)).join('') + rndChar(),
-          255,
-          512,
-          {size: 0.6, stroke: pen.green }
-        )
-      }],
+      [3, () => drawSerial(255, 512)],
       [2, () => {
         svg.text('$$$$$$$$', 255, 512, {size: 0.6, stroke: pen.green })
       }],
@@ -626,9 +642,8 @@ const sectionFns = {
         svg.drawRect(1110, 135, 380, 50)
         svg.text('11', 1115, 137)
       }],
-      [2, () => {
-        svg.text(rndChar() + times(8, () => rndint(10)).join('') + rndChar(), 1117, 143, {size: 0.6, stroke: pen.green })
-      }],
+      [2, () => drawSerial(1117, 143)],
+      [1, () => arrowRow(1080, 155, 5)],
       [3, () => symbolRow(1080, 143, 8)],
       [1, () => rndText(1070, 145)],
       [1, () => svg.text('03542754', 1158, 190, {size: 0.6, stroke: pen.green })],
@@ -663,8 +678,8 @@ const sectionFns = {
     }
 
   },
-  [14]: () => {
-    chance(
+  [14]: (features) => {
+    !features.rightBurnHere && chance(
       [4, noop],
       [1, () => {
         svg.drawRect(1078, 241, 100, 240)
@@ -699,7 +714,8 @@ const sectionFns = {
       }],
       [10, () => svg.text('MARFA,TX', 1200, 250, {size: 0.5, stroke: pen.red})],
       [25, () => symbolRow(1100, 240, 7, 0.7)],
-      [65, noop],
+      [5, () => arrowRow(1108, 240, 5)],
+      [60, noop],
     )()
   },
   [16]: () => {
@@ -743,6 +759,7 @@ const sectionFns = {
       }],
       [22, () => rndText(1114, 505)],
       [3, () => symbolRow(1114, 505, 8)],
+      [1, () => arrowRow(1110, 505, 6)],
       [3, () => hArrows(1109, 497)],
       [1, noop],
     )()
