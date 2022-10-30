@@ -8,6 +8,7 @@ const noseRing = (x, y) => (drawn.noseRing = true, svg.drawPath(x, y, 'M2.44092 
 const earring = (x, y) => (drawn.earring = true, svg.drawPath(x, y, 'M5.5 1.5C-5.5 12 17.5 16 11 3') )
 const thinStache = (x, y) => (drawn.thinStache = true, svg.drawPath(x, y, 'M25 1.5C26.3347 3.82597 29.8023 5.41655 39 8.5M19.5 1.5C14.2064 5.74858 9.52486 6.27014 1 7') )
 const curlyStache = (x, y) => (drawn.curlyStache = true, svg.drawPath(x, y, 'M25.0013 7C6.47068 11.0113 1.78334 9.45917 2.00131 0.5M35.5013 7C43.8097 8.9582 47.6376 9.15325 48.0013 2.5') )
+const walrusStache = (x, y) => (drawn.walrusStache = true, svg.drawPath(x, y, 'M2 16L6.5 5V15.2297L11 5L10.5 15L15 5V15L19 5L19.5 14.5L22.5 7L23.5 13.5L26.5 7L27.5 13.5L30 7.5L31.5 13.5L33.5 7L35.5 13.5L36.5 6L40 14V5.5L44.5 16') )
 const xEyes = (x, y) => (drawn.xEyes = true, svg.drawPath(x, y, 'M2 2L16 17M2 17L16 2M45.5 2L58.5 16M45.5 15L59.5 3') )
 const tongue = (x, y) => (drawn.tongue = true, svg.drawPath(x, y, 'M1.5 2C8 21 26 16.5 13 2M8.5 3.5L12 9') )
 const heartEyes = (x, y) => (drawn.heartEyes = true, svg.drawPath(x, y, heartOutline + 'M10 16.5L20 9L17 3.5L12.6738 9.71888M12.6738 9.71888L10.3233 13.0977M12.6738 9.71888L11 10.5L6.5 3.5L3 8L9 15L10.3233 13.0977M12.6738 9.71888L18.5 7L11 14L10.3233 13.0977M10.3233 13.0977L5 6M52 16.5L62 9L59 3.5L54.6738 9.71888M54.6738 9.71888L52.3233 13.0977M54.6738 9.71888L53 10.5L48.5 3.5L45 8L51 15L52.3233 13.0977M54.6738 9.71888L60.5 7L53 14L52.3233 13.0977M52.3233 13.0977L47 6M11.5297 19C13.7548 13.8277 21 16.0492 21 7.65301C21 -0.743188 14.2441 1.02626 11.5297 7.65301C8.8691 0.469987 2.91961 0.516622 2.05884 7.65303C1.19807 14.7894 10.0421 15.5634 11.5297 19Z', {stroke: pen.red}) )
@@ -117,10 +118,11 @@ function drawFace() {
 
 
   if (drawStache) chance(
+    [1, () => walrusStache(880, 368)],
     [1, () => curlyStache(880, 370)],
     [1, () => thinStache(889, 378)],
     [1, () => noseRing(910, 371)],
-    [1., () => clownNose(927, 359)],
+    [1, () => clownNose(927, 359)],
   )()
 
   if (drawMouth) chance(
