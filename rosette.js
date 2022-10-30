@@ -86,7 +86,7 @@ function drawRibbedRosette(x, y, minRad, layers, {gears, rosetteRadiaChange, ros
       stroke: shadowColor,
     })
   }
-  const offset = prb(0.005) ? 30 : 0
+
   times(layers, t => {
     const rad = t*15 + minRad
     const rosettePath = getRosettePath(
@@ -94,7 +94,7 @@ function drawRibbedRosette(x, y, minRad, layers, {gears, rosetteRadiaChange, ros
       gears.map(g => ({ ...g, radia: g.radia - (t*rosetteRadiaChange)}))
     )
 
-    svg.drawPath(x+rnd(-offset, offset), y+rnd(-offset, offset), rosettePath, {rotation: t*rosetteRotation, ...args})
+    svg.drawPath(x, y, rosettePath, {rotation: t*rosetteRotation, ...args})
   })
 }
 

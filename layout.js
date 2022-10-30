@@ -806,12 +806,13 @@ function cut(x1, y1, x2, y2, stroke) {
 }
 
 function boner() {
-  svg.text("B", 510, 633, { size: 0.85, strokeWidth: 12/0.85})
-  svg.text("R", 765, 633, { size: 0.85, strokeWidth: 12/0.85})
+  const stroke = sample([pen.black, pen.blue, pen.red])
+  svg.text("B", 510, 633, { size: 0.85, strokeWidth: 12/0.85, stroke})
+  svg.text("R", 765, 633, { size: 0.85, strokeWidth: 12/0.85, stroke})
 
-  svg.drawLine(810, 645, 1190, 645, {strokeWidth: 12})
-  svg.drawLine(810, 660, 1190, 660, {strokeWidth: 12})
-  svg.drawLine(810, 675, 1190, 675, {strokeWidth: 12})
+  svg.drawLine(810, 645, 1190, 645, {strokeWidth: 12, stroke})
+  svg.drawLine(810, 660, 1190, 660, {strokeWidth: 12, stroke})
+  svg.drawLine(810, 675, 1190, 675, {strokeWidth: 12, stroke})
 }
 
 function worthless() {
