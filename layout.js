@@ -3,8 +3,8 @@ function layout() {
   const leftRosette = prb(0.7)
   const rightRosette = prb(0.7)
   const centerRosette = prb(0.05)
-  const randomSymbols = prb(0.02)
-  const drawGrid = prb(0.03)
+  const randomSymbols = prb(0.01)
+  const drawGrid = prb(0.02)
   const drawBoner = prb(0.05)
   const doodleHereRight = prb(0.02)
   const doodleHereLeft = prb(0.02)
@@ -39,7 +39,7 @@ function layout() {
       : chance(
         [5, 0], // none
         [1, 1], // exagerated
-        [2, 2], //
+        [2, 2], // ornate
         [2, 3], // rotating
       )
   const rosetteRadia = variation === 1 ? rnd(0.1, 0.4) : 0.08
@@ -136,7 +136,7 @@ function layout() {
 
   if (doodleHereRight) {
     svg.drawRect(1080, 235, 540, 350)
-    svg.text('DOODLE HERE', 1228, 555, {size: 0.35})
+    svg.text('DOODLE HERE', 1090, 247, {size: 0.30})
 
     drawSections([!sectionFeatures.cutHere && 10, 11, 19], sectionFeatures)
 
@@ -208,7 +208,20 @@ function layout() {
     drawRibbedRosette(880, 316, 14, 6, {gears, rosetteRadiaChange: 0, rosetteRotation: 0})
 
   } else {
+    const gears = generateGears(8, 15, rosetteRadia)
     drawFace()
+  }
+
+  if (prb(0.05)) {
+    const gears = generateGears(8, 15, rosetteRadia)
+    times(3, i => {
+      if (i%2===0) {
+        drawLineRosette(872, 329, 206 + i*22, 206 + (i+1)*22-4, gears, {
+          shadow,
+          stroke: lineStroke
+        })
+      }
+    })
   }
 
 
@@ -244,11 +257,19 @@ function layout() {
     } else {
       const tb = prb(0.5)
       const mid = !tb || prb(0.5)
-      tb && arrowWest(505, 280, 0.7)
-      svg.text('BURN', 550, 322)
-      mid && arrowWest(505, 335, 0.7)
-      svg.text('HERE', 550, 375)
-      tb && arrowWest(505, 390, 0.7)
+      if (prb(0.5)) {
+        tb && arrowWest(505, 280, 0.7)
+        svg.text('BURN', 550, 322)
+        mid && arrowWest(505, 335, 0.7)
+        svg.text('HERE', 550, 375)
+        tb && arrowWest(505, 390, 0.7)
+      } else {
+        tb && arrowEast(665, 323, 0.7)
+        svg.text('BURN', 550, 322)
+        mid && arrowEast(665, 378, 0.7)
+        svg.text('HERE', 550, 375)
+        tb && arrowEast(665, 433, 0.7)
+      }
     }
   }
 
@@ -338,6 +359,8 @@ const rndText = (x, y) => chance(
   //   svg.text("INSTRUCTIONS", x+105, y-7,)
   //   svg.text("FOR DEFACEMENT", x+85, y+18,)
   // }],
+  [1, () => svg.text("LOSER", x+115, y, {size: 0.45})],
+  [1, () => svg.text("WINNER", x+115, y, {size: 0.45})],
   [1, () => svg.text("TIME = MONEY", x+35, y, {size: 0.45})],
   [1, () => svg.text("MONEY = SLAVERY", x+5, y, {size: 0.45})],
   [1, () => svg.text("LUCKY DOLLAR", x+45, y, {size: 0.45})],
@@ -355,6 +378,7 @@ const rndText = (x, y) => chance(
     svg.text("ACCEPT JESUS CHRIST AS", x+2, y-5)
     svg.text("YOUR LORD AND SAVIOUR", x+7, y+20)
   }],
+  [1, () => svg.text("FOLLOW THE INSTRUCTIONS", x+5, y)],
   [1, () => svg.text("666", x+110, y, {size: 0.65})],
   [1, () => svg.text("$$$$$$$$$$$$$$", x+10, y, {size: 0.45})],
   [1, () => svg.text("DO NOT SPEND", x+35, y, {size: 0.45})],
@@ -404,11 +428,11 @@ const hArrows = (x, y) => chance(
   }],
 )()
 
-const symbolRow = (x, y, max=7) => {
+const symbolRow = (x, y, max=7, scale=1) => {
   const sym = prb(0.4) ? rndSymbolName() : false
-  const syms = max//rndint(1,max)
+  const syms = rndint(1,max)
   times(syms, _x =>
-      drawSingleSymbol(x + _x*58 + (406-syms*58)/2, y, sym || rndSymbolName())
+      drawSingleSymbol(x + _x*58 + (406-syms*58)/2, y, sym || rndSymbolName(), scale)
   )
 }
 
@@ -475,8 +499,14 @@ const sectionFns = {
       [4, () => {
         drawSingleSymbol(460 , 278, 'rosette', 4)
       }],
-      [3, () => {
-        drawSingleSymbol(435 , 263, 'one', 4)
+      [2, () => {
+        drawSingleSymbol(453 , 272, 'one', 4)
+      }],
+      [1, () => {
+        prb(0.5)
+          ? svg.drawPath(615 , 500, dick, {size: 0.65, rotation: 240})
+          : svg.drawPath(625 , 265, dick, {size: 0.55, rotation: 90})
+
       }],
       [3, () => {
         svg.text('$', 527, 255, {size: 3})
@@ -552,8 +582,14 @@ const sectionFns = {
       [1, () => {
         rndText(250, 522)
       }],
+      [1, () => svg.text('03542754', 255, 458, {size: 0.6, stroke: pen.green })],
       [3, () => {
-        svg.text(times(8, () => rndint(10)).join('') + rndChar(), 255, 512, {size: 0.6, stroke: pen.green })
+        svg.text(
+          times(8, () => rndint(10)).join('') + rndChar(),
+          255,
+          512,
+          {size: 0.6, stroke: pen.green }
+        )
       }],
       [2, () => {
         svg.text('$$$$$$$$', 255, 512, {size: 0.6, stroke: pen.green })
@@ -595,6 +631,7 @@ const sectionFns = {
       }],
       [3, () => symbolRow(1080, 143, 8)],
       [1, () => rndText(1070, 145)],
+      [1, () => svg.text('03542754', 1158, 190, {size: 0.6, stroke: pen.green })],
       [2, () => {
         svg.text('$$$$$$$$$$', 1110, 143, {size: 0.6, stroke: pen.green })
       }],
@@ -661,7 +698,8 @@ const sectionFns = {
         svg.text('15', 1189+5, 241+2)
       }],
       [10, () => svg.text('MARFA,TX', 1200, 250, {size: 0.5, stroke: pen.red})],
-      [85, noop]
+      [25, () => symbolRow(1100, 240, 7, 0.7)],
+      [65, noop],
     )()
   },
   [16]: () => {

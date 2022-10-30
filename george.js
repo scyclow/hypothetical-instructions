@@ -10,7 +10,7 @@ const thinStache = (x, y) => (drawn.thinStache = true, svg.drawPath(x, y, 'M25 1
 const curlyStache = (x, y) => (drawn.curlyStache = true, svg.drawPath(x, y, 'M25.0013 7C6.47068 11.0113 1.78334 9.45917 2.00131 0.5M35.5013 7C43.8097 8.9582 47.6376 9.15325 48.0013 2.5') )
 const xEyes = (x, y) => (drawn.xEyes = true, svg.drawPath(x, y, 'M2 2L16 17M2 17L16 2M45.5 2L58.5 16M45.5 15L59.5 3') )
 const tongue = (x, y) => (drawn.tongue = true, svg.drawPath(x, y, 'M1.5 2C8 21 26 16.5 13 2M8.5 3.5L12 9') )
-const hearts = (x, y) => (drawn.hearts = true, svg.drawPath(x, y, heartOutline + 'M10 16.5L20 9L17 3.5L12.6738 9.71888M12.6738 9.71888L10.3233 13.0977M12.6738 9.71888L11 10.5L6.5 3.5L3 8L9 15L10.3233 13.0977M12.6738 9.71888L18.5 7L11 14L10.3233 13.0977M10.3233 13.0977L5 6M52 16.5L62 9L59 3.5L54.6738 9.71888M54.6738 9.71888L52.3233 13.0977M54.6738 9.71888L53 10.5L48.5 3.5L45 8L51 15L52.3233 13.0977M54.6738 9.71888L60.5 7L53 14L52.3233 13.0977M52.3233 13.0977L47 6M11.5297 19C13.7548 13.8277 21 16.0492 21 7.65301C21 -0.743188 14.2441 1.02626 11.5297 7.65301C8.8691 0.469987 2.91961 0.516622 2.05884 7.65303C1.19807 14.7894 10.0421 15.5634 11.5297 19Z', {stroke: pen.red}) )
+const heartEyes = (x, y) => (drawn.heartEyes = true, svg.drawPath(x, y, heartOutline + 'M10 16.5L20 9L17 3.5L12.6738 9.71888M12.6738 9.71888L10.3233 13.0977M12.6738 9.71888L11 10.5L6.5 3.5L3 8L9 15L10.3233 13.0977M12.6738 9.71888L18.5 7L11 14L10.3233 13.0977M10.3233 13.0977L5 6M52 16.5L62 9L59 3.5L54.6738 9.71888M54.6738 9.71888L52.3233 13.0977M54.6738 9.71888L53 10.5L48.5 3.5L45 8L51 15L52.3233 13.0977M54.6738 9.71888L60.5 7L53 14L52.3233 13.0977M52.3233 13.0977L47 6M11.5297 19C13.7548 13.8277 21 16.0492 21 7.65301C21 -0.743188 14.2441 1.02626 11.5297 7.65301C8.8691 0.469987 2.91961 0.516622 2.05884 7.65303C1.19807 14.7894 10.0421 15.5634 11.5297 19Z', {stroke: pen.red}) )
 const monocole = (x, y) => (drawn.monocole = true, svg.drawPath(x, y, 'M8.64934 14.9907C0.665386 80.9926 -0.171216 103.715 8.64934 103.991M34.5 14.5C34.5 21.4036 28.6797 27 21.5 27C14.3203 27 8.5 21.4036 8.5 14.5C8.5 7.59644 14.3203 2 21.5 2C28.6797 2 34.5 7.59644 34.5 14.5Z') )
 const smiley = (x, y) => (drawn.smiley = true, svg.drawPath(x, y, 'M2 0.5C9 24.5 45 27.5 52.5 0.5') )
 const frowny = (x, y) => (drawn.frowny = true, svg.drawPath(x, y, 'M2 14.5C14.5 -3 42 -2.5 51 14.5') )
@@ -55,7 +55,12 @@ const gag = (x, y) => {
 const beautyMark = (x, y) => svg.text('.', x, y)
 const starEyes = (x, y) => {
   svg.drawPath(x, y, star, {size: 0.5})
-  svg.drawPath(x+70, y, star, {size: 0.45})
+  svg.drawPath(x+70, y+3, star, {size: 0.43})
+}
+
+const doubleEyes = (x, y) => {
+  svg.drawPath(x, y, eye, {size: 0.92})
+  svg.drawPath(x+70, y+2, eye, {size: 0.75})
 }
 
 
@@ -80,8 +85,7 @@ function drawFace() {
 
   const drawFaceTattoo = prb(0.25)
 
-  if (drawHair)
-    chance(
+  if (drawHair) chance(
     [7, () => hair(720, 186, rndHighlighter())],
     [1, () => mohawk(730, 63, rndHighlighter())],
     [1, () => devilHorns(778, 158, rndHighlighter())],
@@ -97,9 +101,10 @@ function drawFace() {
     [2, () => eyePatch(827, 280)],
     [2, () => xEyes(866, 301)],
     [2, () => $Eyes(873, 304)],
-    [2, () => starEyes(858, 295)],
+    [2, () => starEyes(857, 294)],
+    [1, () => doubleEyes(863, 303)],
     [1, () => eyeLashes(855, 296)],
-    [2, () => hearts(864, 302)],
+    [2, () => heartEyes(864, 302)],
     [2, () => monocole(848, 295)],
     [1, () => laserEyes(872, 301, sample(penColorsAll))],
   )()
@@ -148,7 +153,40 @@ function drawFace() {
   )()
 
   if (drawFaceTattoo) {
-    drawSymbol(878, 240)
+    const [x, y] = [878, 240]
+    chance(
+      [1, () => {
+        svg.drawRect(x, y, 62, 33)
+        svg.text('0', x+5, y+2)
+      }],
+      [1, () => {
+        svg.drawRect(x, y+5, 50, 28)
+        times(10, t => {
+          prb(0.65) && svg.drawLine(x + t*5, y+5, x + t*5, y+33)
+        })
+      }],
+      [2, () => drawSingleSymbol(x, y, 'rosette')],
+      [1, () => drawSingleSymbol(x, y, 'heart')],
+      [1, () => drawSingleSymbol(x, y, 'one')],
+      [1, () => drawSingleSymbol(x, y, 'cross')],
+      [1, () => drawSingleSymbol(x, y, 'cgk')],
+      [1, () => drawSingleSymbol(x, y, 'star')],
+      [1, () => drawSingleSymbol(x, y, 'eye')],
+      [1, () => drawSingleSymbol(x, y, 'peace')],
+      [1, () => drawSingleSymbol(x, y, 'shield')],
+      [1, () => drawSingleSymbol(x, y, 'circle')],
+      [1, () => svg.text('!!!',x+17, y+15, {size: 0.4})],
+      [1, () => svg.text('666',x+7, y+15)],
+      [1, () => svg.text('IOU',x+7, y+15)],
+      [1, () => svg.text('XXX',x+7, y+15)],
+      [1, () => svg.text('$$$',x+7, y+15)],
+      [1, () => svg.text('WINNER',x-25, y+15)],
+      [1, () => svg.text('LOSER',x-15, y+15)],
+      [1, () => prb(0.5)
+        ? svg.drawPath(x-10, y+5, dick, {size: 0.2})
+        : svg.drawPath(x+60, y+35, dick, {size: 0.2, rotation: 180})
+      ],
+    )()
   }
 }
 

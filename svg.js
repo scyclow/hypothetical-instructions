@@ -58,14 +58,24 @@ class SVG {
     this.svg.setAttribute('width', '95.9vw')
     this.svg.setAttribute('style', 'transform: rotate(0.18deg) translate(0px,0.16vw)')
     this.svg.setAttribute('viewBox', '0 0 ' + this. w + ' ' + this. h)
-    this.isMisprint = prb(0.01)
 
 
+    this.chaos = chance(
+      [90, 0],
+      [6, rnd(8)],
+      [2, rnd(8, 16)],
+      [1, rnd(16, 32)],
+      [1, rnd(32, 64)],
+    )
 
     // append the document bounds
     let bounds = document.createElementNS(__ns, 'path');
     bounds.setAttribute('d', `M 0 0 M ${this.w} ${this.h}`);
     this.svg.appendChild(bounds);
+  }
+
+  chaosFn() {
+    return rnd(-this.chaos,this.chaos)
   }
 
   mount() {
@@ -93,6 +103,7 @@ class SVG {
 
 
   drawPath(x, y, d, args={}) {
+    const isLetter = args.isLetter || false
     const fill = args.fill || 'none'
     const fillOpacity = args.fillOpacity || 0.65
     const size = args.size || 1.5
@@ -101,7 +112,12 @@ class SVG {
     const strokeWidth = args.strokeWidth || 3 * 1.5/size
     const className = args.className || ''
     const path = document.createElementNS(__ns, 'path')
-    const misprintOff = this.isMisprint ? 40 : 0
+
+
+    if (!isLetter) {
+      x += this.chaosFn()
+      y += this.chaosFn()
+    }
 
     path.setAttribute('fill', fill)
     path.setAttribute('fill-opacity', fillOpacity)
@@ -109,7 +125,7 @@ class SVG {
     path.setAttribute('stroke-linecap', `round`)
     path.setAttribute('stroke-linejoin', `round`)
     path.setAttribute('stroke-width', `${strokeWidth}px`)
-    path.setAttribute('style', `transform: translate(${x+misprintOff}px, ${y+misprintOff}px) scale(${size}) rotate(${rotation}deg)`)
+    path.setAttribute('style', `transform: translate(${x}px, ${y}px) scale(${size}) rotate(${rotation}deg)`)
     path.setAttribute('class', className)
 
     path.setAttribute('d', d)
@@ -128,10 +144,10 @@ class SVG {
     line.setAttribute('stroke', stroke)
     line.setAttribute('stroke-linecap', `round`)
     line.setAttribute('stroke-width', `${strokeWidth}px`)
-    line.setAttribute('x1', x1)
-    line.setAttribute('x2', x2)
-    line.setAttribute('y1', y1)
-    line.setAttribute('y2', y2)
+    line.setAttribute('x1', x1+this.chaosFn())
+    line.setAttribute('x2', x2+this.chaosFn())
+    line.setAttribute('y1', y1+this.chaosFn())
+    line.setAttribute('y2', y2+this.chaosFn())
     this.addToLayer(line, stroke, strokeWidth*2/3)
     return line
   }
@@ -150,8 +166,8 @@ class SVG {
     fill.setAttribute('stroke-linecap', `round`)
     fill.setAttribute('stroke-linejoin', `round`)
     fill.setAttribute('stroke-width', `${strokeWidth}px`)
-    fill.setAttribute('x', x)
-    fill.setAttribute('y', y)
+    fill.setAttribute('x', x+this.chaosFn())
+    fill.setAttribute('y', y+this.chaosFn())
     fill.setAttribute('width', w)
     fill.setAttribute('height', h)
     this.addToLayer(fill, stroke, strokeWidth*3/5)
@@ -170,8 +186,8 @@ class SVG {
     c.setAttribute('fill-opacity', 0.65)
 
 
-    c.setAttribute('cx', x)
-    c.setAttribute('cy', y)
+    c.setAttribute('cx', x+this.chaosFn())
+    c.setAttribute('cy', y+this.chaosFn())
     c.setAttribute('r', r )
     this.addToLayer(c, stroke, strokeWidth*3/5)
 
@@ -191,13 +207,22 @@ class SVG {
     const characters = str.split('')
     const charPaths = []
 
+    x += this.chaosFn()
+    y += this.chaosFn()
+    const isLetter = !(this.chaos && prb(0.35))
+
 
     const g = document.createElementNS(__ns, 'g')
 
     let wOffset = 0
     const children = characters.map((c, i) => {
       const [path, w, h] = chars[c]
-      const charPath = svg.drawPath(x + wOffset*size, y + h, path, { size, stroke, ...args})
+      const charPath = svg.drawPath(
+        x + wOffset*size,
+        y + h,
+        path,
+        { isLetter, size, stroke, ...args}
+      )
       wOffset += w
       return charPath
     })
