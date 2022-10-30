@@ -461,6 +461,10 @@ const arrowRow = (x, y, t) => prb(0.5)
   : times(t, i => arrowWest(x + i*85, y, 0.3))
 
 
+const leftPadZeros = n => {
+  const digits = n.toString().length
+  return times(7-digits, d => '0').join('') + n
+}
 
 // 5, 6, 17, 19
 
@@ -620,7 +624,7 @@ const sectionFns = {
           svg.drawRect(186, 588, 100, 40)
           svg.text('9', 191, 590)
         }],
-        [3, () => svg.text('ID ' + tokenData.tokenId, 220, 600, {size: 0.4})],
+        [3, () => svg.text('ID ' + leftPadZeros(tokenData.tokenId), 220, 600, {size: 0.4})],
         [3, noop],
         [3, () => {
           drawSingleSymbol(200, 595, rndSymbolName())
