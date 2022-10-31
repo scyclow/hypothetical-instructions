@@ -36,10 +36,10 @@ function layout() {
   }
 
   const rosetteLines = chance(
-    [50, 0], // only ribbed
+    [40, 0], // only ribbed
     [20, 1], // ribbed + lines
-    [5, 2], // only lines
-    [5, 3], // spiral
+    [10, 2], // only lines
+    [10, 3], // spiral
     [10, 4], // fragments
     [10, 5], // double
   )
@@ -81,7 +81,7 @@ function layout() {
   function drawLargeRosette(x, y, {minRad, lineMin, lineMax, layers, dashPadding, fragmentMin, fragmentMax, lineStroke, strokeAlt, }) {
     const gears = generateGears(8, 15, rosetteRadia, gearStartFn)
     if ([0,1,5].includes(rosetteLines)) {
-      drawRibbedRosette(x, y, minRad, layers, {gears, rosetteRadiaChange, rosetteRotation, shadow})
+      drawRibbedRosette(x, y, minRad, layers, {gears, rosetteRadiaChange, rosetteRotation: rosetteRotation*(prb(0.5)?1:-1), shadow})
     }
 
     if (hasLines) {
