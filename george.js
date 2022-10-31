@@ -40,6 +40,7 @@ const crossNecklace = (x, y) => (drawn.crossNecklace = true, svg.drawPath(x, y, 
 const buckTeath = (x, y) => (drawn.buckTeath = true, svg.drawPath(x, y, 'M2.49911 0.5C1.44883 10.7107 11.4651 10.8965 11 0.5C10.8793 10.3154 19.5 10.5 18.5 0.5') )
 const headband = (x, y) => (drawn.headband = true, svg.drawPath(x, y, 'M3.51294 10C3.19192 11.5842 2.16424 12.3208 2.50022 14C59.6424 16.6836 89.0307 15.8141 138.501 13C138.461 11.4789 138.117 11.4286 137.013 9.5M3.51294 10C59.3175 12.7821 86.7976 12.0855 137.013 9.5M3.51294 10C4.0438 7.38021 4.51292 8 5.51292 5.5M137.013 9.5C135.976 7.68798 136.2 8.55162 133.514 5.5M5.51292 5.5C7.70701 3.2704 6.56305 3.01461 10.0129 2C55.9138 5.51114 87.5951 5.40263 130.013 2C131.792 3.88855 132.228 4.03965 133.514 5.5M5.51292 5.5C55.8989 9.26729 85.1925 9.219 133.514 5.5') )
 const headphones = (x, y) => (drawn.headphones = true, svg.drawPath(x, y, 'M11 74C11 -30.5 142 -13.5 131.5 77.5M11 74C19.76 74.76 22.6 77.62 24 87C23.834 93.635 17.5 97 11 97C4.5 97 1.5 91 1.5 85.5C1.5 80 5.036 76.5 11 74ZM131.5 77.5C129.1 85.36 130.331 93.8764 131.5 97.5C132.669 101.12 135.245 86.4034 131.5 77.5ZM12.5 78C16 78 19.5 82.5 19.5 85.5C19.5 88.5 17 92.5 12.5 92.5C8 92.5 6 88.5 6 85.5C6 82.5 9 78 12.5 78ZM12.5 82C14.469 82.7096 15.3538 83.4413 15.5 84.9929C15.5972 87.4885 14.3499 87.5467 12.5 88C10.9347 87.7131 10.6689 87.7331 10 85C10.4812 83.0244 10.2989 81.9706 12.5 82Z') )
+const muttonChops = (x, y) => (drawn.muttonChops = true, svg.drawPath(x, y, 'M98 54L93 51L99.5 49L96.5 47L101 44.5L98 41.5L102.5 40.5L99.5 36.5L102.5 34L99.5 30L102.5 28.5L99.5 25.5L102.5 23M3.5 2H9L5.5 7.5H10.5L5.5 13.5L12.5 12.5L7 18.5L14.5 17L5.5 26L17.5 23.5L7 34L21.5 28.5L7 40.5L24.5 34L10.5 45.5L28 39L14.5 51.5L32.5 44L17.5 56.5L36.5 48L21.5 59.5') )
 
 
 
@@ -79,13 +80,13 @@ const $Eyes = (x, y) => {
 function drawFace() {
   const drawMouth = prb(0.7)
   const drawEyes = prb(0.7)
-  const drawTorso = prb(0.25)
+  const drawTorso = prb(0.35)
 
   const drawStache = prb(0.15)
   const drawHair = prb(0.27)
   const drawEyebrows = prb(0.1)
   const drawCheek = prb(0.1)
-  const drawBeard = prb(0.1)
+  const drawBeard = prb(0.125)
   const drawTie = prb(0.1)
 
   const drawFaceTattoo = prb(0.25)
@@ -131,20 +132,21 @@ function drawFace() {
   )()
 
   if (drawMouth) chance(
-    [.5, () => mouthDick(922, 367)],
-    [2, () => cigarette(922, 363)],
-    [2, () => tongue(910, 391)],
-    [2, () => smiley(875, 369)],
-    [2, () => frowny(875, 388)],
-    [2, () => openMouth(890, drawn.thinStache ? 387 : 385)],
-    [2, () => soulPatch(910, 402)],
-    [2, () => buckTeath(906, 393)],
-    [drawn.clownNose || drawStache ? 0 : 1, () => gag(830, 372)],
-    [drawStache ? 0 : 2, () => lips(887, 380)],
+    [1, () => mouthDick(922, 367)],
+    [4, () => cigarette(922, 363)],
+    [4, () => tongue(910, 391)],
+    [drawn.walrusStache ? 0 : 4, () => smiley(875, 369)],
+    [drawn.walrusStache ? 0 : 4, () => frowny(875, 388)],
+    [drawn.walrusStache ? 0 : 4, () => openMouth(890, drawn.thinStache ? 387 : 385)],
+    [4, () => soulPatch(910, 402)],
+    [4, () => buckTeath(906, 393)],
+    [drawn.clownNose || drawStache ? 0 : 2, () => gag(830, 372)],
+    [drawStache ? 0 : 4, () => lips(887, 380)],
   )()
 
   if (drawBeard) chance(
     [1, () => chinBeard(832, 365)],
+    [1, () => muttonChops(819, 328)],
     [drawStache||drawn.smiley||drawn.frowny||drawn.gag ? 0: 1, () => goatee(880, 375)],
   )()
 
