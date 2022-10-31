@@ -112,10 +112,3 @@ function drawLineRosette(x, y, minRad, maxRad, gears, args) {
 }
 
 
-
-
-
-function circleFn(x0, y0, rad, progress) {
-  const [x, y] = getXYRotation(progress*TWO_PI, rad, x0, y0)
-  return { x, y }
-}

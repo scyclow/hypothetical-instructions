@@ -39,6 +39,10 @@ const eyeLashes = (x, y, fill) => (drawn.eyeLashes = true, svg.drawPath(x, y, 'M
 const crossNecklace = (x, y) => (drawn.crossNecklace = true, svg.drawPath(x, y, 'M2 1C34.9011 50.5943 55.0319 73.7645 69 72.6721M89.5 43C83.9907 61.9287 77.6872 71.9928 69 72.6721M69 72.6721V108.5M59.5 85.5H78.5') )
 const buckTeath = (x, y) => (drawn.buckTeath = true, svg.drawPath(x, y, 'M2.49911 0.5C1.44883 10.7107 11.4651 10.8965 11 0.5C10.8793 10.3154 19.5 10.5 18.5 0.5') )
 const headband = (x, y) => (drawn.headband = true, svg.drawPath(x, y, 'M3.51294 10C3.19192 11.5842 2.16424 12.3208 2.50022 14C59.6424 16.6836 89.0307 15.8141 138.501 13C138.461 11.4789 138.117 11.4286 137.013 9.5M3.51294 10C59.3175 12.7821 86.7976 12.0855 137.013 9.5M3.51294 10C4.0438 7.38021 4.51292 8 5.51292 5.5M137.013 9.5C135.976 7.68798 136.2 8.55162 133.514 5.5M5.51292 5.5C7.70701 3.2704 6.56305 3.01461 10.0129 2C55.9138 5.51114 87.5951 5.40263 130.013 2C131.792 3.88855 132.228 4.03965 133.514 5.5M5.51292 5.5C55.8989 9.26729 85.1925 9.219 133.514 5.5') )
+const headphones = (x, y) => (drawn.headphones = true, svg.drawPath(x, y, 'M11 74C11 -30.5 142 -13.5 131.5 77.5M11 74C19.76 74.76 22.6 77.62 24 87C23.834 93.635 17.5 97 11 97C4.5 97 1.5 91 1.5 85.5C1.5 80 5.036 76.5 11 74ZM131.5 77.5C129.1 85.36 130.331 93.8764 131.5 97.5C132.669 101.12 135.245 86.4034 131.5 77.5ZM12.5 78C16 78 19.5 82.5 19.5 85.5C19.5 88.5 17 92.5 12.5 92.5C8 92.5 6 88.5 6 85.5C6 82.5 9 78 12.5 78ZM12.5 82C14.469 82.7096 15.3538 83.4413 15.5 84.9929C15.5972 87.4885 14.3499 87.5467 12.5 88C10.9347 87.7131 10.6689 87.7331 10 85C10.4812 83.0244 10.2989 81.9706 12.5 82Z') )
+
+
+
 const clownNose = (x, y) => {
   drawn.clownNose = true
   times(7, i => {
@@ -75,7 +79,7 @@ const $Eyes = (x, y) => {
 function drawFace() {
   const drawMouth = prb(0.7)
   const drawEyes = prb(0.7)
-  const drawTorso = prb(0.5)
+  const drawTorso = prb(0.25)
 
   const drawStache = prb(0.15)
   const drawHair = prb(0.27)
@@ -87,11 +91,12 @@ function drawFace() {
   const drawFaceTattoo = prb(0.25)
 
   if (drawHair) chance(
-    [7, () => hair(720, 186, rndHighlighter())],
+    [6, () => hair(720, 186, rndHighlighter())],
     [1, () => mohawk(730, 63, rndHighlighter())],
     [1, () => devilHorns(778, 158, rndHighlighter())],
     [1, () => headband(756, 235)],
     [1, () => hairBow(757, 254)],
+    [1, () => headphones(775, 206)],
     [1, () => earring(782, 357)],
   )()
 

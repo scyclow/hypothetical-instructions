@@ -109,6 +109,7 @@ class SVG {
     const rotation = args.rotation || 0
     const strokeWidth = args.strokeWidth || 3 * 1.5/size
     const className = args.className || ''
+    const ignoreMount = args.ignoreMount || false
     const path = document.createElementNS(__ns, 'path')
 
 
@@ -127,7 +128,7 @@ class SVG {
     path.setAttribute('class', className)
 
     path.setAttribute('d', d)
-    this.addToLayer(path, stroke, strokeWidth/1.5*size)
+    if (!ignoreMount) this.addToLayer(path, stroke, strokeWidth/1.5*size)
     return path
   }
 
@@ -202,13 +203,14 @@ class SVG {
   text(str, x, y, args={}) {
     const size = args.size || 0.3
     const stroke = args.stroke || penBase
+    const strokeWidth = args.strokeWidth || 3 * 1.5/size
+
     const characters = str.split('')
     const charPaths = []
 
     x += this.chaosFn()
     y += this.chaosFn()
     const isLetter = !(this.chaos && prb(0.35))
-
 
     const g = document.createElementNS(__ns, 'g')
 
@@ -219,12 +221,14 @@ class SVG {
         x + wOffset*size,
         y + h,
         path,
-        { isLetter, size, stroke, ...args}
+        { isLetter, size, stroke, ignoreMount: true, ...args}
       )
       wOffset += w
       return charPath
     })
     children.forEach(c => g.appendChild(c))
-    this.addToLayer(g, stroke, 3)
+    this.addToLayer(g, stroke, strokeWidth/1.5*size)
+
+    return g
   }
 }

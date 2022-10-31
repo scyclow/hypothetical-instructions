@@ -1,3 +1,14 @@
+/*
+TODO
+  - less common highlighted highlighted head/neck
+
+
+
+*/
+
+
+
+
 function layout() {
 
   const leftRosette = prb(0.7)
@@ -8,7 +19,7 @@ function layout() {
   const drawBoner = prb(0.05)
   const doodleHereRight = !leftRosette && prb(0.03)
   const doodleHereLeft = !rightRosette && prb(0.03)
-  const isWorthless = !doodleHereRight && !doodleHereLeft && prb(0.03)
+  const isWorthless = !doodleHereRight && !doodleHereLeft && prb(0.02)
   const usaHighlights = prb(0.5)
 
 
@@ -67,6 +78,62 @@ function layout() {
   const strokeAlt = sample(penColors)
   const lineStroke = prb(0.4) ? penBase : strokeAlt
 
+  function drawLargeRosette(x, y, {minRad, lineMin, lineMax, layers, dashPadding, fragmentMin, fragmentMax, lineStroke, strokeAlt, }) {
+    const gears = generateGears(8, 15, rosetteRadia, gearStartFn)
+    if ([0,1,5].includes(rosetteLines)) {
+      drawRibbedRosette(x, y, minRad, layers, {gears, rosetteRadiaChange, rosetteRotation, shadow})
+    }
+
+    if (hasLines) {
+      if (rosetteLinesDashed) {
+        times(layers, i => {
+          if (i%2===0) {
+            drawLineRosette(x, y, lineMin + i*dashPadding, lineMin + (i+1)*dashPadding-4, gears, {
+              shadow,
+              stroke: lineStroke
+            })
+          }
+        })
+      } else {
+        drawLineRosette(x, y, lineMin, lineMax, gears, {shadow, stroke: lineStroke})
+      }
+    }
+    if (rosetteLines === 3) {
+      const rosettePath = getRosettePath(
+        40,
+        gears,
+        6,
+        0.0002
+      )
+      svg.drawPath(x, y, rosettePath)
+    }
+
+    if (rosetteLines === 4) {
+      times(200, t => {
+
+        const rosettePath = getRosettePath(
+          rndint(fragmentMin, fragmentMax),
+          gears,
+          rnd(0.01, 0.1),
+          0,
+          rnd()
+        )
+        svg.drawPath(x, y, rosettePath, {
+          stroke: prb(0.5) ? penBase : lineStroke,
+        })
+      })
+    }
+
+    if (rosetteLines === 5) {
+      drawRibbedRosette(x, y, minRad, layers-2, {
+        gears: generateGears(4, 15, rosetteRadia, gearStartFn),
+        rosetteRadiaChange,
+        rosetteRotation,
+        shadow,
+        stroke: strokeAlt
+      })
+    }
+  }
 
   if (doodleHereLeft) {
     svg.drawRect(120, 137, 545, 414)
@@ -75,61 +142,17 @@ function layout() {
     drawSections([9], sectionFeatures)
 
   } else if (leftRosette) {
-
-    const gears = generateGears(8, 15, rosetteRadia, gearStartFn)
-
-    if ([0,1,5].includes(rosetteLines)) {
-      drawRibbedRosette(413, 350, 40, 10, {gears, rosetteRadiaChange, rosetteRotation, shadow})
-    }
-
-    if (hasLines) {
-      if (rosetteLinesDashed) {
-
-        times(10, i => {
-          if (i%2 === 0) {
-            drawLineRosette(413, 350, 60 + i*23, 60 + (i+1)*23-4, gears, {
-              shadow,
-              stroke: lineStroke
-            })
-          }
-        })
-      } else {
-        drawLineRosette(413, 350, 60, 260, gears, {shadow, stroke: lineStroke})
-      }
-    }
-    if (rosetteLines === 3) {
-      const rosettePath = getRosettePath(
-        40,
-        gears,
-        6,
-        0.0003
-      )
-      svg.drawPath(413, 350, rosettePath)
-    }
-    if (rosetteLines === 4) {
-      times(200, t => {
-
-        const rosettePath = getRosettePath(
-          rndint(30, 150),
-          gears,
-          rnd(0.01, 0.1),
-          0,
-          rnd()
-        )
-        svg.drawPath(413, 350, rosettePath, {
-          stroke: prb(0.5) ? penBase : lineStroke,
-        })
-      })
-    }
-    if (rosetteLines === 5) {
-      drawRibbedRosette(413, 350, 40, 8, {
-        gears: generateGears(4, 15, rosetteRadia, gearStartFn),
-        rosetteRadiaChange,
-        rosetteRotation,
-        shadow,
-        stroke: strokeAlt
-      })
-    }
+    drawLargeRosette(413, 350, {
+      minRad: 40,
+      layers: 10,
+      lineMin: 60,
+      lineMax: 260,
+      dashPadding: 23,
+      fragmentMin: 30,
+      fragmentMax: 150,
+      lineStroke,
+      strokeAlt
+    })
 
     if (!variation && !rosetteLines) drawSections([1, 6, 9], sectionFeatures)
   } else {
@@ -144,60 +167,17 @@ function layout() {
     drawSections([!sectionFeatures.cutHere && 10, 11, 19], sectionFeatures)
 
   } else if (rightRosette) {
-    const gears = generateGears(8, 15, rosetteRadia, gearStartFn)
-    if ([0,1,5].includes(rosetteLines)) {
-      drawRibbedRosette(1305, 404, 60, 8, {gears, rosetteRadiaChange, rosetteRotation, shadow})
-    }
-
-    if (hasLines) {
-      if (rosetteLinesDashed) {
-        times(8, i => {
-          if (i%2===0) {
-            drawLineRosette(1305, 404, 95 + i*22, 95 + (i+1)*22-4, gears, {
-              shadow,
-              stroke: lineStroke
-            })
-          }
-        })
-      } else {
-        drawLineRosette(1305, 404, 95, 245, gears, {shadow, stroke: lineStroke})
-      }
-    }
-    if (rosetteLines === 3) {
-      const rosettePath = getRosettePath(
-        40,
-        gears,
-        6,
-        0.0002
-      )
-      svg.drawPath(1305, 404, rosettePath)
-    }
-
-    if (rosetteLines === 4) {
-      times(200, t => {
-
-        const rosettePath = getRosettePath(
-          rndint(50, 170),
-          gears,
-          rnd(0.01, 0.1),
-          0,
-          rnd()
-        )
-        svg.drawPath(1305, 404, rosettePath, {
-          stroke: prb(0.5) ? penBase : lineStroke,
-        })
-      })
-    }
-
-    if (rosetteLines === 5) {
-      drawRibbedRosette(1305, 404, 60, 6, {
-        gears: generateGears(4, 15, rosetteRadia, gearStartFn),
-        rosetteRadiaChange,
-        rosetteRotation,
-        shadow,
-        stroke: strokeAlt
-      })
-    }
+    drawLargeRosette(1305, 404, {
+      minRad: 60,
+      layers: 8,
+      lineMin: 95,
+      lineMax: 245,
+      dashPadding: 22,
+      fragmentMin: 50,
+      fragmentMax: 170,
+      lineStroke,
+      strokeAlt
+    })
 
     if (!variation && !rosetteLines) drawSections([!sectionFeatures.cutHere && 10, 11, 12, 13, 16, 19], sectionFeatures)
 
@@ -314,7 +294,7 @@ function layout() {
     smallOne(77, 548, highlightColor1)
   }
 
-  if (prb(0.05)) {
+  if (!drawBoner && prb(0.05)) {
     bottomTxt(544, 632, prb(0.5) ? highlightColor1 : highlightColor2)
   }
   if (prb(0.05)) {
@@ -811,17 +791,37 @@ function cut(x1, y1, x2, y2, stroke) {
 
 function boner() {
   const stroke = sample([pen.black, pen.blue, pen.red])
+  const lineStroke = stroke == pen.red
+    ? sample([pen.black, pen.blue])
+    : sample([pen.red, pen.green])
+
   svg.text("B", 510, 633, { size: 0.85, strokeWidth: 12/0.85, stroke})
   svg.text("R", 765, 633, { size: 0.85, strokeWidth: 12/0.85, stroke})
 
-  svg.drawLine(810, 645, 1190, 645, {strokeWidth: 12, stroke})
-  svg.drawLine(810, 660, 1190, 660, {strokeWidth: 12, stroke})
-  svg.drawLine(810, 675, 1190, 675, {strokeWidth: 12, stroke})
+  svg.drawLine(810, 645, 1190, 645, {strokeWidth: 12, stroke: lineStroke})
+  svg.drawLine(810, 660, 1190, 660, {strokeWidth: 12, stroke: lineStroke})
+  svg.drawLine(810, 675, 1190, 675, {strokeWidth: 12, stroke: lineStroke})
 }
 
 function worthless() {
-  svg.text("WORTHLESS",300, 450, { size: 2, strokeWidth: 6, stroke: sample([pen.black, pen.red, pen.green, pen.blue])})
+  const stroke = penBase === pen.black
+    ? pen.red
+    : sample([pen.black, pen.red, pen.blue])
 
+  const rect = svg.drawRect(150, 250, 1500, 220, { strokeWidth: 12.5, stroke })
+  const text = svg.text("WORTHLESS",180, 270, { size: 2.5, strokeWidth: 5, stroke})
+
+  if (prb(0.4)) {
+    const rotation = sample([-12, 12])
+    ;[rect, text].forEach(el => {
+      el.setAttribute('transform-origin', 'center')
+      el.setAttribute('style', `transform: rotate(${rotation}deg)`)
+    })
+  } else if (prb(0.6)) {
+      rect.setAttribute('style', `transform: translate(-30px, 155px)`)
+      text.setAttribute('style', `transform: translate(-30px, 155px)`)
+
+  }
 }
 
 function verticalCut() {
