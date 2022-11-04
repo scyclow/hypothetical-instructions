@@ -47,7 +47,7 @@ const chars = {
 __ns = 'http://www.w3.org/2000/svg'
 
 class SVG {
-  constructor(xin = 5.8125, yin = 2.34252) {
+  constructor(xin = 5.8125, yin = 2.34252, hideBg = null) {
     const dpi = 300
     this.layers = {}
     this.w = xin * dpi
@@ -56,7 +56,7 @@ class SVG {
     this.svg.setAttribute('id', 'svg')
     // this.svg.setAttribute('width', '100vw')
     this.svg.setAttribute('width', '95.9vw')
-    this.svg.setAttribute('style', 'transform: rotate(0.18deg) translate(0px,0.16vw)')
+    this.svg.setAttribute('style', 'transform: rotate(0.18deg) translate(0px,0.16vw); cursor: pointer')
     this.svg.setAttribute('viewBox', '0 0 ' + this. w + ' ' + this. h)
 
 
@@ -70,6 +70,7 @@ class SVG {
     const bounds = document.createElementNS(__ns, 'path')
     bounds.setAttribute('d', `M 0 0 M ${this.w} ${this.h}`)
     this.svg.appendChild(bounds)
+    this.svg.onclick = hideBg
   }
 
   chaosFn() {

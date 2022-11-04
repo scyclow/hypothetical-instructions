@@ -1,11 +1,3 @@
-/*
-TODO
-  - less common highlighted highlighted head/neck
-
-
-
-*/
-
 
 
 
@@ -13,7 +5,6 @@ function layout() {
 
   const leftRosette = prb(0.7)
   const rightRosette = prb(0.7)
-  const centerRosette = prb(0.05)
   const randomSymbols = prb(0.01)
   const drawGrid = prb(0.02)
   const drawBoner = prb(0.05)
@@ -21,7 +12,13 @@ function layout() {
   const doodleHereLeft = !leftRosette && prb(0.03)
   const isWorthless = !doodleHereRight && !doodleHereLeft && prb(0.02)
   const usaHighlights = prb(0.5)
+  const showAura = prb(0.05)
 
+  const centerPattern = chance(
+    [95, 0],
+    [5, 1],
+    [.5, 2],
+  )
 
   const leftBurnHere = !leftRosette && !doodleHereLeft && prb(0.035)
   const rightBurnHere = !rightRosette && !doodleHereRight && prb(0.035)
@@ -186,16 +183,20 @@ function layout() {
   }
 
 
-  if (centerRosette) {
+  if (centerPattern === 1) {
     const gears = generateGears(8, 15, rosetteRadia)
     drawRibbedRosette(880, 316, 14, 6, {gears, rosetteRadiaChange: 0, rosetteRotation: 0})
+
+  } else if (centerPattern === 2) {
+    const baldessariColor = sample(penColors)
+    times(18, t => svg.drawCircle(905, 336, t*5, {stroke: baldessariColor}))
 
   } else {
     const gears = generateGears(8, 15, rosetteRadia)
     drawFace()
   }
 
-  if (prb(0.05)) {
+  if (showAura) {
     const gears = generateGears(8, 15, rosetteRadia)
     times(3, i => {
       if (i%2===0) {
@@ -206,6 +207,7 @@ function layout() {
       }
     })
   }
+
 
 
   if (sectionFeatures.isStarNote) {
@@ -379,6 +381,7 @@ const rndText = (x, y) => chance(
   [1, () => svg.text("SPEND ME", x+105, y, {size: 0.45})],
   [1, () => svg.text("SELL ME", x+105, y, {size: 0.45})],
   [1, () => svg.text("RETURN TO CIRCULATION", x+5, y,)],
+  [1, () => svg.text("DON'T GO TO JAIL", x+5, y, {size: 0.45})],
   [1, () => svg.text("BURN AFTER READING", x+55, y+10,)],
   [1, () => svg.text("BUY BITCOIN", x+65, y, {size: 0.45})],
   [1, () => svg.text("PUNCH A FASCIST", x+10, y, {size: 0.45})],

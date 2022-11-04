@@ -13,8 +13,8 @@ const xEyes = (x, y) => (drawn.xEyes = true, svg.drawPath(x, y, 'M2 2L16 17M2 17
 const tongue = (x, y) => (drawn.tongue = true, svg.drawPath(x, y, 'M1.5 2C8 21 26 16.5 13 2M8.5 3.5L12 9') )
 const heartEyes = (x, y) => (drawn.heartEyes = true, svg.drawPath(x, y, heartOutline + 'M10 16.5L20 9L17 3.5L12.6738 9.71888M12.6738 9.71888L10.3233 13.0977M12.6738 9.71888L11 10.5L6.5 3.5L3 8L9 15L10.3233 13.0977M12.6738 9.71888L18.5 7L11 14L10.3233 13.0977M10.3233 13.0977L5 6M52 16.5L62 9L59 3.5L54.6738 9.71888M54.6738 9.71888L52.3233 13.0977M54.6738 9.71888L53 10.5L48.5 3.5L45 8L51 15L52.3233 13.0977M54.6738 9.71888L60.5 7L53 14L52.3233 13.0977M52.3233 13.0977L47 6M11.5297 19C13.7548 13.8277 21 16.0492 21 7.65301C21 -0.743188 14.2441 1.02626 11.5297 7.65301C8.8691 0.469987 2.91961 0.516622 2.05884 7.65303C1.19807 14.7894 10.0421 15.5634 11.5297 19Z', {stroke: pen.red}) )
 const monocole = (x, y) => (drawn.monocole = true, svg.drawPath(x, y, 'M8.64934 14.9907C0.665386 80.9926 -0.171216 103.715 8.64934 103.991M34.5 14.5C34.5 21.4036 28.6797 27 21.5 27C14.3203 27 8.5 21.4036 8.5 14.5C8.5 7.59644 14.3203 2 21.5 2C28.6797 2 34.5 7.59644 34.5 14.5Z') )
-const smiley = (x, y) => (drawn.smiley = true, svg.drawPath(x, y, 'M2 0.5C9 24.5 45 27.5 52.5 0.5') )
-const frowny = (x, y) => (drawn.frowny = true, svg.drawPath(x, y, 'M2 14.5C14.5 -3 42 -2.5 51 14.5') )
+const smile = (x, y) => (drawn.smile = true, svg.drawPath(x, y, 'M2 0.5C9 24.5 45 27.5 52.5 0.5') )
+const frown = (x, y) => (drawn.frown = true, svg.drawPath(x, y, 'M2 14.5C14.5 -3 42 -2.5 51 14.5') )
 const openMouth = (x, y) => (drawn.openMouth = true, svg.drawPath(x, y, 'M34.0082 9.24C33.8817 -0.880564 1.65107 0.0684443 2 9.24M34.0082 9.24C34.1347 19.3519 2.35465 18.4029 2 9.24M34.0082 9.24C23.502 2.73828 14.002 3.23828 2 9.24M34.0082 9.24C22.3956 15.4646 15.492 15.7175 2 9.24M34.0082 9.24C21.8452 6.6788 14.7947 6.86681 2 9.24M34.0082 9.24C21.5215 11.6867 14.5138 11.6473 2 9.24M34.0082 9.24H2') )
 const cigarette = (x, y) => (drawn.cigarette = true, svg.drawPath(x, y, 'M19.5 29C19.5 23 20 18.5 24.5 15C29 11.5 29 5 27.5 0.5M4 21.5L15 35.5L17 34.5L6.5 21.5H4Z') )
 const weary = (x, y) => (drawn.weary = true, svg.drawPath(x, y, 'M31.5 1C25.5725 8.59713 13.809 11.1222 1.5 3M51 3C59.8481 8.52096 67.5 7 71 1') )
@@ -135,8 +135,8 @@ function drawFace() {
     [1, () => mouthDick(922, 367)],
     [4, () => cigarette(922, 363)],
     [4, () => tongue(910, 391)],
-    [drawn.walrusStache ? 0 : 4, () => smiley(875, 369)],
-    [drawn.walrusStache ? 0 : 4, () => frowny(875, 388)],
+    [drawn.walrusStache ? 0 : 4, () => smile(875, 369)],
+    [drawn.walrusStache ? 0 : 4, () => frown(875, 388)],
     [drawn.walrusStache ? 0 : 4, () => openMouth(890, drawn.thinStache ? 387 : 385)],
     [4, () => soulPatch(910, 402)],
     [4, () => buckTeath(906, 393)],
@@ -147,7 +147,7 @@ function drawFace() {
   if (drawBeard) chance(
     [1, () => chinBeard(832, 365)],
     [1, () => muttonChops(819, 328)],
-    [drawStache||drawn.smiley||drawn.frowny||drawn.gag ? 0: 1, () => goatee(880, 375)],
+    [drawStache||drawn.smile||drawn.frown||drawn.gag ? 0: 1, () => goatee(880, 375)],
   )()
 
   if (drawEyebrows) chance(
@@ -184,6 +184,7 @@ function drawFace() {
       [1, () => drawSingleSymbol(x, y, 'peace')],
       [1, () => drawSingleSymbol(x, y, 'shield')],
       [1, () => drawSingleSymbol(x, y, 'circle')],
+      [1, () => drawSingleSymbol(x, y, 'smiley')],
       [1, () => svg.text('!!!',x+17, y+15, {size: 0.4})],
       [1, () => svg.text('666',x+7, y+15)],
       [1, () => svg.text('IOU',x+7, y+15)],

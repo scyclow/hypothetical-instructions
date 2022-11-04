@@ -7,8 +7,18 @@ function draw() {
   bg.setAttribute('src', tokenData.preferredIPFSGateway + externalAsset)
   bg.setAttribute('style', 'width: 100vw; position: fixed; z-index: -100;')
   document.body.appendChild(bg)
-  if (!tokenData.plot) document.body.setAttribute('style', 'display: flex; align-items: center; justify-conten: center')
+  if (!tokenData.plot) document.body.setAttribute('style', 'display: flex; align-items: center; justify-content: center')
 
+  let bgShown = true
+  const hideBg = () => {
+    if (bgShown) {
+      bg.style.visibility = 'hidden'
+    } else {
+      bg.style.visibility = 'visible'
+    }
+
+    bgShown = !bgShown
+  }
 
   // let xin = 6.14
   // let yin = 2.61
@@ -16,7 +26,7 @@ function draw() {
   const yin = 2.34252
 
   // set up the svg
-  svg = new SVG(xin, yin)
+  svg = new SVG(xin, yin, hideBg)
 
 
 
