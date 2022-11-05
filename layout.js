@@ -33,13 +33,15 @@ function layout() {
   }
 
   const rosetteLines = chance(
-    [40, 0], // only ribbed
-    [20, 1], // ribbed + lines
-    [10, 2], // only lines
+    [40, 0], // ribbed
+    [20, 1], // checkered or ribbon
+    [10, 2], // lines straight or lines dashed
     [10, 3], // spiral
     [10, 4], // fragments
     [10, 5], // double
   )
+
+  const rosetteLinesDashed = prb(0.25)
 
   const hasLines = [1,2].includes(rosetteLines)
 
@@ -68,7 +70,6 @@ function layout() {
     [2, evenStart],
     [1, wonkyStart],
   )
-  const rosetteLinesDashed = hasLines ? 0 : prb(0.25)
 
   const shadow = !rosetteLinesDashed && ![4, 5].includes(rosetteLines) ? prb(0.15) : 0
 
