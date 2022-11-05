@@ -24,10 +24,22 @@ const upsideDownCross = (x, y, s=1) => {
   svg.drawLine(x-13*s, y+23*s, x+13*s, y+23*s, {strokeWidth: 5})
 }
 
-const arrowWest = (x, y, size, stroke) => svg.drawPath(x, y, arrow, { size, stroke })
-const arrowEast = (x, y, size) => svg.drawPath(x, y, arrow, { size, rotation: 180 })
-const arrowNorth = (x, y, size) => svg.drawPath(x, y, arrow, { size, rotation: 90 })
-const arrowSouth = (x, y, size) => svg.drawPath(x, y, arrow, { size, rotation: 270 })
+const arrowWest = (x, y, size, stroke) => {
+  // FEATURES.Arrows += 1
+  svg.drawPath(x, y, arrow, { size, stroke })
+}
+const arrowEast = (x, y, size) => {
+  // FEATURES.Arrows += 1
+  svg.drawPath(x, y, arrow, { size, rotation: 180 })
+}
+const arrowNorth = (x, y, size) => {
+  // FEATURES.Arrows += 1
+  svg.drawPath(x, y, arrow, { size, rotation: 90 })
+}
+const arrowSouth = (x, y, size) => {
+  // FEATURES.Arrows += 1
+  svg.drawPath(x, y, arrow, { size, rotation: 270 })
+}
 
 const bullseye = (x, y, t) => {
   times(t, i => {
@@ -79,6 +91,8 @@ const drawSingleSymbol = (x, y, sym, s=1) => {
     const rosettePath = getRosettePath(15, generateGears())
     svg.drawPath(x+s*32, y+s*15, rosettePath, {size: 1.5*s})
   }
+
+  // FEATURES['Symbol Count'] += 1
 }
 
 

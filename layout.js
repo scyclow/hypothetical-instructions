@@ -2,7 +2,6 @@
 
 
 function layout() {
-
   const leftRosette = prb(0.7)
   const rightRosette = prb(0.7)
   const randomSymbols = prb(0.01)
@@ -76,6 +75,46 @@ function layout() {
 
   const strokeAlt = sample(penColors)
   const lineStroke = prb(0.4) ? penBase : strokeAlt
+
+
+
+  // FEATURES.Left = leftRosette ? 'Rosette' : 'Symbols'
+  // FEATURES.Right = rightRosette ? 'Rosette' : 'Symbols'
+  // FEATURES.George =
+  //   centerPattern === 0 ? 'Accessories'
+  //   : centerPattern === 1 ? 'Rosette'
+  //   : 'Baldessari'
+
+  // FEATURES['Rosette Style'] =
+  //   rosetteLines === 0 ? 'Ribbed'
+  //   : rosetteLines === 1 && !rosetteLinesDashed ? 'Checkered'
+  //   : rosetteLines === 1 && rosetteLinesDashed ? 'Ribbon'
+  //   : rosetteLines === 2 && !rosetteLinesDashed ? 'Lines (Straight)'
+  //   : rosetteLines === 2 && rosetteLinesDashed ? 'Lines (Dashed)'
+  //   : rosetteLines === 3 ? 'Spiral'
+  //   : rosetteLines === 4 ? 'Fragmented'
+  //   : 'Double'
+
+  // FEATURES['Rosette Pattern'] =
+  //   variation === 0 ? 'Normal'
+  //   : variation === 1 ? 'Exaggerated'
+  //   : variation === 2 ? 'Ornate'
+  //   : 'Rotating'
+
+  // FEATURES['Rosette Shadow'] = shadow
+  // FEATURES['Wonky Rosettes'] = gearStartFn === wonkyStart
+  // FEATURES.Burn = sectionFeatures.leftBurnHere || sectionFeatures.rightBurnHere
+  // FEATURES.Worthless = isWorthless
+  // FEATURES.Boner = drawBoner
+  // FEATURES.Grid = drawGrid
+  // FEATURES.Doodle = doodleHereLeft || doodleHereRight
+  // FEATURES.Aura = showAura
+  // FEATURES['Token Hash'] = sectionFeatures.showHash
+  // FEATURES["Where's George?"] = sectionFeatures.wheresGeorgeOverride
+  // FEATURES['Biz Card'] = sectionFeatures.isBizCard
+  // FEATURES['Star Note'] = sectionFeatures.isStarNote
+  // FEATURES['USA Shadow'] = usaHighlights
+  // FEATURES['Hawaii Bill'] = isHawaii
 
   function drawLargeRosette(x, y, {minRad, lineMin, lineMax, layers, dashPadding, fragmentMin, fragmentMax, lineStroke, strokeAlt, }) {
     const gears = generateGears(8, 15, rosetteRadia, gearStartFn)
@@ -347,69 +386,72 @@ function layout() {
 
 
 
-const rndText = (x, y) => chance(
-  [1, () => svg.text("LOSER", x+115, y, {size: 0.45})],
-  [1, () => svg.text("WINNER", x+115, y, {size: 0.45})],
-  [1, () => svg.text("TIME = MONEY", x+35, y, {size: 0.45})],
-  [1, () => svg.text("MONEY = SLAVERY", x+5, y, {size: 0.45})],
-  [1, () => svg.text("LUCKY DOLLAR", x+45, y, {size: 0.45})],
-  [1, () => svg.text("GOOD LUCK!", x+65, y, {size: 0.45})],
-  [1, () => {
-    svg.text("MONEY MAKES THE", x+55, y-5)
-    svg.text("WORLD GO ROUND", x+60, y+20)
-  }],
-  [1, () => {
-    svg.text("DON'T BELIEVE", x+90, y-5)
-    svg.text("THE LIBERAL MEDIA", x+55, y+22)
-  }],
-  [1, () => {
-    svg.text("ANOTHER DAY", x+100, y-5)
-    svg.text("ANOTHER DOLLAR", x+75, y+22)
-  }],
-  [1, () => svg.text("ABOLISH THE FED", x+10, y, {size: 0.45})],
-  [1, () => {
-    svg.text("ACCEPT JESUS CHRIST AS", x+2, y-5)
-    svg.text("YOUR LORD AND SAVIOUR", x+7, y+20)
-  }],
-  [1, () => svg.text("SEEK FINANCIAL FREEDOM", x+5, y)],
-  [1, () => svg.text("FOLLOW THE INSTRUCTIONS", x+5, y)],
-  [1, () => svg.text("666", x+110, y, {size: 0.65})],
-  [1, () => svg.text("$$$$$$$$$$$$$$", x+10, y, {size: 0.45})],
-  [1, () => svg.text("DO NOT SPEND", x+35, y, {size: 0.45})],
-  [1, () => svg.text("SPEND WISELY", x+35, y, {size: 0.45})],
-  [1, () => svg.text("SPEND ME", x+105, y, {size: 0.45})],
-  [1, () => svg.text("SELL ME", x+105, y, {size: 0.45})],
-  [1, () => svg.text("RETURN TO CIRCULATION", x+5, y,)],
-  [1, () => svg.text("DON'T GO TO JAIL", x+5, y, {size: 0.45})],
-  [1, () => svg.text("BURN AFTER READING", x+55, y+10,)],
-  [1, () => svg.text("BUY BITCOIN", x+65, y, {size: 0.45})],
-  [1, () => svg.text("PUNCH A FASCIST", x+10, y, {size: 0.45})],
-  [1, () => {
-    svg.text("TAKE THE MONEY", x+70, y-5)
-    svg.text("AND RUN", x+70, y+20)
-  }],
-  [1, () => {
-    svg.text("STOP THROWING", x+100, y-5)
-    svg.text("YOUR MONEY AWAY", x+70, y+20)
-  }],
-  [1, () => svg.text("DO YOUR OWN RESEARCH", x+10, y)],
-  [1, () => {
-    svg.text("MAKE CASH FAST AT", x+50, y-10, {size: 0.3})
-    svg.text("WWW.FASTCASHMONEYPLUS.BIZ", x-20, y+20, {size: 0.3})
-  }],
-  [1, () => {
-    svg.text("DON'T THINK ABOUT WHERE", x-4, y-7, {size: 0.3})
-    svg.text("THIS DOLLAR HAS BEEN", x+20, y+20, {size: 0.3})
-  }],
-  [1, () => {
-    svg.text("CASH RULES", x+100, y-10, {size: 0.3})
-    svg.text("EVERYTHING AROUND ME", x+20, y+20, {size: 0.3})
-  }],
-  [1, () => {
-    svg.text("TEXT 1.848.225.7281", x+50, y-10, {size: 0.3})
-    svg.text("FOR A GOOD TIME", x+70, y+20, {size: 0.3})
-  }],
-)()
+const rndText = (x, y) => {
+  // FEATURES['Has Message'] = true
+  chance(
+    [1, () => svg.text("LOSER", x+115, y, {size: 0.45})],
+    [1, () => svg.text("WINNER", x+115, y, {size: 0.45})],
+    [1, () => svg.text("TIME = MONEY", x+35, y, {size: 0.45})],
+    [1, () => svg.text("MONEY = SLAVERY", x+5, y, {size: 0.45})],
+    [1, () => svg.text("LUCKY DOLLAR", x+45, y, {size: 0.45})],
+    [1, () => svg.text("GOOD LUCK!", x+65, y, {size: 0.45})],
+    [1, () => {
+      svg.text("MONEY MAKES THE", x+55, y-5)
+      svg.text("WORLD GO ROUND", x+60, y+20)
+    }],
+    [1, () => {
+      svg.text("DON'T BELIEVE", x+90, y-5)
+      svg.text("THE LIBERAL MEDIA", x+55, y+22)
+    }],
+    [1, () => {
+      svg.text("ANOTHER DAY", x+100, y-5)
+      svg.text("ANOTHER DOLLAR", x+75, y+22)
+    }],
+    [1, () => svg.text("ABOLISH THE FED", x+10, y, {size: 0.45})],
+    [1, () => {
+      svg.text("ACCEPT JESUS CHRIST AS", x+2, y-5)
+      svg.text("YOUR LORD AND SAVIOUR", x+7, y+20)
+    }],
+    [1, () => svg.text("SEEK FINANCIAL FREEDOM", x+5, y)],
+    [1, () => svg.text("FOLLOW THE INSTRUCTIONS", x+5, y)],
+    [1, () => svg.text("666", x+110, y, {size: 0.65})],
+    [1, () => svg.text("$$$$$$$$$$$$$$", x+10, y, {size: 0.45})],
+    [1, () => svg.text("DO NOT SPEND", x+35, y, {size: 0.45})],
+    [1, () => svg.text("SPEND WISELY", x+35, y, {size: 0.45})],
+    [1, () => svg.text("SPEND ME", x+105, y, {size: 0.45})],
+    [1, () => svg.text("SELL ME", x+105, y, {size: 0.45})],
+    [1, () => svg.text("RETURN TO CIRCULATION", x+5, y,)],
+    [1, () => svg.text("DON'T GO TO JAIL", x+5, y, {size: 0.45})],
+    [1, () => svg.text("BURN AFTER READING", x+55, y+10,)],
+    [1, () => svg.text("BUY BITCOIN", x+65, y, {size: 0.45})],
+    [1, () => svg.text("PUNCH A FASCIST", x+10, y, {size: 0.45})],
+    [1, () => {
+      svg.text("TAKE THE MONEY", x+70, y-5)
+      svg.text("AND RUN", x+70, y+20)
+    }],
+    [1, () => {
+      svg.text("STOP THROWING", x+100, y-5)
+      svg.text("YOUR MONEY AWAY", x+70, y+20)
+    }],
+    [1, () => svg.text("DO YOUR OWN RESEARCH", x+10, y)],
+    [1, () => {
+      svg.text("MAKE CASH FAST AT", x+50, y-10, {size: 0.3})
+      svg.text("WWW.FASTCASHMONEYPLUS.BIZ", x-20, y+20, {size: 0.3})
+    }],
+    [1, () => {
+      svg.text("DON'T THINK ABOUT WHERE", x-4, y-7, {size: 0.3})
+      svg.text("THIS DOLLAR HAS BEEN", x+20, y+20, {size: 0.3})
+    }],
+    [1, () => {
+      svg.text("CASH RULES", x+100, y-10, {size: 0.3})
+      svg.text("EVERYTHING AROUND ME", x+20, y+20, {size: 0.3})
+    }],
+    [1, () => {
+      svg.text("TEXT 1.848.225.7281", x+50, y-10, {size: 0.3})
+      svg.text("FOR A GOOD TIME", x+70, y+20, {size: 0.3})
+    }],
+  )()
+}
 
 const hArrows = (x, y) => chance(
   [1, () => {
@@ -518,6 +560,7 @@ const sectionFns = {
         else drawSingleSymbol(460 , 278, sym, 4)
       }],
       [1, () => {
+        // FEATURES['Dick Count'] += 1
         prb(0.5)
           ? svg.drawPath(615 , 500, dick, {size: 0.65, rotation: 240})
           : svg.drawPath(625 , 265, dick, {size: 0.55, rotation: 90})
@@ -554,6 +597,7 @@ const sectionFns = {
         )
       }],
       [2, () => {
+        // FEATURES['Dick Count'] += 1
         prb(0.5)
           ? svg.drawPath(123, 352, dick, {size: 0.5})
           : svg.drawPath(300, 430, dick, {size: 0.5, rotation: 180})
@@ -612,7 +656,10 @@ const sectionFns = {
           svg.drawRect(186, 588, 100, 40)
           svg.text('9', 191, 590)
         }],
-        [3, () => svg.text('ID ' + leftPadZeros(tokenData.tokenId), 220, 600, {size: 0.4})],
+        [3, () => {
+          svg.text('ID ' + leftPadZeros(tokenData.tokenId), 220, 600, {size: 0.4})
+          // FEATURES['Token ID'] = true
+        }],
         [3, noop],
         [3, () => {
           drawSingleSymbol(200, 595, rndSymbolName())
@@ -678,10 +725,12 @@ const sectionFns = {
         svg.text('14', 1083, 243)
       }],
       [1, () => {
+        // FEATURES['Dick Count'] += 1
         drawSingleSymbol(1090, 263, rndSymbolName())
         svg.drawPath(1150, 333, dick, {size: 0.4, rotation: 90})
       }],
       [1, () => {
+        // FEATURES['Dick Count'] += 1
         drawSingleSymbol(1090, 263, rndSymbolName())
         svg.drawPath(1100, 463, dick, {size: 0.4, rotation: 270})
       }],
@@ -850,7 +899,13 @@ function verticalCut() {
 
   arrowWest(885+xOff, 140, 0.3, stroke)
 
-  svg.text(prb(0.75) ? 'CUT HERE' : 'RIP HERE' , 950+xOff, 140, {stroke})
+  if (prb(0.75)) {
+    // FEATURES.Cut = true
+    svg.text('CUT HERE', 950+xOff, 140, {stroke})
+  } else {
+    // FEATURES.Rip = true
+    svg.text('RIP HERE', 950+xOff, 140, {stroke})
+  }
 
 }
 

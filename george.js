@@ -33,7 +33,11 @@ const goatee = (x, y) => (drawn.goatee = true, svg.drawPath(x, y, 'M4.49812 7.00
 const eyePatch = (x, y) => (drawn.eyePatch = true, svg.drawPath(x, y, 'M23.0001 15.997C19.9977 40.997 50.9969 41.497 47.5001 15.997M23.0001 15.997C32.7463 14.0114 37.6347 13.7655 47.5001 15.997M23.0001 15.997L1 12M47.5001 15.997L93.5 2M31.5 24H39M24 18.5C32.7618 16.8059 37.7341 16.9531 46.5 18.5C44 35.5 28.5 38 24 18.5ZM27.5 20.5C33.7716 19.5876 37.2284 19.581 43.5 20.5C39 32.5 31.5 32 27.5 20.5ZM30 23C32.9241 22.0567 38.0752 22.1651 41 23C36.7012 27.5628 34.2774 27.7941 30 23Z') )
 const hair = (x, y, fill) => (drawn.hair = true, svg.drawPath(x, y, 'M76.4987 127.002L73.9987 144.502L52.4987 129.002L34.4987 125.002C-6.26369 98.7738 -10.3728 86.7305 21.4987 71.002C16.5703 61.8103 16.6944 56.8903 26.9987 49.002C21.3345 34.4677 29.2392 27.9147 54.9987 18.5C56.4919 8.85742 68.8951 3.05579 107.499 0C140.018 11.4531 155.45 27.3508 173.499 65.502L190.999 101.002C195.667 113.1 186.133 121.538 166.499 134.002C163.75 131.54 170.9 103.681 163.999 85.002C165.44 67.4975 163.99 57.7337 155.499 40.502C138.812 24.2123 131.278 20.8479 122.499 30.0019C94.7677 22.4173 81.8787 20.2506 84.4987 36.502C81.7407 49.5935 82.7571 54.6747 90.9987 58.502C77.1751 65.7495 75.8465 73.9812 73.9987 89.002L76.4987 127.002Z', {fill}) )
 const blouse = (x, y, fill) => (drawn.blouse = true, svg.drawPath(x, y, 'M26.4975 65.5C1.03585 35.826 -2.27449 22.1124 2.4975 0.5C37.9897 53.9867 59.2908 60.4162 89.9975 42.5V61L102.998 69V88.5L112 98.5L126 147L108.998 160.5C90.4454 152.554 78.5551 149.768 53.4975 149.5L35.5 102L23 83L26.4975 65.5Z', {fill}) )
-const mouthDick = (x, y, fill) => (drawn.mouthDick = true, svg.drawPath(x, y, dick, {size: 0.4}) )
+const mouthDick = (x, y, fill) => (
+  drawn.mouthDick = true,
+  // FEATURES['Dick Count'] += 1,
+  svg.drawPath(x, y, dick, {size: 0.4})
+)
 const lips = (x, y, fill) => (drawn.lips = true, svg.drawPath(x, y, 'M2 9.99855C2 2.49961 16 -1 22 5.49904C29.5 -0.000823498 39.5 4.9997 37 10.9961M2 9.99855C17.9928 20.5673 25.0753 18.2676 37 10.9961M2 9.99855C22.5762 9.4183 29.6245 9.29665 37 10.9961') )
 const eyeLashes = (x, y, fill) => (drawn.eyeLashes = true, svg.drawPath(x, y, 'M6.5 11.5L1.5 6.5M12 8L9.5 1.5M19.5 8L20.5 1.5M25 9.5L29 4.5M8.5 17L6.5 22.5M14 17L13.5 22.5M19.5 16.5L20.5 21.5M24.5 16L27 20M54 10L52.5 5.5M58.5 8V3.5M62.5 8L64 4M66.5 9.5L69 7M54.5 15L53 17.5M58.5 16.5V20M62.5 16L63 19M65.5 15L68 17') )
 const crossNecklace = (x, y) => (drawn.crossNecklace = true, svg.drawPath(x, y, 'M2 1C34.9011 50.5943 55.0319 73.7645 69 72.6721M89.5 43C83.9907 61.9287 77.6872 71.9928 69 72.6721M69 72.6721V108.5M59.5 85.5H78.5') )
@@ -92,110 +96,297 @@ function drawFace() {
   const drawFaceTattoo = prb(0.25)
 
   if (drawHair) chance(
-    [6, () => hair(720, 186, rndHighlighter())],
-    [1, () => mohawk(730, 63, rndHighlighter())],
-    [1, () => devilHorns(778, 158, rndHighlighter())],
-    [1, () => headband(756, 235)],
-    [1, () => hairBow(757, 254)],
-    [1, () => headphones(775, 206)],
-    [1, () => earring(782, 357)],
+    [6, () => {
+      // FEATURES.Hair = 'Colored'
+      hair(720, 186, rndHighlighter())
+    }],
+    [1, () => {
+      // FEATURES.Hair = 'Mohawk'
+      mohawk(730, 63, rndHighlighter())
+    }],
+    [1, () => {
+      // FEATURES.Hair = 'Devil Horns'
+      devilHorns(778, 158, rndHighlighter())
+    }],
+    [1, () => {
+      // FEATURES.Hair = 'Head Band'
+      headband(756, 235)
+    }],
+    [1, () => {
+      // FEATURES.Hair = 'Bow'
+      hairBow(757, 254)
+    }],
+    [1, () => {
+      // FEATURES.Hair = 'Headphones'
+      headphones(775, 206)
+    }],
+    [1, () => {
+      // FEATURES.Hair = 'Earring'
+      earring(782, 357)
+    }],
   )()
 
-  if (drawTorso) blouse(796, 380, rndHighlighter())
+  if (drawTorso) {
+    // FEATURES.Blouse = 'Colorful'
+    blouse(796, 380, rndHighlighter())
+  }
 
   if (drawEyes) chance(
-    [2, () => glasses(824, 300, rndHighlighter())],
-    [2, () => eyePatch(827, 280)],
-    [2, () => xEyes(866, 301)],
-    [2, () => $Eyes(873, 304)],
-    [2, () => starEyes(857, 294)],
-    [1, () => doubleEyes(863, 303)],
-    [1, () => eyeLashes(855, 296)],
-    [2, () => heartEyes(864, 302)],
-    [2, () => monocole(848, 295)],
-    [1, () => laserEyes(872, 301, sample(penColorsAll))],
+    [2, () => {
+      // FEATURES.Eyes = 'Glasses'
+      glasses(824, 300, rndHighlighter())
+    }],
+    [2, () => {
+      // FEATURES.Eyes = 'Eye Patch'
+      eyePatch(827, 280)
+    }],
+    [2, () => {
+      // FEATURES.Eyes = `X'd`
+      xEyes(866, 301)
+    }],
+    [2, () => {
+      // FEATURES.Eyes = '$'
+      $Eyes(873, 304)
+    }],
+    [2, () => {
+      // FEATURES.Eyes = 'Stars'
+      starEyes(857, 294)
+    }],
+    [1, () => {
+      // FEATURES.Eyes = 'Glass Eyes'
+      doubleEyes(863, 303)
+    }],
+    [1, () => {
+      // FEATURES.Eyes = 'Eye Lashes'
+      eyeLashes(855, 296)
+    }],
+    [2, () => {
+      // FEATURES.Eyes = 'hearts'
+      heartEyes(864, 302)
+    }],
+    [2, () => {
+      // FEATURES.Eyes = 'Monocle'
+      monocole(848, 295)
+    }],
+    [1, () => {
+      // FEATURES.Eyes = 'Laser Eyes'
+      laserEyes(872, 301, sample(penColorsAll))
+    }],
   )()
 
   if (drawCheek) chance(
-    [1, () => beautyMark(867, 351)],
-    [1, () => teardrops(856, 324)],
-    [drawn.glasses || drawn.monocle || eyePatch ? 0 : 1, () => weary(856, 323)],
+    [1, () => {
+      // FEATURES.Cheeks = 'Beauty Mark'
+      beautyMark(867, 351)
+    }],
+    [1, () => {
+      // FEATURES.Cheeks = 'Tear Drops'
+      teardrops(856, 324)
+    }],
+    [drawn.glasses || drawn.monocle || eyePatch ? 0 : 1, () => {
+      // FEATURES.Cheeks = 'Weary'
+      weary(856, 323)
+    }],
   )()
 
 
   if (drawStache) chance(
-    [1, () => walrusStache(880, 368)],
-    [1, () => curlyStache(880, 370)],
-    [1, () => thinStache(889, 378)],
-    [1, () => noseRing(910, 371)],
-    [1, () => clownNose(927, 359)],
+    [1, () => {
+      // FEATURES.Stache = 'Walrus'
+      walrusStache(880, 368)
+    }],
+    [1, () => {
+      // FEATURES.Stache = 'Handle Bars'
+      curlyStache(880, 370)
+    }],
+    [1, () => {
+      // FEATURES.Stache = 'Thin'
+      thinStache(889, 378)
+    }],
+    [1, () => {
+      // FEATURES.Nose = 'Nose Ring'
+      noseRing(910, 371)
+    }],
+    [1, () => {
+      // FEATURES.Nose = 'Clown Nose'
+      clownNose(927, 359)
+    }],
   )()
 
   if (drawMouth) chance(
     [1, () => mouthDick(922, 367)],
-    [4, () => cigarette(922, 363)],
-    [4, () => tongue(910, 391)],
-    [drawn.walrusStache ? 0 : 4, () => smile(875, 369)],
-    [drawn.walrusStache ? 0 : 4, () => frown(875, 388)],
-    [drawn.walrusStache ? 0 : 4, () => openMouth(890, drawn.thinStache ? 387 : 385)],
-    [4, () => soulPatch(910, 402)],
-    [4, () => buckTeath(906, 393)],
-    [drawn.clownNose || drawStache ? 0 : 2, () => gag(830, 372)],
-    [drawStache ? 0 : 4, () => lips(887, 380)],
+    [4, () => {
+      // FEATURES.Mouth = 'Cigarette'
+      cigarette(922, 363)
+    }],
+    [4, () => {
+      // FEATURES.Mouth = 'Tongue'
+      tongue(910, 391)
+    }],
+    [drawn.walrusStache ? 0 : 4, () => {
+      // FEATURES.Mouth = 'Smile'
+      smile(875, 369)
+    }],
+    [drawn.walrusStache ? 0 : 4, () => {
+      // FEATURES.Mouth = 'Frown'
+      frown(875, 388)
+    }],
+    [drawn.walrusStache ? 0 : 4, () => {
+      // FEATURES.Mouth = 'Open'
+      openMouth(890, drawn.thinStache ? 387 : 385)
+    }],
+    [4, () => {
+      // FEATURES.Mouth = 'Soul Patch'
+      soulPatch(910, 402)
+    }],
+    [4, () => {
+      // FEATURES.Mouth = 'Buck Teeth'
+      buckTeath(906, 393)
+    }],
+    [drawn.clownNose || drawStache ? 0 : 2, () => {
+      // FEATURES.Mouth = 'Ball Gag'
+      gag(830, 372)
+    }],
+    [drawStache ? 0 : 4, () => {
+      // FEATURES.Mouth = 'Lips'
+      lips(887, 380)
+    }],
   )()
 
   if (drawBeard) chance(
-    [1, () => chinBeard(832, 365)],
-    [1, () => muttonChops(819, 328)],
-    [drawStache||drawn.smile||drawn.frown||drawn.gag ? 0: 1, () => goatee(880, 375)],
+    [1, () => {
+      // FEATURES.Beard = 'Chin'
+      chinBeard(832, 365)
+    }],
+    [1, () => {
+      // FEATURES.Beard = 'Mutton Chops'
+      muttonChops(819, 328)
+    }],
+    [drawStache||drawn.smile||drawn.frown||drawn.gag ? 0: 1, () => {
+      // FEATURES.Beard = 'Goatee'
+      goatee(880, 375)
+    }],
   )()
 
   if (drawEyebrows) chance(
-    [1, () => angry(861, 278)],
-    [1, () => worried(859, 279)],
+    [1, () => {
+      // FEATURES['Eyebrows'] = 'Angry'
+      angry(861, 278)
+    }],
+    [1, () => {
+      // FEATURES['Eyebrows'] = 'Worried'
+      worried(859, 279)
+    }],
   )()
 
   if (drawTie) chance(
-    [1, () => tie(868, 458)],
-    [1, () => bowtie(840, 450)],
-    [1, () => crossNecklace(794, 400)],
+    [1, () => {
+      // FEATURES.Neck = 'Tie'
+      tie(868, 458)
+    }],
+    [1, () => {
+      // FEATURES.Neck = 'Bow Tie'
+      bowtie(840, 450)
+    }],
+    [1, () => {
+      // FEATURES.Neck = 'Cross Necklace'
+      crossNecklace(794, 400)
+    }],
   )()
 
   if (drawFaceTattoo) {
     const [x, y] = [878, 240]
     chance(
       [1, () => {
+        // FEATURES['Face Tattoo'] = 'Debugger'
         svg.drawRect(x, y, 62, 33)
         svg.text('0', x+5, y+2)
       }],
       [1, () => {
+        // FEATURES['Face Tattoo'] = 'Bar Code'
         svg.drawRect(x, y+5, 50, 28)
         times(10, t => {
           prb(0.65) && svg.drawLine(x + t*5, y+5, x + t*5, y+33)
         })
       }],
-      [2, () => drawSingleSymbol(x, y, 'rosette')],
-      [1, () => drawSingleSymbol(x, y, 'heart')],
-      [1, () => drawSingleSymbol(x, y, 'one')],
-      [1, () => drawSingleSymbol(x, y, 'cross')],
-      [1, () => drawSingleSymbol(x, y, 'cgk')],
-      [1, () => drawSingleSymbol(x, y, 'star')],
-      [1, () => drawSingleSymbol(x, y, 'eye')],
-      [1, () => drawSingleSymbol(x, y, 'peace')],
-      [1, () => drawSingleSymbol(x, y, 'shield')],
-      [1, () => drawSingleSymbol(x, y, 'circle')],
-      [1, () => drawSingleSymbol(x, y, 'smiley')],
-      [1, () => svg.text('!!!',x+17, y+15, {size: 0.4})],
-      [1, () => svg.text('666',x+7, y+15)],
-      [1, () => svg.text('IOU',x+7, y+15)],
-      [1, () => svg.text('XXX',x+7, y+15)],
-      [1, () => svg.text('$$$',x+7, y+15)],
-      [1, () => svg.text('WINNER',x-25, y+15)],
-      [1, () => svg.text('LOSER',x-15, y+15)],
-      [1, () => prb(0.5)
+      [2, () => {
+        // FEATURES['Face Tattoo'] = 'Rosette'
+        drawSingleSymbol(x, y, 'rosette')
+      }],
+      [1, () => {
+        // FEATURES['Face Tattoo'] = 'Heart'
+        drawSingleSymbol(x, y, 'heart')
+      }],
+      [1, () => {
+        // FEATURES['Face Tattoo'] = 'One'
+        drawSingleSymbol(x, y, 'one')
+      }],
+      [1, () => {
+        // FEATURES['Face Tattoo'] = 'Cross'
+        drawSingleSymbol(x, y, 'cross')
+      }],
+      [1, () => {
+        // FEATURES['Face Tattoo'] = 'CGK'
+        drawSingleSymbol(x, y, 'cgk')
+      }],
+      [1, () => {
+        // FEATURES['Face Tattoo'] = 'Star'
+        drawSingleSymbol(x, y, 'star')
+      }],
+      [1, () => {
+        // FEATURES['Face Tattoo'] = 'Eye'
+        drawSingleSymbol(x, y, 'eye')
+      }],
+      [1, () => {
+        // FEATURES['Face Tattoo'] = 'Peace'
+        drawSingleSymbol(x, y, 'peace')
+      }],
+      [1, () => {
+        // FEATURES['Face Tattoo'] = 'Shield'
+        drawSingleSymbol(x, y, 'shield')
+      }],
+      [1, () => {
+        // FEATURES['Face Tattoo'] = 'Circle'
+        drawSingleSymbol(x, y, 'circle')
+      }],
+      [1, () => {
+        // FEATURES['Face Tattoo'] = 'Smiley'
+        drawSingleSymbol(x, y, 'smiley')
+      }],
+      [1, () => {
+        // FEATURES['Face Tattoo'] = '!!!'
+        svg.text('!!!',x+17, y+15, {size: 0.4})
+      }],
+      [1, () => {
+        // FEATURES['Face Tattoo'] = '666'
+        svg.text('666',x+7, y+15)
+      }],
+      [1, () => {
+        // FEATURES['Face Tattoo'] = 'IOU'
+        svg.text('IOU',x+7, y+15)
+      }],
+      [1, () => {
+        // FEATURES['Face Tattoo'] = 'XXX'
+        svg.text('XXX',x+7, y+15)
+      }],
+      [1, () => {
+        // FEATURES['Face Tattoo'] = '$$$'
+        svg.text('$$$',x+7, y+15)
+      }],
+      [1, () => {
+        // FEATURES['Face Tattoo'] = 'WINNER'
+        svg.text('WINNER',x-25, y+15)
+      }],
+      [1, () => {
+        // FEATURES['Face Tattoo'] = 'LOSER'
+        svg.text('LOSER',x-15, y+15)
+      }],
+      [1, () => {
+        // FEATURES['Dick Count'] += 1
+        prb(0.5)
         ? svg.drawPath(x-10, y+5, dick, {size: 0.2})
         : svg.drawPath(x+60, y+35, dick, {size: 0.2, rotation: 180})
-      ],
+      }],
     )()
   }
 }

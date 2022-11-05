@@ -86,6 +86,12 @@ class SVG {
 
     })
     document.body.appendChild(this.svg)
+
+    // FEATURES['Pen Count'] = Object.keys(this.layers).length
+    if (Object.keys(this.layers).some(k => k.includes('none'))) {
+      // FEATURES['Manul Highlight'] = true
+      // FEATURES['Pen Count'] -= 1
+    }
   }
 
   addToLayer(el, stroke, strokeWidth) {
