@@ -7,10 +7,11 @@ function layout() {
   const rightRosette = prb(0.7)
   const randomSymbols = prb(0.01)
   const drawGrid = prb(0.02)
-  const drawBoner = prb(0.05)
+  const drawBoner = prb(0.04)
   const doodleHereRight = !rightRosette && prb(0.03)
   const doodleHereLeft = !leftRosette && prb(0.03)
   const isWorthless = !doodleHereRight && !doodleHereLeft && prb(0.02)
+  const isHawaii = !isWorthless && !doodleHereRight && !doodleHereLeft && prb(0.005)
   const usaHighlights = prb(0.5)
   const showAura = prb(0.05)
 
@@ -190,7 +191,7 @@ function layout() {
 
   } else if (centerPattern === 2) {
     const baldessariColor = sample(penColors)
-    times(18, t => svg.drawCircle(905, 336, t*5, {stroke: baldessariColor}))
+    times(22, t => svg.drawCircle(905, 336, t*4+1, {stroke: baldessariColor}))
 
   } else {
     const gears = generateGears(8, 15, rosetteRadia)
@@ -278,6 +279,9 @@ function layout() {
   if (isWorthless)
     worthless()
 
+  if (isHawaii)
+    hawaii()
+
   if (usaHighlights)
     usaText(sample([pen.red, pen.orange, pen.teal, pen.pink]))
 
@@ -304,17 +308,14 @@ function layout() {
     topTxt(413, 7, prb(0.5) ? highlightColor1 : highlightColor2)
   }
 
-  if (!doodleHereLeft && prb(leftRosette ? 0.3 : 0.5)) {
+  if (!doodleHereLeft && !doodleHereRight && prb(0.333)) {
     svg.drawCircle(412, 351, 50, {stroke: 'none', fill: highlightColor2})
-  }
-
-  if (!doodleHereRight && prb(rightRosette ? 0.3 : 0.5)) {
     svg.drawPath(1260, 354, shield, {stroke: 'none', fill: highlightColor2})
   }
+
   if (drawBoner) {
    boner()
   }
-
 
   if (randomSymbols) times(45, i => {
     prb(0.1)
@@ -339,9 +340,6 @@ function layout() {
       svg.drawLine(0, y, svg.w, y, {stroke})
     })
   }
-
-
-
 }
 
 
@@ -824,7 +822,7 @@ function worthless() {
     : sample([pen.black, pen.red, pen.blue])
 
   const rect = svg.drawRect(150, 250, 1500, 220, { strokeWidth: 12.5, stroke })
-  const text = svg.text("WORTHLESS",180, 270, { size: 2.5, strokeWidth: 5, stroke})
+  const text = svg.text('WORTHLESS',180, 270, { size: 2.5, strokeWidth: 5, stroke})
 
   if (prb(0.4)) {
     const rotation = sample([-12, 12])
@@ -837,6 +835,11 @@ function worthless() {
       text.setAttribute('style', `transform: translate(-30px, 155px)`)
 
   }
+}
+
+function hawaii() {
+  const stroke = sample([pen.black, pen.red, pen.blue])
+  const text = svg.text('HAWAII',180, 270, { size: 4, strokeWidth: 3, stroke})
 }
 
 function verticalCut() {

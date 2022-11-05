@@ -61,9 +61,8 @@ class SVG {
 
 
     this.chaos = chance(
-      [95, 0],
-      [3, rnd(12, 16)],
-      [2, rnd(16, 64)],
+      [97, 0],
+      [3, rnd(15, 64)],
     )
 
     // append the document bounds
