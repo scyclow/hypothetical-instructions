@@ -115,7 +115,7 @@ function calculateFeatures(tokenData) {
 
       FEATURES['Pen Count'] = Object.keys(this.layers).length
       if (Object.keys(this.layers).some(k => k.includes('none'))) {
-        FEATURES['Manul Highlight'] = true
+        FEATURES['Manual Highlight'] = true
         FEATURES['Pen Count'] -= 1
       }
     }
@@ -424,7 +424,6 @@ function calculateFeatures(tokenData) {
   const frown = (x, y) => (drawn.frown = true, svg.drawPath(x, y, 'M2 14.5C14.5 -3 42 -2.5 51 14.5') )
   const openMouth = (x, y) => (drawn.openMouth = true, svg.drawPath(x, y, 'M34.0082 9.24C33.8817 -0.880564 1.65107 0.0684443 2 9.24M34.0082 9.24C34.1347 19.3519 2.35465 18.4029 2 9.24M34.0082 9.24C23.502 2.73828 14.002 3.23828 2 9.24M34.0082 9.24C22.3956 15.4646 15.492 15.7175 2 9.24M34.0082 9.24C21.8452 6.6788 14.7947 6.86681 2 9.24M34.0082 9.24C21.5215 11.6867 14.5138 11.6473 2 9.24M34.0082 9.24H2') )
   const cigarette = (x, y) => (drawn.cigarette = true, svg.drawPath(x, y, 'M19.5 29C19.5 23 20 18.5 24.5 15C29 11.5 29 5 27.5 0.5M4 21.5L15 35.5L17 34.5L6.5 21.5H4Z') )
-  const weary = (x, y) => (drawn.weary = true, svg.drawPath(x, y, 'M31.5 1C25.5725 8.59713 13.809 11.1222 1.5 3M51 3C59.8481 8.52096 67.5 7 71 1') )
   const angry = (x, y) => (drawn.angry = true, svg.drawPath(x, y, 'M1 2L32 14M45 14L66 5') )
   const worried = (x, y) => (drawn.worried = true, svg.drawPath(x, y, 'M1 10L28.5 1.5M46.5 3L68 11') )
   const devilHorns = (x, y, fill) => (drawn.devilHorns = true, svg.drawPath(x, y, 'M35.4914 75C7.14021 72.8917 -9.90881 24.6777 11.4938 2C0.523006 10.6718 18.5087 52.354 45.4922 53.5M112.992 58.5C127.411 57.4814 141.448 35.5505 138.492 18.5C148.962 31.8447 139.501 71.284 123.492 75', {fill}) )
@@ -490,7 +489,7 @@ function calculateFeatures(tokenData) {
     const drawTorso = prb(0.35)
 
     const drawStache = prb(0.15)
-    const drawHair = prb(0.27)
+    const drawHair = prb(0.3)
     const drawEyebrows = prb(0.1)
     const drawCheek = prb(0.1)
     const drawBeard = prb(0.125)
@@ -520,11 +519,11 @@ function calculateFeatures(tokenData) {
         hairBow(757, 254)
       }],
       [1, () => {
-        FEATURES.Hair = 'Headphones'
+        FEATURES.Ears = 'Headphones'
         headphones(775, 206)
       }],
-      [1, () => {
-        FEATURES.Hair = 'Earring'
+      [2.3333, () => {
+        FEATURES.Ears = 'Earring'
         earring(782, 357)
       }],
     )()
@@ -535,39 +534,39 @@ function calculateFeatures(tokenData) {
     }
 
     if (drawEyes) chance(
-      [2, () => {
+      [4, () => {
         FEATURES.Eyes = 'Glasses'
         glasses(824, 300, rndHighlighter())
       }],
-      [2, () => {
+      [4, () => {
         FEATURES.Eyes = 'Eye Patch'
         eyePatch(827, 280)
       }],
-      [2, () => {
+      [4, () => {
         FEATURES.Eyes = `X'd`
         xEyes(866, 301)
       }],
-      [2, () => {
+      [4, () => {
         FEATURES.Eyes = '$'
         $Eyes(873, 304)
       }],
-      [2, () => {
+      [4, () => {
         FEATURES.Eyes = 'Stars'
         starEyes(857, 294)
       }],
-      [1, () => {
+      [4, () => {
         FEATURES.Eyes = 'Glass Eyes'
         doubleEyes(863, 303)
       }],
-      [1, () => {
+      [4, () => {
         FEATURES.Eyes = 'Eye Lashes'
         eyeLashes(855, 296)
       }],
-      [2, () => {
-        FEATURES.Eyes = 'hearts'
+      [4, () => {
+        FEATURES.Eyes = 'Hearts'
         heartEyes(864, 302)
       }],
-      [2, () => {
+      [4, () => {
         FEATURES.Eyes = 'Monocle'
         monocole(848, 295)
       }],
@@ -585,11 +584,7 @@ function calculateFeatures(tokenData) {
       [1, () => {
         FEATURES.Cheeks = 'Tear Drops'
         teardrops(856, 324)
-      }],
-      [drawn.glasses || drawn.monocle || eyePatch ? 0 : 1, () => {
-        FEATURES.Cheeks = 'Weary'
-        weary(856, 323)
-      }],
+      }]
     )()
 
 
@@ -792,6 +787,14 @@ function calculateFeatures(tokenData) {
         }],
       )()
     }
+
+    if (
+      drawn.glasses ||
+      drawn.blouse ||
+      drawn.hair ||
+      drawn.mohawk ||
+      drawn.devilHorns
+    ) FEATURES['Manual Highlight'] = true
   }
 
 
@@ -933,8 +936,8 @@ function calculateFeatures(tokenData) {
     const randomSymbols = prb(0.01)
     const drawGrid = prb(0.02)
     const drawBoner = prb(0.04)
-    const doodleHereRight = !rightRosette && prb(0.03)
-    const doodleHereLeft = !leftRosette && prb(0.03)
+    const doodleHereRight = !rightRosette && prb(0.04)
+    const doodleHereLeft = !leftRosette && prb(0.04)
     const isWorthless = !doodleHereRight && !doodleHereLeft && prb(0.02)
     const isHawaii = !isWorthless && !doodleHereRight && !doodleHereLeft && prb(0.005)
     const usaHighlights = prb(0.5)
@@ -946,14 +949,14 @@ function calculateFeatures(tokenData) {
       [.5, 2],
     )
 
-    const leftBurnHere = !leftRosette && !doodleHereLeft && prb(0.035)
-    const rightBurnHere = !rightRosette && !doodleHereRight && prb(0.035)
+    const leftBurnHere = !leftRosette && !doodleHereLeft && prb(0.08)
+    const rightBurnHere = !rightRosette && !doodleHereRight && prb(0.08)
     const sectionFeatures = {
       leftBurnHere,
       rightBurnHere,
       isStarNote: prb(0.03),
       isBizCard: prb(0.05),
-      wheresGeorgeOverride: !leftBurnHere && !leftRosette && prb(0.08),
+      wheresGeorgeOverride: !leftBurnHere && !leftRosette && prb(0.1),
       showHash: prb(0.1),
       cutHere: prb(0.1),
     }
@@ -1027,7 +1030,7 @@ function calculateFeatures(tokenData) {
       : variation === 2 ? 'Ornate'
       : 'Rotating'
 
-    FEATURES['Rosette Shadow'] = shadow
+    FEATURES['Rosette Shadow'] = !!shadow
     FEATURES['Wonky Rosettes'] = gearStartFn === wonkyStart
     FEATURES.Burn = sectionFeatures.leftBurnHere || sectionFeatures.rightBurnHere
     FEATURES.Worthless = isWorthless
@@ -1684,7 +1687,10 @@ function calculateFeatures(tokenData) {
           svg.drawRect(1189, 241, 275, 60)
           svg.text('15', 1189+5, 241+2)
         }],
-        [10, () => svg.text('MARFA,TX', 1200, 250, {size: 0.5, stroke: pen.red})],
+        [10, () => {
+          svg.text('MARFA,TX', 1200, 250, {size: 0.5, stroke: pen.red})
+          FEATURES['Marfa Branded'] = true
+        }],
         [25, () => symbolRow(1100, 240, 7, 0.7)],
         [5, () => arrowRow(1108, 240, 5)],
         [60, noop],
@@ -1853,6 +1859,12 @@ function calculateFeatures(tokenData) {
     Eyebrows: 'None',
     Neck: 'None',
     'Face Tattoo': 'None',
+    'Token ID': false,
+    Cut: false,
+    Rip: false,
+    'Manual Highlight': false,
+    'Has Message': false,
+    'Marfa Branded': false
   }
 
   function draw() {
@@ -1870,7 +1882,6 @@ function calculateFeatures(tokenData) {
 
     svg.mount()
 
-    console.log(FEATURES)
   }
 
   draw()

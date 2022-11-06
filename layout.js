@@ -7,8 +7,8 @@ function layout() {
   const randomSymbols = prb(0.01)
   const drawGrid = prb(0.02)
   const drawBoner = prb(0.04)
-  const doodleHereRight = !rightRosette && prb(0.03)
-  const doodleHereLeft = !leftRosette && prb(0.03)
+  const doodleHereRight = !rightRosette && prb(0.04)
+  const doodleHereLeft = !leftRosette && prb(0.04)
   const isWorthless = !doodleHereRight && !doodleHereLeft && prb(0.02)
   const isHawaii = !isWorthless && !doodleHereRight && !doodleHereLeft && prb(0.005)
   const usaHighlights = prb(0.5)
@@ -20,14 +20,14 @@ function layout() {
     [.5, 2],
   )
 
-  const leftBurnHere = !leftRosette && !doodleHereLeft && prb(0.035)
-  const rightBurnHere = !rightRosette && !doodleHereRight && prb(0.035)
+  const leftBurnHere = !leftRosette && !doodleHereLeft && prb(0.08)
+  const rightBurnHere = !rightRosette && !doodleHereRight && prb(0.08)
   const sectionFeatures = {
     leftBurnHere,
     rightBurnHere,
     isStarNote: prb(0.03),
     isBizCard: prb(0.05),
-    wheresGeorgeOverride: !leftBurnHere && !leftRosette && prb(0.08),
+    wheresGeorgeOverride: !leftBurnHere && !leftRosette && prb(0.1),
     showHash: prb(0.1),
     cutHere: prb(0.1),
   }

@@ -4,7 +4,9 @@
   "description": "",
   "main": "draw.js",
   "scripts": {
-    "saxi": "saxi"
+    "saxi": "saxi",
+    "preminify": "node preminify.js",
+    "postminify": "split -b 15k min.js minified/min"
   },
   "repository": {
     "type": "git",
@@ -17,6 +19,7 @@
   },
   "homepage": "https://github.com/scyclow/hypothetical-instructions#readme",
   "dependencies": {
-    "saxi": "^0.15.0"
+    "saxi": "^0.15.0",
+    "uglify-js": "^3.17.4"
   }
 }

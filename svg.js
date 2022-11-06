@@ -54,9 +54,11 @@ class SVG {
     this.h = yin * dpi
     this.svg = document.createElementNS(__ns, 'svg')
     this.svg.setAttribute('id', 'svg')
-    // this.svg.setAttribute('width', '100vw')
-    this.svg.setAttribute('width', '95.9vw')
-    this.svg.setAttribute('style', 'transform: rotate(0.18deg) translate(0px,0.16vw); cursor: pointer')
+    if (!tokenData.plot) {
+      this.svg.setAttribute('width', '95.9vw')
+      this.svg.setAttribute('style', 'transform: rotate(0.18deg) translate(0px,0.16vw); cursor: pointer')
+    }
+
     this.svg.setAttribute('viewBox', '0 0 ' + this. w + ' ' + this. h)
 
 

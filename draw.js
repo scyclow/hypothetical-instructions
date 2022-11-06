@@ -19,14 +19,15 @@
 
 function draw() {
 
-  const externalAsset = tokenData.externalAssetDependencies[0].cid
 
-
-  const bg = document.createElement('img')
-  bg.setAttribute('src', tokenData.preferredIPFSGateway + externalAsset)
-  bg.setAttribute('style', 'width: 100vw; position: fixed; z-index: -100;')
-  document.body.appendChild(bg)
-  if (!tokenData.plot) document.body.setAttribute('style', 'display: flex; align-items: center; justify-content: center')
+  if (!tokenData.plot) {
+    const externalAsset = tokenData.externalAssetDependencies[0].cid
+    const bg = document.createElement('img')
+    bg.setAttribute('src', tokenData.preferredIPFSGateway + externalAsset)
+    bg.setAttribute('style', 'width: 100vw; position: fixed; z-index: -100;')
+    document.body.appendChild(bg)
+    document.body.setAttribute('style', 'display: flex; align-items: center; justify-content: center')
+  }
 
   let bgShown = true
   const hideBg = () => {

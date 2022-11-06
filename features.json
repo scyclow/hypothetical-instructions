@@ -1,0 +1,310 @@
+[
+  {
+    "type": "enum",
+    "name": "Left",
+    "options": [
+      "Rosette",
+      "Symbols"
+    ]
+  },
+  {
+    "type": "enum",
+    "name": "Right",
+    "options": [
+      "Rosette",
+      "Symbols"
+    ]
+  },
+  {
+    "type": "enum",
+    "name": "Rosette Pattern",
+    "options": [
+      "Normal",
+      "Exaggerated",
+      "Ornate",
+      "Rotating"
+    ]
+  },
+  {
+    "type": "boolean",
+    "name": "Rosette Shadow"
+  },
+  {
+    "type": "enum",
+    "name": "Rosette Style",
+    "options": [
+      "Ribbed",
+      "Checkered",
+      "Ribbon",
+      "Lines (Straight)",
+      "Lines (Dashed)",
+      "Spiral",
+      "Fragmented",
+      "Double"
+    ]
+  },
+  {
+    "type": "enum",
+    "name": "George",
+    "options": [
+      "Accessories",
+      "Rosette",
+      "Baldessari"
+    ]
+  },
+
+
+  {
+    "type": "enum",
+    "name": "Beard",
+    "options": [
+      "Chin",
+      "Mutton Chops",
+      "Goatee",
+      "None"
+    ]
+  },
+  {
+    "type": "enum",
+    "name": "Blouse",
+    "options": [
+      "Colorful",
+      "None"
+    ]
+  },
+  {
+    "type": "enum",
+    "name": "Cheeks",
+    "options": [
+      "Beauty Mark",
+      "Tear Drops",
+      "None"
+    ]
+  },
+{
+    "type": "enum",
+    "name": "Ears",
+    "options": [
+      "Headphones",
+      "Earring",
+      "None"
+    ]
+  },
+  {
+    "type": "enum",
+    "name": "Eyebrows",
+    "options": [
+      "Angry",
+      "Worried",
+      "None"
+    ]
+  },
+  {
+    "type": "enum",
+    "name": "Eyes",
+    "options": [
+      "Glasses",
+      "Eye Patch",
+      "X'd",
+      "$",
+      "Stars",
+      "Glass Eyes",
+      "Eye Lashes",
+      "Hearts",
+      "Monocle",
+      "Laser Eyes",
+      "None"
+    ]
+  },
+  {
+    "type": "enum",
+    "name": "Face Tattoo",
+    "options": [
+      "Debugger",
+      "Bar Code",
+      "Rosette",
+      "Heart",
+      "One",
+      "Cross",
+      "CGK",
+      "Star",
+      "Eye",
+      "Peace",
+      "Shield",
+      "Circle",
+      "Smiley",
+      "!!!",
+      "666",
+      "IOU",
+      "XXX",
+      "$$$",
+      "WINNER",
+      "LOSER",
+      "None"
+    ]
+  },
+  {
+    "type": "enum",
+    "name": "Hair",
+    "options": [
+      "Colored",
+      "Mohawk",
+      "Devil Horns",
+      "Head Band",
+      "Bow",
+      "None"
+    ]
+  },
+  {
+    "type": "enum",
+    "name": "Mouth",
+    "options": [
+      "Cigarette",
+      "Tongue",
+      "Smile",
+      "Frown",
+      "Open",
+      "Soul Patch",
+      "Buck Teeth",
+      "Ball Gag",
+      "Lips",
+      "None"
+    ]
+  },
+  {
+    "type": "enum",
+    "name": "Neck",
+    "options": [
+      "Tie",
+      "Bow Tie",
+      "Cross Necklace",
+      "None"
+    ]
+  },
+  {
+    "type": "enum",
+    "name": "Nose",
+    "options": [
+      "Nose Ring",
+      "Clown Nose",
+      "None"
+    ]
+  },
+  {
+    "type": "enum",
+    "name": "Stache",
+    "options": [
+      "Walrus",
+      "Handle Bars",
+      "Thin",
+      "None"
+    ]
+  },
+
+
+
+  {
+    "type": "boolean",
+    "name": "Aura"
+  },
+  {
+    "type": "boolean",
+    "name": "Biz Card"
+  },
+  {
+    "type": "boolean",
+    "name": "Boner"
+  },
+  {
+    "type": "boolean",
+    "name": "Grid"
+  },
+  {
+    "type": "boolean",
+    "name": "Token Hash"
+  },
+
+  {
+    "type": "boolean",
+    "name": "Token ID"
+  },
+  {
+    "type": "boolean",
+    "name": "USA Shadow"
+  },
+  {
+    "type": "boolean",
+    "name": "Where's George?"
+  },
+  {
+    "type": "boolean",
+    "name": "Wonky Rosettes"
+  },
+  {
+    "type": "boolean",
+    "name": "Worthless"
+  },
+  {
+    "type": "boolean",
+    "name": "Has Message"
+  },
+  {
+    "type": "boolean",
+    "name": "Marfa Branded"
+  },
+  {
+    "type": "boolean",
+    "name": "Hawaii Bill"
+  },
+
+
+  {
+    "type": "boolean",
+    "name": "Burn"
+  },
+  {
+    "type": "boolean",
+    "name": "Cut"
+  },
+  {
+    "type": "boolean",
+    "name": "Rip"
+  },
+  {
+    "type": "boolean",
+    "name": "Manual Highlight"
+  },
+  {
+    "type": "boolean",
+    "name": "Doodle"
+  },
+  {
+    "type": "number",
+    "name": "Pen Count",
+    "min": 0,
+    "max": 10,
+    "step": 1
+  },
+
+  {
+    "type": "number",
+    "name": "Arrows",
+    "min": 0,
+    "max": 100,
+    "step": 1
+  },
+  {
+    "type": "number",
+    "name": "Symbol Count",
+    "min": 0,
+    "max": 100,
+    "step": 1
+  },
+  {
+    "type": "number",
+    "name": "Dick Count",
+    "min": 0,
+    "max": 6,
+    "step": 1
+  }
+]

@@ -87,7 +87,7 @@ function drawFace() {
   const drawTorso = prb(0.35)
 
   const drawStache = prb(0.15)
-  const drawHair = prb(0.27)
+  const drawHair = prb(0.3)
   const drawEyebrows = prb(0.1)
   const drawCheek = prb(0.1)
   const drawBeard = prb(0.125)
@@ -117,11 +117,11 @@ function drawFace() {
       hairBow(757, 254)
     }],
     [1, () => {
-      // FEATURES.Hair = 'Headphones'
+      // FEATURES.Ears = 'Headphones'
       headphones(775, 206)
     }],
-    [1, () => {
-      // FEATURES.Hair = 'Earring'
+    [2.3333, () => {
+      // FEATURES.Ears = 'Earring'
       earring(782, 357)
     }],
   )()
@@ -132,39 +132,39 @@ function drawFace() {
   }
 
   if (drawEyes) chance(
-    [2, () => {
+    [4, () => {
       // FEATURES.Eyes = 'Glasses'
       glasses(824, 300, rndHighlighter())
     }],
-    [2, () => {
+    [4, () => {
       // FEATURES.Eyes = 'Eye Patch'
       eyePatch(827, 280)
     }],
-    [2, () => {
+    [4, () => {
       // FEATURES.Eyes = `X'd`
       xEyes(866, 301)
     }],
-    [2, () => {
+    [4, () => {
       // FEATURES.Eyes = '$'
       $Eyes(873, 304)
     }],
-    [2, () => {
+    [4, () => {
       // FEATURES.Eyes = 'Stars'
       starEyes(857, 294)
     }],
-    [1, () => {
+    [4, () => {
       // FEATURES.Eyes = 'Glass Eyes'
       doubleEyes(863, 303)
     }],
-    [1, () => {
+    [4, () => {
       // FEATURES.Eyes = 'Eye Lashes'
       eyeLashes(855, 296)
     }],
-    [2, () => {
-      // FEATURES.Eyes = 'hearts'
+    [4, () => {
+      // FEATURES.Eyes = 'Hearts'
       heartEyes(864, 302)
     }],
-    [2, () => {
+    [4, () => {
       // FEATURES.Eyes = 'Monocle'
       monocole(848, 295)
     }],
