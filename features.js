@@ -499,7 +499,7 @@ function calculateFeatures(tokenData) {
 
     if (drawHair) chance(
       [6, () => {
-        FEATURES.Hair = 'Colored'
+        FEATURES.Hair = 'Highlights'
         hair(720, 186, rndHighlighter())
       }],
       [1, () => {
@@ -934,11 +934,11 @@ function calculateFeatures(tokenData) {
     const leftRosette = prb(0.7)
     const rightRosette = prb(0.7)
     const randomSymbols = prb(0.01)
-    const drawGrid = prb(0.02)
+    const drawGrid = prb(0.025)
     const drawBoner = prb(0.04)
     const doodleHereRight = !rightRosette && prb(0.04)
     const doodleHereLeft = !leftRosette && prb(0.04)
-    const isWorthless = !doodleHereRight && !doodleHereLeft && prb(0.02)
+    const isWorthless = !doodleHereRight && !doodleHereLeft && prb(0.025)
     const isHawaii = !isWorthless && !doodleHereRight && !doodleHereLeft && prb(0.005)
     const usaHighlights = prb(0.5)
     const showAura = prb(0.05)
@@ -1015,7 +1015,8 @@ function calculateFeatures(tokenData) {
       : 'Baldessari'
 
     FEATURES['Rosette Style'] =
-      rosetteLines === 0 ? 'Ribbed'
+      (!leftRosette && !rightRosette) ? 'None'
+      : rosetteLines === 0 ? 'Ribbed'
       : rosetteLines === 1 && !rosetteLinesDashed ? 'Checkered'
       : rosetteLines === 1 && rosetteLinesDashed ? 'Ribbon'
       : rosetteLines === 2 && !rosetteLinesDashed ? 'Lines (Straight)'
@@ -1025,8 +1026,9 @@ function calculateFeatures(tokenData) {
       : 'Double'
 
     FEATURES['Rosette Pattern'] =
-      variation === 0 ? 'Normal'
+      (!leftRosette && !rightRosette) ? 'None'
       : variation === 1 ? 'Exaggerated'
+      : variation === 0 || [2, 3, 4].includes(rosetteLines) ? 'Normal'
       : variation === 2 ? 'Ornate'
       : 'Rotating'
 
@@ -1315,67 +1317,141 @@ function calculateFeatures(tokenData) {
 
 
 
+
   const rndText = (x, y) => {
     FEATURES['Has Message'] = true
     chance(
-      [1, () => svg.text("LOSER", x+115, y, {size: 0.45})],
-      [1, () => svg.text("WINNER", x+115, y, {size: 0.45})],
-      [1, () => svg.text("TIME = MONEY", x+35, y, {size: 0.45})],
-      [1, () => svg.text("MONEY = SLAVERY", x+5, y, {size: 0.45})],
-      [1, () => svg.text("LUCKY DOLLAR", x+45, y, {size: 0.45})],
-      [1, () => svg.text("GOOD LUCK!", x+65, y, {size: 0.45})],
       [1, () => {
+        FEATURES.__messages.push("LOSER")
+        svg.text("LOSER", x+115, y, {size: 0.45})
+      }],
+      [1, () => {
+        FEATURES.__messages.push("WINNER")
+        svg.text("WINNER", x+115, y, {size: 0.45})
+      }],
+      [1, () => {
+        FEATURES.__messages.push("TIME = MONEY")
+        svg.text("TIME = MONEY", x+35, y, {size: 0.45})
+      }],
+      [1, () => {
+        FEATURES.__messages.push("MONEY = SLAVERY")
+        svg.text("MONEY = SLAVERY", x+5, y, {size: 0.45})
+      }],
+      [1, () => {
+        FEATURES.__messages.push("LUCKY DOLLAR")
+        svg.text("LUCKY DOLLAR", x+45, y, {size: 0.45})
+      }],
+      [1, () => {
+        FEATURES.__messages.push("GOOD LUCK!")
+        svg.text("GOOD LUCK!", x+65, y, {size: 0.45})
+      }],
+      [1, () => {
+        FEATURES.__messages.push("MONEY MAKES THE WORLD GO ROUND")
         svg.text("MONEY MAKES THE", x+55, y-5)
         svg.text("WORLD GO ROUND", x+60, y+20)
       }],
       [1, () => {
+        FEATURES.__messages.push("DON'T BELIEVE THE LIBERAL MEDIA")
         svg.text("DON'T BELIEVE", x+90, y-5)
         svg.text("THE LIBERAL MEDIA", x+55, y+22)
       }],
       [1, () => {
+        FEATURES.__messages.push("ANOTHER DAY ANOTHER DOLLAR")
         svg.text("ANOTHER DAY", x+100, y-5)
         svg.text("ANOTHER DOLLAR", x+75, y+22)
       }],
-      [1, () => svg.text("ABOLISH THE FED", x+10, y, {size: 0.45})],
       [1, () => {
+        FEATURES.__messages.push("ABOLISH THE FED")
+        svg.text("ABOLISH THE FED", x+10, y, {size: 0.45})
+      }],
+      [1, () => {
+        FEATURES.__messages.push("ACCEPT JESUS CHRIST AS YOUR LORD AND SAVIOUR")
         svg.text("ACCEPT JESUS CHRIST AS", x+2, y-5)
         svg.text("YOUR LORD AND SAVIOUR", x+7, y+20)
       }],
-      [1, () => svg.text("SEEK FINANCIAL FREEDOM", x+5, y)],
-      [1, () => svg.text("FOLLOW THE INSTRUCTIONS", x+5, y)],
-      [1, () => svg.text("666", x+110, y, {size: 0.65})],
-      [1, () => svg.text("$$$$$$$$$$$$$$", x+10, y, {size: 0.45})],
-      [1, () => svg.text("DO NOT SPEND", x+35, y, {size: 0.45})],
-      [1, () => svg.text("SPEND WISELY", x+35, y, {size: 0.45})],
-      [1, () => svg.text("SPEND ME", x+105, y, {size: 0.45})],
-      [1, () => svg.text("SELL ME", x+105, y, {size: 0.45})],
-      [1, () => svg.text("RETURN TO CIRCULATION", x+5, y,)],
-      [1, () => svg.text("DON'T GO TO JAIL", x+5, y, {size: 0.45})],
-      [1, () => svg.text("BURN AFTER READING", x+55, y+10,)],
-      [1, () => svg.text("BUY BITCOIN", x+65, y, {size: 0.45})],
-      [1, () => svg.text("PUNCH A FASCIST", x+10, y, {size: 0.45})],
       [1, () => {
+        FEATURES.__messages.push("SEEK FINANCIAL FREEDOM")
+        svg.text("SEEK FINANCIAL FREEDOM", x+5, y)
+      }],
+      [1, () => {
+        FEATURES.__messages.push("FOLLOW THE INSTRUCTIONS")
+        svg.text("FOLLOW THE INSTRUCTIONS", x+5, y)
+      }],
+      [1, () => {
+        FEATURES.__messages.push("666")
+        svg.text("666", x+110, y, {size: 0.65})
+      }],
+      [1, () => {
+        FEATURES.__messages.push("$$$$$$$$$$$$$$")
+        svg.text("$$$$$$$$$$$$$$", x+10, y, {size: 0.45})
+      }],
+      [1, () => {
+        FEATURES.__messages.push("DO NOT SPEND")
+        svg.text("DO NOT SPEND", x+35, y, {size: 0.45})
+      }],
+      [1, () => {
+        FEATURES.__messages.push("SPEND WISELY")
+        svg.text("SPEND WISELY", x+35, y, {size: 0.45})
+      }],
+      [1, () => {
+        FEATURES.__messages.push("SPEND ME")
+        svg.text("SPEND ME", x+105, y, {size: 0.45})
+      }],
+      [1, () => {
+        FEATURES.__messages.push("SELL ME")
+        svg.text("SELL ME", x+105, y, {size: 0.45})
+      }],
+      [1, () => {
+        FEATURES.__messages.push("RETURN TO CIRCULATION")
+        svg.text("RETURN TO CIRCULATION", x+5, y,)
+      }],
+      [1, () => {
+        FEATURES.__messages.push("DON'T GO TO JAIL")
+        svg.text("DON'T GO TO JAIL", x+5, y, {size: 0.45})
+      }],
+      [1, () => {
+        FEATURES.__messages.push("BURN AFTER READING")
+        svg.text("BURN AFTER READING", x+55, y+10,)
+      }],
+      [1, () => {
+        FEATURES.__messages.push("BUY BITCOIN")
+        svg.text("BUY BITCOIN", x+65, y, {size: 0.45})
+      }],
+      [1, () => {
+        FEATURES.__messages.push("PUNCH A NAZI")
+        svg.text("PUNCH A NAZI", x+10, y, {size: 0.45})
+      }],
+      [1, () => {
+        FEATURES.__messages.push("TAKE THE MONEY AND RUN")
         svg.text("TAKE THE MONEY", x+70, y-5)
         svg.text("AND RUN", x+70, y+20)
       }],
       [1, () => {
+        FEATURES.__messages.push("STOP THROWING YOUR MONEY AWAY")
         svg.text("STOP THROWING", x+100, y-5)
         svg.text("YOUR MONEY AWAY", x+70, y+20)
       }],
-      [1, () => svg.text("DO YOUR OWN RESEARCH", x+10, y)],
       [1, () => {
+        FEATURES.__messages.push("DO YOUR OWN RESEARCH")
+        svg.text("DO YOUR OWN RESEARCH", x+10, y)
+      }],
+      [1, () => {
+        FEATURES.__messages.push("MAKE CASH FAST AT WWW.FASTCASHMONEYPLUS.BIZ")
         svg.text("MAKE CASH FAST AT", x+50, y-10, {size: 0.3})
         svg.text("WWW.FASTCASHMONEYPLUS.BIZ", x-20, y+20, {size: 0.3})
       }],
       [1, () => {
+        FEATURES.__messages.push("DON'T THINK ABOUT WHERE THIS DOLLAR HAS BEEN")
         svg.text("DON'T THINK ABOUT WHERE", x-4, y-7, {size: 0.3})
         svg.text("THIS DOLLAR HAS BEEN", x+20, y+20, {size: 0.3})
       }],
       [1, () => {
+        FEATURES.__messages.push("CASH RULES EVERYTHING AROUND ME")
         svg.text("CASH RULES", x+100, y-10, {size: 0.3})
         svg.text("EVERYTHING AROUND ME", x+20, y+20, {size: 0.3})
       }],
       [1, () => {
+        FEATURES.__messages.push("TEXT 1.848.225.7281 FOR A GOOD TIME")
         svg.text("TEXT 1.848.225.7281", x+50, y-10, {size: 0.3})
         svg.text("FOR A GOOD TIME", x+70, y+20, {size: 0.3})
       }],
@@ -1864,7 +1940,8 @@ function calculateFeatures(tokenData) {
     Rip: false,
     'Manual Highlight': false,
     'Has Message': false,
-    'Marfa Branded': false
+    'Marfa Branded': false,
+    __messages: []
   }
 
   function draw() {

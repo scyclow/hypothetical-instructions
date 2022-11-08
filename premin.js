@@ -747,11 +747,11 @@ function layout() {
   const leftRosette = prb(0.7)
   const rightRosette = prb(0.7)
   const randomSymbols = prb(0.01)
-  const drawGrid = prb(0.02)
+  const drawGrid = prb(0.025)
   const drawBoner = prb(0.04)
   const doodleHereRight = !rightRosette && prb(0.04)
   const doodleHereLeft = !leftRosette && prb(0.04)
-  const isWorthless = !doodleHereRight && !doodleHereLeft && prb(0.02)
+  const isWorthless = !doodleHereRight && !doodleHereLeft && prb(0.025)
   const isHawaii = !isWorthless && !doodleHereRight && !doodleHereLeft && prb(0.005)
   const usaHighlights = prb(0.5)
   const showAura = prb(0.05)
@@ -1166,7 +1166,7 @@ const rndText = (x, y) => {
     [1, () => svg.text("DON'T GO TO JAIL", x+5, y, {size: 0.45})],
     [1, () => svg.text("BURN AFTER READING", x+55, y+10,)],
     [1, () => svg.text("BUY BITCOIN", x+65, y, {size: 0.45})],
-    [1, () => svg.text("PUNCH A FASCIST", x+10, y, {size: 0.45})],
+    [1, () => svg.text("PUNCH A NAZI", x+10, y, {size: 0.45})],
     [1, () => {
       svg.text("TAKE THE MONEY", x+70, y-5)
       svg.text("AND RUN", x+70, y+20)
