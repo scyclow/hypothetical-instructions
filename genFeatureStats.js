@@ -85,7 +85,7 @@ function avgGenStats (trials, count) {
 
 }
 
-console.log(avgGenStats(20, 500))
+console.log(avgGenStats(30, 300))
 
 
 // console.log(genStats(400))

@@ -1006,6 +1006,7 @@ function calculateFeatures(tokenData) {
     const lineStroke = prb(0.4) ? penBase : strokeAlt
 
 
+    const atLeastOneRosette = leftRosette || rightRosette
 
     FEATURES.Left = leftRosette ? 'Rosette' : 'Symbols'
     FEATURES.Right = rightRosette ? 'Rosette' : 'Symbols'
@@ -1015,7 +1016,7 @@ function calculateFeatures(tokenData) {
       : 'Baldessari'
 
     FEATURES['Rosette Style'] =
-      (!leftRosette && !rightRosette) ? 'None'
+      !atLeastOneRosette ? 'None'
       : rosetteLines === 0 ? 'Ribbed'
       : rosetteLines === 1 && !rosetteLinesDashed ? 'Checkered'
       : rosetteLines === 1 && rosetteLinesDashed ? 'Ribbon'
@@ -1026,14 +1027,14 @@ function calculateFeatures(tokenData) {
       : 'Double'
 
     FEATURES['Rosette Pattern'] =
-      (!leftRosette && !rightRosette) ? 'None'
+      !atLeastOneRosette ? 'None'
       : variation === 1 ? 'Exaggerated'
       : variation === 0 || [2, 3, 4].includes(rosetteLines) ? 'Normal'
       : variation === 2 ? 'Ornate'
       : 'Rotating'
 
-    FEATURES['Rosette Shadow'] = !!shadow
-    FEATURES['Wonky Rosettes'] = gearStartFn === wonkyStart
+    FEATURES['Rosette Shadow'] = !!shadow && atLeastOneRosette
+    FEATURES['Wonky Rosettes'] = gearStartFn === wonkyStart && atLeastOneRosette
     FEATURES.Burn = sectionFeatures.leftBurnHere || sectionFeatures.rightBurnHere
     FEATURES.Worthless = isWorthless
     FEATURES.Boner = drawBoner
@@ -1941,7 +1942,7 @@ function calculateFeatures(tokenData) {
     'Manual Highlight': false,
     'Has Message': false,
     'Marfa Branded': false,
-    __messages: []
+    // __messages: []
   }
 
   function draw() {
