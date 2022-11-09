@@ -1456,6 +1456,10 @@ function calculateFeatures(tokenData) {
         svg.text("TEXT 1.848.225.7281", x+50, y-10, {size: 0.3})
         svg.text("FOR A GOOD TIME", x+70, y+20, {size: 0.3})
       }],
+      [1, () => {
+        FEATURES.__messages.push("CASH IS KING")
+        svg.text("CASH IS KING", x+35, y, {size: 0.45})
+      }],
     )()
   }
 
@@ -1942,7 +1946,7 @@ function calculateFeatures(tokenData) {
     'Manual Highlight': false,
     'Has Message': false,
     'Marfa Branded': false,
-    // __messages: []
+    __messages: []
   }
 
   function draw() {
@@ -1963,6 +1967,8 @@ function calculateFeatures(tokenData) {
   }
 
   draw()
+
+  delete FEATURES.__messages
 
   return FEATURES
 
