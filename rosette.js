@@ -75,7 +75,10 @@ function getRosettePath(rad, gears, cycles=1, spacing=0, startOffset=0) {
 
 const shadowColor = sample(penColors)
 
-function drawRibbedRosette(x, y, minRad, layers, {gears, rosetteRadiaChange, rosetteRotation, ...args}) {
+function drawRibbedRosette(x, y, minRad, layers, {gears, rosetteRadiaChange, rosetteRotation, dist, ...args}) {
+  dist = dist || 15
+  rosetteRadiaChange = rosetteRadiaChange || 0
+  rosetteRotation = rosetteRotation || 0
   if (args.shadow) {
     drawRibbedRosette(x-2, y-2, minRad, layers, {
       gears,
@@ -88,7 +91,7 @@ function drawRibbedRosette(x, y, minRad, layers, {gears, rosetteRadiaChange, ros
   }
 
   times(layers, t => {
-    const rad = t*15 + minRad
+    const rad = t*dist + minRad
     const rosettePath = getRosettePath(
       rad,
       gears.map(g => ({ ...g, radia: g.radia - (t*rosetteRadiaChange)}))

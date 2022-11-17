@@ -279,6 +279,10 @@
     "name": "Doodle"
   },
   {
+    "type": "boolean",
+    "name": "Star Note"
+  },
+  {
     "type": "number",
     "name": "Pen Count",
     "min": 0,

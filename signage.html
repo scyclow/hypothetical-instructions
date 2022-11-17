@@ -1,0 +1,443 @@
+<!--
+
+TODO
+
+
+ Should have plotter explanations at the top of the hour (maybe 3 in the AM, 3 in the PM)
+
+Talk to alfie steiner. ask him legal questions. give him an instruction or two
+
+
+
+- make biz cards compliant (sigs are on the same spot, cut)
+- toothy grin on george
+- move left DOODLE HERE up a little, lower font size a bit.
+- make DOODLE HERE size more dynamic
+- add dotted line version of burn here
+- explore fragment + dotted rosette pattern
+
+
+
+
+
+
+
+
+
+
+We should have a few special dollars with the seed phrase of a wallet plotted on the back of them.
+
+Should try to set the space up like an arts and crafts space, as much as possible
+  ! have a lot of different working pens for people to use
+  tell people to draw on dollars to get a sense of how the pen will show up
+
+Should solicit volunteers to run some of the operations
+
+Exploiting a loophole
+
+Experimental plot
+  - larger dimensions
+  -
+
+
+Make pen thickness a feature
+
+
+INSTRUCTIONS
+  - Prove ownership of token
+
+  - Sign hold harmless agreement
+    - agreement between the BUYER and the SELLER
+    - Steve Pikelny (The Artist), Plottables LLC, The Buyer
+    - hold us harmless
+    - this documents acts as a certificate fo authenticity
+    - don't photograph the plotters
+    - The Buyer is not required to follow any of The Instructions, in part or in full.
+
+  - Receive Dollar
+    - Buy purchasing the INSTRUCTIONS NFT (The Token), The Buyer is entitled to a $1.00 USD refund
+    - Can only be redeemed in person upon proof of ownership
+    - This will be issued in the form of a crisp US $1 bill to the best of The Artist's or Plottables LLC's ability
+      - or
+    - Neither The Artist nor Plottables LLC will, under no circumstances, sign this bill, unless held under duress
+      - "This includes threats, violence, constraints, and other actions brought to bear on them to do something against their will or better judgment."
+
+    - write serial number on contract
+    - The Buyer/Artist sign
+
+  - explanation of how the plotter works
+
+
+
+
+Defacing US currency is a federal crime, and may be punishable with up to six months imprisonment in addition to fines. Neither the Artist nor Plottables LLC condone defacing, mutilating, cutting, disfiguring, perforating, or otherwise damaging US currency.
+
+By purchasing an Instruction token the collector implicitly assumes full legal responsibility for the defacement of currency in their possession, and agrees to hold the Artist and Plottables LLC harmless from all claims, losses, liabilities, public prosecutions, and costs associated with this project.
+
+All Instructions exist as a purely artistic exercise, and collectors are strictly discouraged from executing said Instructions on a United States one-dollar bill using the following tools: Axidraw pen plotters, fine-point pens (ex. Micron, LePen, Stabilo), felt tip and highlighter pens (ex. Sharpie), scissors, or lighters. The token thumbnail represents a mere simulation of what such an execution may look like.
+
+As a token of gratitude, each collector is entitled to a crisp US $1 bill per minted token when claimed in Marfa, TX from 11/11/22 - 11/13/22.
+
+
+
+
+
+
+
+Layout
+  face
+    feature/pattern
+      feature
+        % hair color
+        % blouse
+        % sunglasses
+        % nose ring
+        % thin mustache
+        % curly mustache
+        % x eyes
+        % tounge
+        $ eyes
+        % happy mouth
+        % sad mouth
+        % <3 eyes
+        % open mouth
+        % cigarette
+        % angry eyebrows
+        % worried eyebrows
+        % laser eyes
+        % mohawk
+        % tear drops
+        % bowtie
+        % full beard
+        % goatee
+        % soul patch
+
+
+
+  fed stamp
+    pattern
+
+    serial
+      none
+      star
+      second serial
+      cross out
+      border
+
+  treasury stamp
+    pattern
+
+
+    serial
+      none
+      star
+      second serial
+      cross out
+      border
+
+  border
+    fim border/shrinking rectangles
+
+  shaded in opacity areas
+    highlighter colors
+    this means that the owner needs to color them in themselves
+
+
+  dotted line
+    true/false
+    "cut here"
+    line can cross l/r, t/b, corner, rosete edges
+
+
+Rosettes
+  style
+    ribbed
+    lines
+    numismatic? (might take too long + more work)
+
+  shadow
+    true/false
+
+  overlay (different rosettes on top of each other)
+    very different
+    subtly different
+
+
+
+
+
+
+
+
+ -->
+
+
+
+
+
+
+<html>
+  <head>
+    <meta charset="utf-8"/>
+
+
+    <style type="text/css">
+      body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      body * {
+        position: absolute;
+      }
+
+    </style>
+
+    <body></body>
+    <script>
+      function genTokenData(projectNum) {
+
+        const pointHashesLookedAt = JSON.parse(localStorage.getItem('hidHashesLookedAt')) || 0
+
+        const queryParams = window.location.search
+          ? window.location.search.replace('?', '').split('&').reduce((params, i) => {
+              const [k, v] = i.split('=')
+              params[k] = v
+              return params
+            }, {})
+          : {}
+
+        let hash = '0x'
+        if (queryParams.hash) {
+          hash = queryParams.hash
+        } else {
+          for (let i = 0; i < 64; i++) {
+            hash += Math.floor(Math.random() * 16).toString(16)
+          }
+          window.location.hash = '#' + hash
+
+          const last10hashes = JSON.parse(localStorage.getItem('last10Hashes')) || []
+          last10hashes.unshift(hash)
+
+          localStorage.setItem('last10Hashes', JSON.stringify(last10hashes.slice(0, 10)))
+          localStorage.setItem('hidHashesLookedAt', JSON.stringify(pointHashesLookedAt+1))
+        }
+
+
+        let tokenId = queryParams.tokenId
+        if (!tokenId) {
+          tokenId = String(projectNum * 1000000 + Math.floor(Math.random() * 64))
+        }
+
+        return {
+          hash,
+          tokenId,
+          externalAssetDependencies: [{
+            // cid: 'bafybeiaxqcum3dorimpywtf2rbayujxlkygpyft47yfrd37catiheyojb4',
+            cid: 'bafkreibpc3wpdg4mq3bbkesqrxtoho25s3shnfhyotd6rymsag3bcfpeni',
+            dependencyType: 'IPFS',
+          }],
+          preferredIPFSGateway: 'https://ipfs.io/ipfs/',
+        }
+      }
+
+      const tokenData = genTokenData(0)
+      console.log(tokenData.hash)
+    </script>
+
+    <script src="./utils.js"></script>
+    <script src="./colors.js"></script>
+    <script src="./rosette.js"></script>
+    <script src="./george.js"></script>
+    <script src="./symbol.js"></script>
+    <script src="./layout.js"></script>
+    <script src="./svg.js"></script>
+    <!-- <script src="./draw.js"></script> -->
+
+    <script src="./features.js"></script>
+
+
+
+    <script type="text/javascript">
+
+      window.onkeypress = function(e) {
+        if (e.keyCode == 32) {
+          var svg = document.getElementById('svg');
+          var serializer = new XMLSerializer();
+          var source = serializer.serializeToString(svg);
+          source = '<?xml version="1.0" standalone="no"?>\r\n' + source;
+          let a = document.createElement("a");
+          a.href = "data:image/svg+xml;charset=utf-8,"+encodeURIComponent(source);;
+          a.download = `${tokenData.hash}.svg`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        }
+      }
+    </script>
+
+    <script type="text/javascript">
+      document.body.onclick = (e) => {
+        console.log(`${
+          (1743.75 * e.clientX/window.innerWidth).toFixed(0)
+        }, ${
+          (702.756 * (e.clientY - document.getElementById('svg').getBoundingClientRect().top)/document.getElementById('svg').getBoundingClientRect().height).toFixed(0)
+        }`)
+      }
+    </script>
+
+    <script type="text/javascript">
+      svg = new SVG(11, 8.5)
+      // svg = new SVG(8.5, 11)
+
+
+      svg.svg.style.background = '#fff'
+      document.body.style.background = '#555'
+      function plottingTime(x, y) {
+        svg.drawRect(150+x, 850+y, 1200, 450)
+        svg.text('FRI   2PM', 220+x , 950+y, {size: 1})
+        arrowEast(1000+x, 1000+y, 0.8)
+        svg.text('4PM', 1120+x , 950+y, {size: 1})
+
+        svg.text('SAT  12PM', 220+x , 1050+y, {size: 1})
+        arrowEast(1000+x, 1100+y, 0.8)
+        svg.text('6PM', 1120+x , 1050+y, {size: 1})
+
+        svg.text('SUN  10AM', 220+x , 1150+y, {size: 1})
+        arrowEast(1000+x, 1200+y, 0.8)
+        svg.text('2PM', 1120+x , 1150+y, {size: 1})
+      }
+
+      function mintingTime(x, y) {
+        svg.text('11.11.22 2PM', 220 + x, 950+y, {size: 1})
+        arrowEast(1300 + x, 1000+y, 1)
+        svg.text('11.13.22 2PM', 1520 + x, 950+y, {size: 1})
+      }
+
+      // svg.text('PLEASE RETURN', 100, 50, {size: 3})
+      // svg.text('PENS AFTER USE', 50, 350, {size: 3})
+
+
+      // svg.text('FOLLOW', 100, 50, {size: 3})
+      // svg.text('THE', 100, 350, {size: 3})
+      // svg.text('INSTRUCTIONS', 100, 650, {size: 3})
+
+
+
+
+
+
+      // svg.text('FOLLOW THE INSTRUCTIONS', 220, 150, {size: 1.5})
+      // svg.text('FOLLOW THE INSTRUCTIONS', 220, 350, {size: 1.5})
+      // svg.text('FOLLOW THE INSTRUCTIONS', 220, 550, {size: 1.5})
+      // svg.text('FOLLOW THE INSTRUCTIONS', 220, 750, {size: 1.5})
+      // svg.text('FOLLOW THE INSTRUCTIONS', 220, 950, {size: 1.5})
+      // svg.text('FOLLOW THE INSTRUCTIONS', 220, 1150, {size: 1.5})
+      // svg.text('FOLLOW THE INSTRUCTIONS', 220, 1350, {size: 1.5})
+      // svg.text('FOLLOW THE INSTRUCTIONS', 220, 1550, {size: 1.5})
+      // svg.text('FOLLOW THE INSTRUCTIONS', 220, 1750, {size: 1.5})
+      // svg.text('FOLLOW THE INSTRUCTIONS', 220, 1950, {size: 1.5})
+      // svg.text('FOLLOW THE INSTRUCTIONS', 220, 2150, {size: 1.5})
+      // svg.text('FOLLOW THE INSTRUCTIONS', 220, 2350, {size: 1.5})
+      // svg.text('FOLLOW THE INSTRUCTIONS', 220, 2550, {size: 1.5})
+      // svg.text('FOLLOW THE INSTRUCTIONS', 220, 2750, {size: 1.5})
+      // svg.text('FOLLOW THE INSTRUCTIONS', 220, 2950, {size: 1.5})
+
+
+
+
+
+
+    // svg.text('PLOTTING', 120, 250, {size: 5})
+    // arrowSouth(1000, 2840, 10)
+
+
+    // svg.text('VIEWING', 320, 250, {size: 5})
+    // arrowSouth(1000, 2840, 10)
+
+
+    // svg.text('BATHROOM', 120, 250, {size: 4.5})
+    // arrowSouth(1000, 2840, 10)
+
+    // svg.text('EXIT', 420, 250, {size: 9})
+    // arrowSouth(1000, 3000, 10)
+
+
+    // svg.text('WIFI', 420, 250, {size: 9})
+    // svg.text('DO RIGHT HALL', 420, 1350, {size: 2})
+    // svg.text('M X   1112$', 420, 1750, {size: 2})
+
+
+
+
+
+    // arrowSouth(800, 3200, 17)
+
+
+
+
+    // svg.text('MINTING', 320, 250, {size: 5})
+    // svg.text('INSTRUCTIONS PLOTTABLES IO', 250, 750, {size: 1.3})
+
+    // mintingTime(100, 200)
+    // mintingTime(100, 400)
+    // mintingTime(100, 600)
+    // mintingTime(100, 800)
+    // mintingTime(100, 1000)
+    // mintingTime(100, 1200)
+    // mintingTime(100, 1400)
+    // mintingTime(100, 1600)
+    // mintingTime(100, 1800)
+    // mintingTime(100, 2000)
+
+
+
+
+  // svg.text('PLOTTING', 220, 250, {size: 4.7})
+
+  // plottingTime(0,0)
+  // plottingTime(930,600)
+  // plottingTime(0,1200)
+  // plottingTime(930,1800)
+
+
+
+
+
+
+      // svg.text('INSTRUCTIONS', 180, 450, {size: 4.3})
+      // svg.text('FOR', 1300, 1100, {size: 4.3})
+      // svg.text('DEFACEMENT', 500, 1700, {size: 4})
+  //   arrowSouth(1200, 1300, 3)
+  //     svg.text('DO RIGHT HALL', 300, 1500, {size: 2.5})
+  //   arrowSouth(1200, 2400, 3)
+
+  // plottingTime(550,1700)
+
+
+
+
+    // svg.text('RETURN', 250, 250, {size: 6})
+    // svg.text('PENS', 350, 900, {size: 6})
+    // svg.text('AFTER', 250, 1550, {size: 6})
+    // svg.text('USE', 550, 2200, {size: 6})
+
+    svg.text('DEFACING US CURRENCY', 250, 450, {size: 2.3})
+    svg.text('IS A FEDERAL CRIME', 120, 900, {size: 3})
+    svg.text('PUNISHABLE UP TO 6 MONTHS', 150, 1350, {size: 2})
+    svg.text('IN PRISON PLUS FINES', 150, 1800, {size: 2.7})
+
+    // const gears = generateGears(8, 15)
+    // drawRibbedRosette(1275, 1650, 40, 22, {gears, dist: 40})
+
+
+
+
+      svg.mount()
+    </script>
+
+  </head>
+</html>
