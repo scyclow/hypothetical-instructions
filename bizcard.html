@@ -45,11 +45,6 @@
           }
           window.location.hash = '#' + hash
 
-          const last10hashes = JSON.parse(localStorage.getItem('last10Hashes')) || []
-          last10hashes.unshift(hash)
-
-          localStorage.setItem('last10Hashes', JSON.stringify(last10hashes.slice(0, 10)))
-          localStorage.setItem('hidHashesLookedAt', JSON.stringify(pointHashesLookedAt+1))
         }
 
 
@@ -62,11 +57,12 @@
           hash,
           tokenId,
           externalAssetDependencies: [{
-            // cid: 'bafybeiaxqcum3dorimpywtf2rbayujxlkygpyft47yfrd37catiheyojb4',
-            cid: 'bafkreibpc3wpdg4mq3bbkesqrxtoho25s3shnfhyotd6rymsag3bcfpeni',
+            // cid: 'bafkreibpc3wpdg4mq3bbkesqrxtoho25s3shnfhyotd6rymsag3bcfpeni',
+            cid: 'dollar-back.jpeg',
             dependencyType: 'IPFS',
           }],
-          preferredIPFSGateway: 'https://ipfs.io/ipfs/',
+          // preferredIPFSGateway: 'https://ipfs.io/ipfs/',
+          preferredIPFSGateway: './',
         }
       }
 
@@ -136,12 +132,99 @@
     </script>
 
     <script type="text/javascript">
-      // svg = new SVG(9.5, 4)
-      svg = new SVG(8.5, 11)
 
 
-      svg.svg.style.background = '#fff'
-      document.body.style.background = '#555'
+  let bg
+  if (!tokenData.plot) {
+    const externalAsset = tokenData.externalAssetDependencies[0].cid
+    bg = document.createElement('img')
+    bg.setAttribute('src', tokenData.preferredIPFSGateway + externalAsset)
+    bg.setAttribute('style', 'width: 100vw; position: fixed; z-index: -100;')
+    document.body.appendChild(bg)
+    document.body.setAttribute('style', 'display: flex; align-items: center; justify-content: center')
+  }
+
+  let bgShown = true
+  const hideBg = () => {
+    if (!bg) return
+    if (bgShown) {
+      bg.style.visibility = 'hidden'
+    } else {
+      bg.style.visibility = 'visible'
+    }
+
+    bgShown = !bgShown
+  }
+
+  let xin = 6.15
+  let yin = 2.6
+  // const xin = 5.8125
+  // const yin = 2.34252
+
+  svg = new SVG(xin, yin, hideBg)
+
+
+  // svg.text('STEVE PIKELNY', 110, 150, {
+  svg.text('STEVE PIKELNY', 110, 20, {
+    size: .9,
+    strokeWidth: 18,
+    stroke: pen.red,
+  })
+
+
+  // svg.text('STEVE PIKELNY', 1020, 150, {
+  svg.text('STEVE PIKELNY', 1020, 20, {
+    size: .9,
+    strokeWidth: 18,
+    stroke: pen.red,
+  })
+
+
+  // svg.text('STEVIEP.XYZ', 95, 610, {
+  svg.text('STEVIEP.XYZ', 95, 710, {
+    size: .9,
+    strokeWidth: 18,
+    stroke: pen.red,
+  })
+
+  // svg.text('STEVIEP.XYZ', 1150, 610, {
+  svg.text('STEVIEP.XYZ', 1150, 710, {
+    size: .9,
+    strokeWidth: 18,
+    stroke: pen.red,
+  })
+
+
+  const gears1 = generateGears(8, 15, 0.1, evenStart)
+  const gears2 = generateGears(8, 15, 0.1, evenStart)
+
+
+  drawRibbedRosette(400, 380, 15, 8, {
+    gears: gears1,
+    dist: 25,
+    strokeWidth: 12,
+    colorFn: t => t%2 ? pen.red : pen.blue,
+    // rosetteRotation:3
+    rosetteRadiaChange: rnd(0,0.01)
+  })
+  drawRibbedRosette(1437, 380, 15, 8, {
+    gears: gears2,
+    dist: 25,
+    strokeWidth: 12,
+    colorFn: t => t%2 ? pen.red : pen.blue,
+    // rosetteRotation:3
+    rosetteRadiaChange: rnd(0,0.01)
+  })
+
+  svg.drawLine(svg.w/2, 10, svg.w/2, svg.h-10, {strokeWidth: 18, stroke: pen.blue})
+
+  svg.mount()
+
+
+
+
+
+
 
 
 
@@ -162,7 +245,7 @@
 
       // svg.text('ATTN. SHANE LAVALETTE', 1100, 500, {size: 0.4})
 
-    const gears = generateGears(8, 15)
+    // const gears = generateGears(8, 15)
 
       // drawRibbedRosette(500, 650, 15, 8, {gears, dist: 15, strokeWidth: 2, stroke: pen.red})
       // drawRibbedRosette(2400, 650, 15, 8, {gears, dist: 15, strokeWidth: 2, stroke: pen.red})
@@ -357,27 +440,26 @@
 
 
 
-    times(20, t => {
-      const rad = t*40 + 40
-      const rosettePath = getRosettePath(
-        rad,
-        gears.map(g => ({ ...g, radia: g.radia - (t*0.005)}))
-      )
+    // times(20, t => {
+    //   const rad = t*40 + 40
+    //   const rosettePath = getRosettePath(
+    //     rad,
+    //     gears.map(g => ({ ...g, radia: g.radia - (t*0.005)}))
+    //   )
 
-      svg.drawPath(svg.w / 2, svg.h/2, rosettePath, {
-        strokeWidth: 8,
-        stroke: sample([pen.red, pen.blue, pen.black]),
-        // gClass: 'shrinkGrow',
-        // gStyle: `animation-delay: -${t*500}ms`
-      })
-    })
-
-
-    drawLineRosette(svg.w / 2, svg.h/2, 900, 1100, gears.map(g => ({ ...g, radia: g.radia - 0.2})), { strokeWidth: 8, stroke: sample([pen.red, pen.blue, pen.black])})
+    //   svg.drawPath(svg.w / 2, svg.h/2, rosettePath, {
+    //     strokeWidth: 8,
+    //     stroke: sample([pen.red, pen.blue, pen.black]),
+    //     // gClass: 'shrinkGrow',
+    //     // gStyle: `animation-delay: -${t*500}ms`
+    //   })
+    // })
 
 
+    // drawLineRosette(svg.w / 2, svg.h/2, 900, 1100, gears.map(g => ({ ...g, radia: g.radia - 0.2})), { strokeWidth: 8, stroke: sample([pen.red, pen.blue, pen.black])})
 
-      svg.mount()
+
+
     </script>
 
   </head>

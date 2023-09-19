@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/scyclow/hypothetical-instructions#readme",
   "dependencies": {
+    "bip39": "^3.0.4",
     "saxi": "^0.15.0",
     "uglify-js": "^3.17.4"
   }
